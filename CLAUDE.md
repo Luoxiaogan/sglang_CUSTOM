@@ -13,7 +13,16 @@ cd sglang/sglang_test_framework
 pip install -r requirements.txt
 
 # 确保 SGLang 已安装
-pip install sglang sglang-router
+pip install sglang
+
+# 对于路由测试，还需要安装 sglang-router
+# 方法 1: 从 PyPI 安装
+pip install sglang-router
+
+# 方法 2: 从源码安装（推荐用于开发）
+cd ../sgl-router
+pip install -e .
+cd ../sglang_test_framework
 ```
 
 ### 2. 运行第一个测试
@@ -56,6 +65,7 @@ NodeConfig(
 
 #### 多节点路由测试 - 测试多 GPU 负载均衡
 ```python
+# 注意：路由测试需要先安装 sglang-router（见安装说明）
 RoutingConfig(
     model_path="meta-llama/Llama-2-7b-hf",
     num_gpus=4,

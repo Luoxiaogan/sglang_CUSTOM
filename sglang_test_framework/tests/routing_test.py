@@ -14,6 +14,8 @@ import logging
 from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
+import importlib.util
+import sys
 
 from ..config.routing_config import RoutingConfig
 from ..core.server_manager import ServerManager, SGLangServer, RouterManager
@@ -25,6 +27,30 @@ from ..strategies.routing import RandomRouting, RoundRobinRouting, ShortestQueue
 logger = logging.getLogger(__name__)
 
 
+def check_router_installed():
+    """Check if sglang-router is installed."""
+    if importlib.util.find_spec("sglang_router") is None:
+        error_msg = """
+ERROR: sglang-router is not installed!
+
+The routing test requires the SGLang Router component to be installed.
+Please install it using one of the following methods:
+
+1. Install from PyPI:
+   pip install sglang-router
+
+2. Install from source (recommended for development):
+   cd /path/to/sglang/sgl-router
+   pip install -e .
+
+For more information, see: https://github.com/sgl-project/sglang/tree/main/sgl-router
+"""
+        logger.error(error_msg)
+        raise ImportError("sglang-router is not installed")
+    else:
+        logger.info("sglang-router is installed and available")
+
+
 class RoutingTest:
     """Test runner for multi-node SGLang deployment with routing."""
     
@@ -34,6 +60,9 @@ class RoutingTest:
         Args:
             config: Routing test configuration
         """
+        # Check if router is installed before proceeding
+        check_router_installed()
+        
         self.config = config
         self.server_manager = ServerManager()
         self.request_generator = RequestGenerator(config.tokenizer_path)
