@@ -107,13 +107,33 @@ class RoutingTest:
                     )
                     self.metrics_collectors[server.config.server_id] = collector
             
-            # 3. Create worker URL to GPU ID mapping
+            # 3. Create worker URL to GPU ID mapping with multiple formats
             self.worker_url_to_gpu_id = {}
-            for server in self.servers:
-                worker_url = f"http://{server.config.host}:{server.config.port}"
+            self.port_to_gpu_id = {}  # Additional mapping by port
+            
+            for i, server in enumerate(self.servers):
                 gpu_id = server.config.gpu_id
-                self.worker_url_to_gpu_id[worker_url] = gpu_id
-                logger.info(f"Mapped worker {worker_url} to GPU {gpu_id}")
+                port = server.config.port
+                
+                # Map by port number
+                self.port_to_gpu_id[port] = gpu_id
+                
+                # Map by various URL formats the router might use
+                worker_urls = [
+                    f"http://{server.config.host}:{port}",
+                    f"http://0.0.0.0:{port}",
+                    f"http://localhost:{port}",
+                    f"http://127.0.0.1:{port}",
+                    f"{server.config.host}:{port}",
+                    f"0.0.0.0:{port}",
+                    f"localhost:{port}",
+                    f"127.0.0.1:{port}"
+                ]
+                
+                for url in worker_urls:
+                    self.worker_url_to_gpu_id[url] = gpu_id
+                
+                logger.info(f"Mapped port {port} and various URL formats to GPU {gpu_id}")
             
             # 4. Launch router
             worker_urls = self.config.get_worker_urls()
@@ -194,7 +214,18 @@ class RoutingTest:
                             result.gpu_id = self.worker_url_to_gpu_id[result.worker_url]
                             logger.info(f"Request {result.request.request_id} processed by GPU {result.gpu_id} (worker: {result.worker_url})")
                         else:
-                            logger.warning(f"Unknown worker URL {result.worker_url} for request {result.request.request_id}. Known workers: {list(self.worker_url_to_gpu_id.keys())}")
+                            # Try to extract port from URL and map
+                            import re
+                            port_match = re.search(r':(\d+)/?$', result.worker_url)
+                            if port_match:
+                                port = int(port_match.group(1))
+                                if port in self.port_to_gpu_id:
+                                    result.gpu_id = self.port_to_gpu_id[port]
+                                    logger.info(f"Request {result.request.request_id} processed by GPU {result.gpu_id} (worker: {result.worker_url}, mapped by port {port})")
+                                else:
+                                    logger.warning(f"Unknown port {port} from worker URL {result.worker_url}")
+                            else:
+                                logger.warning(f"Could not extract port from worker URL {result.worker_url}")
                     else:
                         # Fallback GPU assignment based on routing policy
                         if self.config.routing_policy == "round_robin":

@@ -20,6 +20,10 @@ async def run_routing_test():
     
     # 1. 配置路由测试
     logger.info("Setting up routing test configuration...")
+    
+    # Note: GPU tracking works best with round_robin or random policies
+    # For accurate GPU tracking with all policies, rebuild sgl-router:
+    # cd ../sgl-router && cargo build --release && pip install -e .
     config = RoutingConfig(
         model_path="/data/pretrained_models/Llama-2-7b-hf",  # Model path
         num_gpus=2,                          # Number of GPUs to use (reduced from 4 to avoid Triton errors)
