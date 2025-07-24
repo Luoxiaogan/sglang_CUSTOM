@@ -112,7 +112,8 @@ class RequestGenerator:
     ) -> List[Request]:
         """Assign Poisson arrival times to requests."""
         if start_time is None:
-            start_time = time.time()
+            # Use 0 as base time, will be adjusted when sending
+            start_time = 0
             
         if request_rate == float('inf'):
             # All requests arrive at the same time
@@ -123,10 +124,14 @@ class RequestGenerator:
             # Generate Poisson process intervals
             logger.info(f"Generating Poisson arrivals with rate={request_rate} req/s")
             current_time = start_time
-            for req in requests:
-                interval = np.random.exponential(1.0 / request_rate)
-                current_time += interval
-                req.arrival_time = current_time
+            for i, req in enumerate(requests):
+                if i == 0:
+                    # First request arrives immediately
+                    req.arrival_time = start_time
+                else:
+                    interval = np.random.exponential(1.0 / request_rate)
+                    current_time += interval
+                    req.arrival_time = current_time
             
             total_duration = current_time - start_time
             logger.info(f"Total test duration: {total_duration:.1f} seconds")
@@ -307,6 +312,7 @@ class RequestSender:
         Supports both native SGLang API (/generate) and OpenAI-compatible API.
         """
         request.send_time = time.time()
+        logger.debug(f"Sending request {request.request_id} to {api_url}")
         
         # Prepare payload based on API type
         if api_type == "sglang":
@@ -340,7 +346,9 @@ class RequestSender:
             payload.update(request.extra_params)
             
         try:
+            logger.debug(f"Posting request {request.request_id} with payload: {payload}")
             async with self.session.post(api_url, json=payload) as response:
+                logger.debug(f"Got response status {response.status} for request {request.request_id}")
                 if response.status == 200:
                     if stream:
                         return await self._handle_stream_response(request, response)
@@ -348,14 +356,21 @@ class RequestSender:
                         return await self._handle_non_stream_response(request, response)
                 else:
                     error = await response.text()
-                    logger.error(f"Request {request.request_id} failed: {error}")
+                    logger.error(f"Request {request.request_id} failed with status {response.status}: {error}")
                     return RequestResult(
                         request=request,
                         success=False,
                         error=f"HTTP {response.status}: {error}"
                     )
+        except asyncio.TimeoutError:
+            logger.error(f"Request {request.request_id} timed out")
+            return RequestResult(
+                request=request,
+                success=False,
+                error="Request timed out"
+            )
         except Exception as e:
-            logger.error(f"Request {request.request_id} failed with exception: {e}")
+            logger.error(f"Request {request.request_id} failed with exception: {type(e).__name__}: {e}")
             return RequestResult(
                 request=request,
                 success=False,
@@ -368,11 +383,13 @@ class RequestSender:
         response: aiohttp.ClientResponse
     ) -> RequestResult:
         """Handle streaming response."""
+        logger.debug(f"Handling stream response for request {request.request_id}")
         result = RequestResult(request=request, success=True)
         
         generated_text = ""
         ttft = 0.0
         last_timestamp = request.send_time
+        chunk_count = 0
         
         async for chunk_bytes in response.content:
             chunk_bytes = chunk_bytes.strip()
@@ -380,10 +397,13 @@ class RequestSender:
                 continue
                 
             chunk = chunk_bytes.decode('utf-8')
+            chunk_count += 1
+            
             if chunk.startswith("data: "):
                 chunk = chunk[6:]
                 
             if chunk == "[DONE]":
+                logger.debug(f"Request {request.request_id} received DONE after {chunk_count} chunks")
                 break
                 
             try:

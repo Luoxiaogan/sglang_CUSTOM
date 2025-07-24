@@ -68,22 +68,51 @@ async def run_node_test():
     
     async with RequestSender() as sender:
         tasks = []
-        for request in requests:
-            # 等待到达时间
-            wait_time = request.arrival_time - asyncio.get_event_loop().time()
+        test_start_time = asyncio.get_event_loop().time()
+        
+        for i, request in enumerate(requests):
+            # Calculate absolute arrival time from relative time
+            absolute_arrival_time = test_start_time + request.arrival_time
+            current_time = asyncio.get_event_loop().time()
+            wait_time = absolute_arrival_time - current_time
+            
+            logger.debug(f"Request {i+1}: relative_arrival={request.arrival_time:.3f}, absolute_arrival={absolute_arrival_time:.3f}, current_time={current_time:.3f}, wait_time={wait_time:.3f}")
+            
             if wait_time > 0:
                 await asyncio.sleep(wait_time)
             
             # 记录请求开始
+            logger.info(f"Sending request {i+1}/{len(requests)} (ID: {request.request_id})")
             metrics_collector.record_request_start(request.request_id)
             
-            # 发送请求
-            task = asyncio.create_task(sender.send_request(request, api_url))
+            # 发送请求 - use non-streaming for debugging
+            task = asyncio.create_task(sender.send_request(request, api_url, stream=False))
             tasks.append(task)
+            
+            # Log progress every 10 requests
+            if (i + 1) % 10 == 0:
+                elapsed = asyncio.get_event_loop().time() - start_time
+                logger.info(f"Progress: {i+1}/{len(requests)} requests sent in {elapsed:.1f}s")
         
         # 等待所有请求完成
-        logger.info(f"Waiting for {len(tasks)} requests to complete...")
-        results = await asyncio.gather(*tasks)
+        logger.info(f"All requests sent. Waiting for {len(tasks)} requests to complete...")
+        
+        # Use asyncio.wait with timeout to avoid hanging
+        done, pending = await asyncio.wait(tasks, timeout=300)  # 5 minute timeout
+        
+        if pending:
+            logger.warning(f"{len(pending)} requests timed out!")
+            for task in pending:
+                task.cancel()
+        
+        # Collect results
+        results = []
+        for task in done:
+            try:
+                result = await task
+                results.append(result)
+            except Exception as e:
+                logger.error(f"Failed to get result: {e}")
         
         # 记录结果
         successful = sum(1 for r in results if r.success)
