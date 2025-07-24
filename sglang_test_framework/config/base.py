@@ -90,11 +90,13 @@ class ServerConfig:
     # Server identification
     server_id: str
     gpu_id: int  # Used for CUDA_VISIBLE_DEVICES env var
-    port: int = 30000
-    host: str = "0.0.0.0"
     
     # Model configuration
     model_path: str
+    
+    # Optional fields with defaults
+    port: int = 30000
+    host: str = "0.0.0.0"
     tokenizer_path: Optional[str] = None
     tokenizer_mode: str = "auto"
     trust_remote_code: bool = False
