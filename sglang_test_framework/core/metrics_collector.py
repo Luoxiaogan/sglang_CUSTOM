@@ -579,6 +579,18 @@ class MetricsCollector:
         # Get GPU metrics if available
         gpu_metrics = self.get_gpu_aggregated_metrics()
         
+        # Log summary of GPU tracking
+        if gpu_metrics:
+            logger.info(f"GPU metrics available for GPUs: {list(gpu_metrics.keys())}")
+        else:
+            logger.warning("No GPU metrics available - worker URL tracking may not be working")
+            # Log sample of results to debug
+            sample_results = self.results[:5] if self.results else []
+            for r in sample_results:
+                logger.debug(f"Sample result: req_id={r.request.request_id}, "
+                           f"worker_url={getattr(r, 'worker_url', 'N/A')}, "
+                           f"gpu_id={getattr(r, 'gpu_id', 'N/A')}")
+        
         data = {
             "summary": self.get_aggregated_metrics().__dict__,
             "gpu_metrics": {str(gpu_id): metrics.__dict__ for gpu_id, metrics in gpu_metrics.items()},
@@ -632,8 +644,8 @@ class MetricsCollector:
                 "queue_time": r.queue_time,
                 "success": r.success,
                 "error": r.error if not r.success else "",
-                "worker_url": r.worker_url if hasattr(r, 'worker_url') else "",
-                "gpu_id": r.gpu_id if hasattr(r, 'gpu_id') else None
+                "worker_url": getattr(r, 'worker_url', "") or "",
+                "gpu_id": getattr(r, 'gpu_id', None)
             }
             records.append(record)
             

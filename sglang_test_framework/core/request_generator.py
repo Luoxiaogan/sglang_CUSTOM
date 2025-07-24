@@ -433,9 +433,20 @@ class RequestSender:
         logger.debug(f"Handling stream response for request {request.request_id}")
         
         # Extract worker URL from response header
-        worker_url = response.headers.get('X-SGLang-Worker')
-        if worker_url:
-            logger.debug(f"Request {request.request_id} handled by worker: {worker_url}")
+        # Debug: Log all response headers
+        logger.debug(f"Response headers for request {request.request_id}: {dict(response.headers)}")
+        
+        # Try different header name variations
+        worker_url = None
+        header_names = ['X-SGLang-Worker', 'x-sglang-worker', 'X-Sglang-Worker']
+        for header_name in header_names:
+            worker_url = response.headers.get(header_name)
+            if worker_url:
+                logger.info(f"Found worker URL in header '{header_name}': {worker_url}")
+                break
+        
+        if not worker_url:
+            logger.warning(f"No worker URL found in response headers for request {request.request_id}")
         
         generated_text = ""
         ttft = 0.0
@@ -512,9 +523,20 @@ class RequestSender:
     ) -> RequestResult:
         """Handle non-streaming response."""
         # Extract worker URL from response header
-        worker_url = response.headers.get('X-SGLang-Worker')
-        if worker_url:
-            logger.debug(f"Request {request.request_id} handled by worker: {worker_url}")
+        # Debug: Log all response headers
+        logger.debug(f"Response headers for request {request.request_id}: {dict(response.headers)}")
+        
+        # Try different header name variations
+        worker_url = None
+        header_names = ['X-SGLang-Worker', 'x-sglang-worker', 'X-Sglang-Worker']
+        for header_name in header_names:
+            worker_url = response.headers.get(header_name)
+            if worker_url:
+                logger.info(f"Found worker URL in header '{header_name}': {worker_url}")
+                break
+        
+        if not worker_url:
+            logger.warning(f"No worker URL found in response headers for request {request.request_id}")
         
         data = await response.json()
         

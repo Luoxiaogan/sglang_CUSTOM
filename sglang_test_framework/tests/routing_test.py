@@ -186,9 +186,14 @@ class RoutingTest:
                     request_config
                 ):
                     # Map worker URL to GPU ID
-                    if result.worker_url and result.worker_url in self.worker_url_to_gpu_id:
-                        result.gpu_id = self.worker_url_to_gpu_id[result.worker_url]
-                        logger.debug(f"Request {result.request.request_id} processed by GPU {result.gpu_id}")
+                    if result.worker_url:
+                        if result.worker_url in self.worker_url_to_gpu_id:
+                            result.gpu_id = self.worker_url_to_gpu_id[result.worker_url]
+                            logger.info(f"Request {result.request.request_id} processed by GPU {result.gpu_id} (worker: {result.worker_url})")
+                        else:
+                            logger.warning(f"Unknown worker URL {result.worker_url} for request {result.request.request_id}. Known workers: {list(self.worker_url_to_gpu_id.keys())}")
+                    else:
+                        logger.debug(f"No worker URL for request {result.request.request_id}")
                     
                     self.router_metrics_collector.record_request_complete(result)
             
