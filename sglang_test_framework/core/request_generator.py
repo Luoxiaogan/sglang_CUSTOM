@@ -290,15 +290,37 @@ class RequestSender:
         self.session: Optional[aiohttp.ClientSession] = None
         
     async def __aenter__(self):
-        self.session = aiohttp.ClientSession(
-            timeout=aiohttp.ClientTimeout(total=3600),
-            connector=aiohttp.TCPConnector(limit=1000)
+        # Create a connector with proper settings
+        connector = aiohttp.TCPConnector(
+            limit=100,  # Total connection pool limit
+            limit_per_host=100,  # Per-host limit
+            ttl_dns_cache=300,  # DNS cache timeout
+            force_close=False,  # Reuse connections
+            enable_cleanup_closed=True  # Clean up closed connections
         )
+        
+        # Create session with appropriate timeout settings
+        timeout = aiohttp.ClientTimeout(
+            total=3600,  # Total timeout for the request
+            connect=30,  # Connection timeout
+            sock_connect=30,  # Socket connection timeout
+            sock_read=300  # Socket read timeout
+        )
+        
+        self.session = aiohttp.ClientSession(
+            timeout=timeout,
+            connector=connector
+        )
+        logger.debug("RequestSender session created with connection pool limit=100")
         return self
         
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         if self.session:
+            # Gracefully close the session
             await self.session.close()
+            # Wait a bit for cleanup
+            await asyncio.sleep(0.25)
+            logger.debug("RequestSender session closed")
     
     async def send_request(
         self,
@@ -311,6 +333,16 @@ class RequestSender:
         
         Supports both native SGLang API (/generate) and OpenAI-compatible API.
         """
+        # Check if session is available
+        if not self.session or self.session.closed:
+            error_msg = "RequestSender session is not available or closed"
+            logger.error(f"{error_msg} for request {request.request_id}")
+            return RequestResult(
+                request=request,
+                success=False,
+                error=error_msg
+            )
+        
         request.send_time = time.time()
         logger.debug(f"Sending request {request.request_id} to {api_url}")
         
@@ -440,6 +472,8 @@ class RequestSender:
                 
         request.completion_time = time.time()
         result.generated_text = generated_text
+        
+        logger.debug(f"Request {request.request_id} completed: {len(generated_text)} chars, {chunk_count} chunks, TTFT={ttft*1000:.1f}ms")
         return result
     
     async def _handle_non_stream_response(
