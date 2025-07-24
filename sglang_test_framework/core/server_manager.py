@@ -15,6 +15,8 @@ import logging
 import psutil
 import signal
 import os
+import threading
+import sys
 
 from ..config import ServerConfig, RouterConfig
 
@@ -29,6 +31,7 @@ class SGLangServer:
         self.process: Optional[subprocess.Popen] = None
         self.is_running = False
         self.start_time: Optional[float] = None
+        self.log_threads = []
         
     async def start(self, timeout: int = 300) -> bool:
         """Start the SGLang server."""
@@ -44,13 +47,38 @@ class SGLangServer:
         logger.info(f"Starting server {self.config.server_id} with command: {' '.join(cmd)}")
         
         # Start the process
-        self.process = subprocess.Popen(
-            cmd,
-            env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
+        # Determine if we should show server output based on config or env
+        show_server_logs = getattr(self.config, 'verbose', False) or \
+                          os.environ.get('SGLANG_TEST_SHOW_SERVER_LOGS', '').lower() in ['true', '1', 'yes']
+        
+        if show_server_logs:
+            logger.info(f"Server logs will be displayed for {self.config.server_id}")
+            # Stream logs in real-time
+            self.process = subprocess.Popen(
+                cmd,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,  # Combine stdout and stderr
+                text=True,
+                bufsize=1  # Line buffered
+            )
+            # Start thread to read and display logs
+            log_thread = threading.Thread(
+                target=self._stream_logs,
+                args=(self.process.stdout, f"[{self.config.server_id}]"),
+                daemon=True
+            )
+            log_thread.start()
+            self.log_threads.append(log_thread)
+        else:
+            # Capture logs silently
+            self.process = subprocess.Popen(
+                cmd,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
         
         self.start_time = time.time()
         
@@ -85,6 +113,24 @@ class SGLangServer:
                     return response.status == 200
         except Exception:
             return False
+    
+    def _stream_logs(self, pipe, prefix: str):
+        """Stream logs from subprocess to logger."""
+        try:
+            for line in iter(pipe.readline, ''):
+                if line:
+                    # Show server logs with prefix and proper formatting
+                    line = line.rstrip()
+                    if "ERROR" in line or "CRITICAL" in line:
+                        logger.error(f"{prefix} {line}")
+                    elif "WARNING" in line:
+                        logger.warning(f"{prefix} {line}")
+                    elif "INFO" in line or line.strip():
+                        logger.info(f"{prefix} {line}")
+        except Exception as e:
+            logger.error(f"Error streaming logs: {e}")
+        finally:
+            pipe.close()
     
     def stop(self):
         """Stop the server."""

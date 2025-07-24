@@ -42,6 +42,9 @@ class BaseConfig(ABC):
     warmup_requests: int = 10
     timeout: int = 3600  # seconds
     
+    # Logging configuration
+    verbose: bool = False  # Show server logs and detailed progress
+    
     def __post_init__(self):
         """Validate configuration after initialization."""
         self.validate()
@@ -136,6 +139,9 @@ class ServerConfig:
     
     # OpenAI API compatibility
     api_key: Optional[str] = None
+    
+    # Logging
+    verbose: bool = False  # Show server logs
     
     def get_launch_args(self) -> List[str]:
         """Get command line arguments for launching the server.

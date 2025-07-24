@@ -101,7 +101,8 @@ class NodeConfig(BaseConfig):
             schedule_conservativeness=self.schedule_conservativeness,
             quantization=self.quantization,
             attention_backend=self.attention_backend,
-            enable_metrics=True
+            enable_metrics=True,
+            verbose=self.verbose
         )
     
     @classmethod

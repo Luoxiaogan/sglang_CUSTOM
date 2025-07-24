@@ -157,6 +157,11 @@ class MetricsCollector:
         if result.request.request_id in self.active_requests:
             del self.active_requests[result.request.request_id]
             self.queue_depths.append((time.time(), len(self.active_requests)))
+            
+        # Log progress every 100 requests
+        if len(self.results) % 100 == 0:
+            success_rate = sum(1 for r in self.results if r.success) / len(self.results) * 100
+            logger.info(f"Completed {len(self.results)} requests, success rate: {success_rate:.1f}%")
     
     async def _collection_loop(self):
         """Background loop for collecting system metrics."""
@@ -536,6 +541,8 @@ class MetricsCollector:
     def print_summary(self):
         """Print a summary of collected metrics."""
         metrics = self.get_aggregated_metrics()
+        
+        logger.info("Generating metrics summary...")
         
         print("\n" + "=" * 60)
         print(" " * 20 + "METRICS SUMMARY")

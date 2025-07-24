@@ -91,6 +91,7 @@ class RequestGenerator:
         seed: int = 42
     ) -> List[Request]:
         """Generate a list of requests based on configuration."""
+        logger.info(f"Generating {num_prompts} requests from dataset '{dataset_name}'...")
         random.seed(seed)
         np.random.seed(seed)
         
@@ -115,15 +116,20 @@ class RequestGenerator:
             
         if request_rate == float('inf'):
             # All requests arrive at the same time
+            logger.info("Setting all requests to arrive immediately (infinite rate)")
             for req in requests:
                 req.arrival_time = start_time
         else:
             # Generate Poisson process intervals
+            logger.info(f"Generating Poisson arrivals with rate={request_rate} req/s")
             current_time = start_time
             for req in requests:
                 interval = np.random.exponential(1.0 / request_rate)
                 current_time += interval
                 req.arrival_time = current_time
+            
+            total_duration = current_time - start_time
+            logger.info(f"Total test duration: {total_duration:.1f} seconds")
                 
         return requests
     
@@ -167,6 +173,8 @@ class RequestGenerator:
         range_ratio: float
     ) -> List[Request]:
         """Generate random requests."""
+        logger.info(f"Generating random requests with input_len={input_len}, output_len={output_len}, range_ratio={range_ratio}")
+        
         input_lens, output_lens = self.generate_length_distribution(
             num_prompts, "uniform", input_len, output_len, 
             range_ratio=range_ratio
@@ -186,6 +194,11 @@ class RequestGenerator:
             )
             requests.append(request)
             
+            # Log progress every 1000 requests
+            if (i + 1) % 1000 == 0:
+                logger.info(f"Generated {i + 1}/{num_prompts} random requests")
+            
+        logger.info(f"Successfully generated {len(requests)} random requests")
         return requests
     
     def _generate_sharegpt_requests(
@@ -198,8 +211,10 @@ class RequestGenerator:
         if not dataset_path:
             dataset_path = self._download_sharegpt()
             
+        logger.info(f"Loading ShareGPT dataset from {dataset_path}...")
         with open(dataset_path, 'r') as f:
             dataset = json.load(f)
+        logger.info(f"Dataset loaded with {len(dataset)} conversations")
             
         # Filter conversations with at least 2 turns
         conversations = []
