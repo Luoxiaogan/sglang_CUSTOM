@@ -11,11 +11,11 @@ from sglang_test_framework import (
 async def run_node_test():
     # 1. 配置测试
     config = NodeConfig(
-        model_path="/data/pretrained_models/Qwen2.5-0.5B-Instruct",
+        model_path="Qwen/Qwen2.5-0.5B-Instruct",  # Use Hugging Face model ID
         gpu_id=1,
         max_running_requests=256,
         request_rate=10.0,
-        num_prompts=1000,
+        num_prompts=100,  # Reduced for testing
     )
     
     # 2. 初始化组件

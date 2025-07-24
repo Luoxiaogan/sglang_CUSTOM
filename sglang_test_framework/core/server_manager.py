@@ -37,7 +37,7 @@ class SGLangServer:
             return True
             
         # Build launch command
-        cmd = ["python", "-m", "sglang.launch_server"] + self.config.get_launch_args()[1:]
+        cmd = ["python", "-m", "sglang.launch_server"] + self.config.get_launch_args()
         env = os.environ.copy()
         env["CUDA_VISIBLE_DEVICES"] = str(self.config.gpu_id)
         
