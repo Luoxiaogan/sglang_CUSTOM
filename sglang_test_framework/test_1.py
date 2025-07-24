@@ -27,9 +27,10 @@ async def run_node_test():
         model_path="/data/pretrained_models/Llama-2-7b-hf",  # Use Hugging Face model ID
         gpu_id=1,
         max_running_requests=256,
-        request_rate=10.0,
-        num_prompts=100,  # Reduced for testing
+        request_rate=50.0,
+        num_prompts=1000,  # Reduced for testing
         dataset_name="random",
+        output_dir="/home/lg/sglang/results/new_test" ,
     )
     logger.info(f"Test configuration: {config.num_prompts} prompts at {config.request_rate} req/s")
     
@@ -173,7 +174,7 @@ async def run_node_test():
     test_dir = result_manager.save_results(
         metrics_collector, 
         config.to_dict(),
-        "node_test_example"
+        "test_1"
     )
     logger.info(f"Results saved to: {test_dir}")
     
