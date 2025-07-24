@@ -1,0 +1,33 @@
+nohup: ignoring input
+INFO 06-20 12:35:17 [importing.py:53] Triton module has been replaced with a placeholder.
+INFO 06-20 12:35:17 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:18 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:18 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:18 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:18 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:18 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:18 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:24 [importing.py:53] Triton module has been replaced with a placeholder.
+INFO 06-20 12:35:24 [importing.py:53] Triton module has been replaced with a placeholder.
+INFO 06-20 12:35:24 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:24 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:25 [__init__.py:239] Automatically detected platform cuda.
+INFO 06-20 12:35:27 [__init__.py:239] Automatically detected platform cuda.
+Loading safetensors checkpoint shards:   0% Completed | 0/2 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  50% Completed | 1/2 [00:00<00:00,  1.79it/s]
+Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:02<00:00,  1.19s/it]
+Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:02<00:00,  1.10s/it]
+
+INFO 06-20 12:35:29 [__init__.py:239] Automatically detected platform cuda.
+  0%|          | 0/23 [00:00<?, ?it/s]Capturing batches (avail_mem=45.36 GB):   0%|          | 0/23 [00:00<?, ?it/s]Capturing batches (avail_mem=45.36 GB):   4%|▍         | 1/23 [00:00<00:17,  1.29it/s]Capturing batches (avail_mem=45.28 GB):   4%|▍         | 1/23 [00:00<00:17,  1.29it/s]Capturing batches (avail_mem=45.28 GB):   9%|▊         | 2/23 [00:01<00:09,  2.12it/s]Capturing batches (avail_mem=45.25 GB):   9%|▊         | 2/23 [00:01<00:09,  2.12it/s]Capturing batches (avail_mem=45.25 GB):  13%|█▎        | 3/23 [00:01<00:07,  2.70it/s]Capturing batches (avail_mem=45.23 GB):  13%|█▎        | 3/23 [00:01<00:07,  2.70it/s]Capturing batches (avail_mem=45.23 GB):  17%|█▋        | 4/23 [00:01<00:06,  3.06it/s]Capturing batches (avail_mem=45.18 GB):  17%|█▋        | 4/23 [00:01<00:06,  3.06it/s]Capturing batches (avail_mem=45.18 GB):  22%|██▏       | 5/23 [00:01<00:05,  3.30it/s]Capturing batches (avail_mem=45.15 GB):  22%|██▏       | 5/23 [00:01<00:05,  3.30it/s]Capturing batches (avail_mem=45.15 GB):  26%|██▌       | 6/23 [00:02<00:04,  3.49it/s]Capturing batches (avail_mem=45.11 GB):  26%|██▌       | 6/23 [00:02<00:04,  3.49it/s]Capturing batches (avail_mem=45.11 GB):  30%|███       | 7/23 [00:02<00:04,  3.67it/s]Capturing batches (avail_mem=45.09 GB):  30%|███       | 7/23 [00:02<00:04,  3.67it/s]Capturing batches (avail_mem=45.09 GB):  35%|███▍      | 8/23 [00:02<00:03,  3.79it/s]Capturing batches (avail_mem=45.06 GB):  35%|███▍      | 8/23 [00:02<00:03,  3.79it/s]Capturing batches (avail_mem=45.06 GB):  39%|███▉      | 9/23 [00:02<00:03,  3.83it/s]Capturing batches (avail_mem=45.04 GB):  39%|███▉      | 9/23 [00:02<00:03,  3.83it/s]Capturing batches (avail_mem=45.04 GB):  43%|████▎     | 10/23 [00:03<00:03,  3.88it/s]Capturing batches (avail_mem=45.00 GB):  43%|████▎     | 10/23 [00:03<00:03,  3.88it/s]Capturing batches (avail_mem=45.00 GB):  48%|████▊     | 11/23 [00:03<00:03,  3.94it/s]Capturing batches (avail_mem=44.97 GB):  48%|████▊     | 11/23 [00:03<00:03,  3.94it/s]Capturing batches (avail_mem=44.97 GB):  52%|█████▏    | 12/23 [00:03<00:02,  3.97it/s]Capturing batches (avail_mem=44.95 GB):  52%|█████▏    | 12/23 [00:03<00:02,  3.97it/s]Capturing batches (avail_mem=44.95 GB):  57%|█████▋    | 13/23 [00:03<00:02,  3.95it/s]Capturing batches (avail_mem=44.92 GB):  57%|█████▋    | 13/23 [00:03<00:02,  3.95it/s]Capturing batches (avail_mem=44.92 GB):  61%|██████    | 14/23 [00:04<00:02,  4.01it/s]Capturing batches (avail_mem=44.90 GB):  61%|██████    | 14/23 [00:04<00:02,  4.01it/s]Capturing batches (avail_mem=44.90 GB):  65%|██████▌   | 15/23 [00:04<00:01,  4.05it/s]Capturing batches (avail_mem=44.89 GB):  65%|██████▌   | 15/23 [00:04<00:01,  4.05it/s]Capturing batches (avail_mem=44.89 GB):  70%|██████▉   | 16/23 [00:04<00:01,  4.07it/s]Capturing batches (avail_mem=44.85 GB):  70%|██████▉   | 16/23 [00:04<00:01,  4.07it/s]Capturing batches (avail_mem=44.85 GB):  74%|███████▍  | 17/23 [00:04<00:01,  4.09it/s]Capturing batches (avail_mem=44.84 GB):  74%|███████▍  | 17/23 [00:04<00:01,  4.09it/s]Capturing batches (avail_mem=44.84 GB):  78%|███████▊  | 18/23 [00:05<00:01,  4.11it/s]Capturing batches (avail_mem=44.82 GB):  78%|███████▊  | 18/23 [00:05<00:01,  4.11it/s]Capturing batches (avail_mem=44.82 GB):  83%|████████▎ | 19/23 [00:05<00:00,  4.06it/s]Capturing batches (avail_mem=44.81 GB):  83%|████████▎ | 19/23 [00:05<00:00,  4.06it/s]Capturing batches (avail_mem=44.81 GB):  87%|████████▋ | 20/23 [00:05<00:00,  4.00it/s]Capturing batches (avail_mem=44.79 GB):  87%|████████▋ | 20/23 [00:05<00:00,  4.00it/s]Capturing batches (avail_mem=44.79 GB):  91%|█████████▏| 21/23 [00:05<00:00,  4.04it/s]Capturing batches (avail_mem=44.78 GB):  91%|█████████▏| 21/23 [00:05<00:00,  4.04it/s]Capturing batches (avail_mem=44.78 GB):  96%|█████████▌| 22/23 [00:06<00:00,  4.08it/s]Capturing batches (avail_mem=44.76 GB):  96%|█████████▌| 22/23 [00:06<00:00,  4.08it/s]Capturing batches (avail_mem=44.76 GB): 100%|██████████| 23/23 [00:06<00:00,  4.09it/s]Capturing batches (avail_mem=44.76 GB): 100%|██████████| 23/23 [00:06<00:00,  3.68it/s]

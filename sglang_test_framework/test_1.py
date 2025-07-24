@@ -22,11 +22,12 @@ async def run_node_test():
     # 1. 配置测试
     logger.info("Setting up test configuration...")
     config = NodeConfig(
-        model_path="Qwen/Qwen2.5-0.5B-Instruct",  # Use Hugging Face model ID
+        model_path="/data/pretrained_models/Llama-2-7b-hf",  # Use Hugging Face model ID
         gpu_id=1,
         max_running_requests=256,
         request_rate=10.0,
         num_prompts=100,  # Reduced for testing
+        dataset_name="random",
     )
     logger.info(f"Test configuration: {config.num_prompts} prompts at {config.request_rate} req/s")
     

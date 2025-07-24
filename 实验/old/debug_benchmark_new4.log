@@ -1,0 +1,567 @@
+nohup: ignoring input
+正在检查服务器状态...
+服务器状态检查通过
+开始增量基准测试 (每个QPS重复5次)...
+当前工作目录: /home/lg/sglang
+Python版本: Python 3.12.9
+本次将测试QPS: 50 55 60 65 70 75 80 85 90 95 100 105 110 115 120 125 130 135 140 145 150 155 160 165 170 175 180 185 190 195 200
+结果将保存到: /home/lg/sglang/实验/old/results/benchmark_report_20250701_002229.jsonl
+----------------------------------------------------
+
+>>> 开始测试 Request Rate (QPS): 50 (共5轮)
+====================================================
+
+--> 正在进行第 1 / 5 轮测试 (QPS: 50)...
+执行命令: python3 -m sglang.bench_serving ...
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 704, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x7f9e444c3fb0>, 'Connection to huggingface.co timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f9e444c3fb0>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1860, in <module>
+    run_benchmark(args)
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1604, in run_benchmark
+    input_requests = get_dataset(args, tokenizer)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 520, in get_dataset
+    input_requests = sample_random_requests(
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 899, in sample_random_requests
+    dataset_path = download_and_cache_file(SHAREGPT_URL)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 614, in download_and_cache_file
+    response = requests.get(url, stream=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f9e444c3fb0>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+benchmark_args=Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model=None, tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_1.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=1, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+WARNING It is recommended to use the `Chat` or `Instruct` model for benchmarking.
+Because when the tokenizer counts the output tokens, if there is gibberish, it might count incorrectly.
+
+Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model='/data/pretrained_models/Llama-2-7b-hf', tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_1.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=1, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+Downloading from https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json to /tmp/ShareGPT_V3_unfiltered_cleaned_split.json
+错误：bench_serving命令执行失败 (QPS: 50, Run: 1)
+
+--> 正在进行第 2 / 5 轮测试 (QPS: 50)...
+执行命令: python3 -m sglang.bench_serving ...
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 704, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x7cb4496abda0>, 'Connection to huggingface.co timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7cb4496abda0>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1860, in <module>
+    run_benchmark(args)
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1604, in run_benchmark
+    input_requests = get_dataset(args, tokenizer)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 520, in get_dataset
+    input_requests = sample_random_requests(
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 899, in sample_random_requests
+    dataset_path = download_and_cache_file(SHAREGPT_URL)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 614, in download_and_cache_file
+    response = requests.get(url, stream=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7cb4496abda0>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+benchmark_args=Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model=None, tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_2.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=2, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+WARNING It is recommended to use the `Chat` or `Instruct` model for benchmarking.
+Because when the tokenizer counts the output tokens, if there is gibberish, it might count incorrectly.
+
+Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model='/data/pretrained_models/Llama-2-7b-hf', tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_2.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=2, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+Downloading from https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json to /tmp/ShareGPT_V3_unfiltered_cleaned_split.json
+错误：bench_serving命令执行失败 (QPS: 50, Run: 2)
+
+--> 正在进行第 3 / 5 轮测试 (QPS: 50)...
+执行命令: python3 -m sglang.bench_serving ...
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 704, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x7166535fd700>, 'Connection to huggingface.co timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7166535fd700>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1860, in <module>
+    run_benchmark(args)
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1604, in run_benchmark
+    input_requests = get_dataset(args, tokenizer)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 520, in get_dataset
+    input_requests = sample_random_requests(
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 899, in sample_random_requests
+    dataset_path = download_and_cache_file(SHAREGPT_URL)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 614, in download_and_cache_file
+    response = requests.get(url, stream=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7166535fd700>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+benchmark_args=Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model=None, tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_3.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=3, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+WARNING It is recommended to use the `Chat` or `Instruct` model for benchmarking.
+Because when the tokenizer counts the output tokens, if there is gibberish, it might count incorrectly.
+
+Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model='/data/pretrained_models/Llama-2-7b-hf', tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_3.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=3, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+Downloading from https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json to /tmp/ShareGPT_V3_unfiltered_cleaned_split.json
+错误：bench_serving命令执行失败 (QPS: 50, Run: 3)
+
+--> 正在进行第 4 / 5 轮测试 (QPS: 50)...
+执行命令: python3 -m sglang.bench_serving ...
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 704, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x79dabe6afec0>, 'Connection to huggingface.co timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x79dabe6afec0>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1860, in <module>
+    run_benchmark(args)
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1604, in run_benchmark
+    input_requests = get_dataset(args, tokenizer)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 520, in get_dataset
+    input_requests = sample_random_requests(
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 899, in sample_random_requests
+    dataset_path = download_and_cache_file(SHAREGPT_URL)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 614, in download_and_cache_file
+    response = requests.get(url, stream=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x79dabe6afec0>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+benchmark_args=Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model=None, tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_4.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=4, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+WARNING It is recommended to use the `Chat` or `Instruct` model for benchmarking.
+Because when the tokenizer counts the output tokens, if there is gibberish, it might count incorrectly.
+
+Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model='/data/pretrained_models/Llama-2-7b-hf', tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_4.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=4, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+Downloading from https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json to /tmp/ShareGPT_V3_unfiltered_cleaned_split.json
+错误：bench_serving命令执行失败 (QPS: 50, Run: 4)
+
+--> 正在进行第 5 / 5 轮测试 (QPS: 50)...
+执行命令: python3 -m sglang.bench_serving ...
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 704, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x7420f66bbe00>, 'Connection to huggingface.co timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7420f66bbe00>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1860, in <module>
+    run_benchmark(args)
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1604, in run_benchmark
+    input_requests = get_dataset(args, tokenizer)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 520, in get_dataset
+    input_requests = sample_random_requests(
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 899, in sample_random_requests
+    dataset_path = download_and_cache_file(SHAREGPT_URL)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 614, in download_and_cache_file
+    response = requests.get(url, stream=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7420f66bbe00>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+benchmark_args=Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model=None, tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_5.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=5, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+WARNING It is recommended to use the `Chat` or `Instruct` model for benchmarking.
+Because when the tokenizer counts the output tokens, if there is gibberish, it might count incorrectly.
+
+Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model='/data/pretrained_models/Llama-2-7b-hf', tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_5.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=5, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+Downloading from https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json to /tmp/ShareGPT_V3_unfiltered_cleaned_split.json
+错误：bench_serving命令执行失败 (QPS: 50, Run: 5)
+----------------------------------------------------
+
+>>> 开始测试 Request Rate (QPS): 55 (共5轮)
+====================================================
+
+--> 正在进行第 1 / 5 轮测试 (QPS: 55)...
+执行命令: python3 -m sglang.bench_serving ...
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 704, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x720ed84b7cb0>, 'Connection to huggingface.co timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x720ed84b7cb0>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1860, in <module>
+    run_benchmark(args)
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 1604, in run_benchmark
+    input_requests = get_dataset(args, tokenizer)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 520, in get_dataset
+    input_requests = sample_random_requests(
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 899, in sample_random_requests
+    dataset_path = download_and_cache_file(SHAREGPT_URL)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/sglang/python/sglang/bench_serving.py", line 614, in download_and_cache_file
+    response = requests.get(url, stream=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/requests/adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x720ed84b7cb0>, 'Connection to huggingface.co timed out. (connect timeout=None)'))
+benchmark_args=Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model=None, tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=55.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_55_run_1.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=1, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+WARNING It is recommended to use the `Chat` or `Instruct` model for benchmarking.
+Because when the tokenizer counts the output tokens, if there is gibberish, it might count incorrectly.
+
+Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random', dataset_path='', model='/data/pretrained_models/Llama-2-7b-hf', tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=55.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_55_run_1.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=1, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+Downloading from https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json to /tmp/ShareGPT_V3_unfiltered_cleaned_split.json
+错误：bench_serving命令执行失败 (QPS: 55, Run: 1)
+
+--> 正在进行第 2 / 5 轮测试 (QPS: 55)...
+执行命令: python3 -m sglang.bench_serving ...
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lg/.local/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen

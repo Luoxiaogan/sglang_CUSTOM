@@ -44,7 +44,7 @@ def plot_latency_distribution(
     # Add mean values
     for i, (label, values) in enumerate(zip(labels, data)):
         mean_val = np.mean(values)
-        ax.text(i + 1, mean_val, f"¼={mean_val:.1f}", 
+        ax.text(i + 1, mean_val, f"={mean_val:.1f}", 
                 ha='center', va='bottom', fontsize=8)
     
     plt.tight_layout()

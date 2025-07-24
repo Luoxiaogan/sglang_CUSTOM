@@ -1,0 +1,59 @@
+nohup: ignoring input
+正在检查服务器状态...
+服务器状态检查通过
+开始增量基准测试 (每个QPS重复5次)...
+当前工作目录: /home/lg/sglang
+Python版本: Python 3.12.9
+本次将测试QPS: 50 55 60 65 70 75 80 85 90 95 100 105 110 115 120 125 130 135 140 145 150 155 160 165 170 175 180 185 190 195 200
+结果将保存到: /home/lg/sglang/实验/old/results/benchmark_report_20250701_002408.jsonl
+----------------------------------------------------
+
+>>> 开始测试 Request Rate (QPS): 50 (共5轮)
+====================================================
+
+--> 正在进行第 1 / 5 轮测试 (QPS: 50)...
+执行命令: python3 -m sglang.bench_serving ...
+benchmark_args=Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random-ids', dataset_path='', model=None, tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_1.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=1, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+WARNING It is recommended to use the `Chat` or `Instruct` model for benchmarking.
+Because when the tokenizer counts the output tokens, if there is gibberish, it might count incorrectly.
+
+Namespace(backend='sglang', base_url=None, host='0.0.0.0', port=32209, dataset_name='random-ids', dataset_path='', model='/data/pretrained_models/Llama-2-7b-hf', tokenizer='/data/pretrained_models/Llama-2-7b-hf', num_prompts=2000, sharegpt_output_len=None, sharegpt_context_len=None, random_input_len=256, random_output_len=64, random_range_ratio=0.0, request_rate=50.0, max_concurrency=None, output_file='/home/lg/sglang/实验/old/results/tmp_run_results_50_run_1.json', output_details=False, disable_tqdm=True, disable_stream=False, return_logprob=False, seed=1, disable_ignore_eos=True, extra_request_body=None, apply_chat_template=False, profile=False, lora_name=None, prompt_suffix='', pd_separated=False, flush_cache=False, warmup_requests=1, tokenize_prompt=False, gsp_num_groups=64, gsp_prompts_per_group=16, gsp_system_prompt_len=2048, gsp_question_len=128, gsp_output_len=256)
+
+#Input tokens: 258001
+#Output tokens: 64942
+Starting warmup with 1 sequences...
+Warmup completed with 1 sequences. Starting main benchmark run...
+
+============ Serving Benchmark Result ============
+Backend:                                 sglang    
+Traffic request rate:                    50.0      
+Max request concurrency:                 not set   
+Successful requests:                     2000      
+Benchmark duration (s):                  43.17     
+Total input tokens:                      258001    
+Total generated tokens:                  64859     
+Total generated tokens (retokenized):    64808     
+Request throughput (req/s):              46.33     
+Input token throughput (tok/s):          5976.31   
+Output token throughput (tok/s):         1502.39   
+Total token throughput (tok/s):          7478.70   
+Concurrency:                             125.89    
+----------------End-to-End Latency----------------
+Mean E2E Latency (ms):                   2717.41   
+Median E2E Latency (ms):                 2467.07   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          100.88    
+Median TTFT (ms):                        79.65     
+P99 TTFT (ms):                           413.05    
+---------------Inter-Token Latency----------------
+Mean ITL (ms):                           83.71     
+Median ITL (ms):                         45.42     
+P95 ITL (ms):                            275.22    
+P99 ITL (ms):                            415.57    
+Max ITL (ms):                            625.66    
+==================================================
+测试完成 (QPS: 50, Run: 1)，正在将结果追加到 /home/lg/sglang/实验/old/results/benchmark_report_20250701_002408.jsonl
+
+--> 正在进行第 2 / 5 轮测试 (QPS: 50)...
+执行命令: python3 -m sglang.bench_serving ...
