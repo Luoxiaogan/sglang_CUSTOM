@@ -42,9 +42,14 @@ class ResultManager:
         with open(config_path, 'w') as f:
             json.dump(config, f, indent=2, default=str)
             
-        # Save metrics
+        # Save metrics in multiple formats
         metrics_path = test_dir / "metrics.json"
         metrics_collector.export_metrics("json", str(metrics_path))
+        
+        # Also save as CSV for detailed per-request analysis
+        csv_path = test_dir / "results.csv"
+        metrics_collector.export_metrics("csv", str(csv_path))
+        logger.info(f"Exported per-request metrics to {csv_path}")
         
         # Save summary
         summary_path = test_dir / "summary.txt"

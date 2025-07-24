@@ -114,6 +114,10 @@ class MetricsCollector:
         self.polling_task: Optional[asyncio.Task] = None
         self.start_time: Optional[float] = None
         
+        # Incremental saving
+        self.incremental_save_path: Optional[str] = None
+        self.incremental_save_interval: int = 100  # Save every N requests
+        
     def start_collection(self):
         """Start metrics collection."""
         if self.collecting:
@@ -162,6 +166,10 @@ class MetricsCollector:
         if len(self.results) % 100 == 0:
             success_rate = sum(1 for r in self.results if r.success) / len(self.results) * 100
             logger.info(f"Completed {len(self.results)} requests, success rate: {success_rate:.1f}%")
+            
+        # Incremental save if enabled
+        if self.incremental_save_path and len(self.results) % self.incremental_save_interval == 0:
+            self._save_incremental()
     
     async def _collection_loop(self):
         """Background loop for collecting system metrics."""
@@ -458,9 +466,9 @@ class MetricsCollector:
                     "success": r.success,
                     "prompt_len": r.request.prompt_len,
                     "output_len": r.request.output_len,
-                    "server_latency_ms": r.server_latency * 1000,
-                    "total_latency_ms": r.total_latency * 1000,
-                    "queue_time_ms": r.queue_time * 1000,
+                    "server_latency_ms": r.server_latency_ms,
+                    "total_latency_ms": r.total_latency_ms,
+                    "queue_time_ms": r.queue_time_ms,
                     "ttft_ms": r.ttft * 1000,
                     "arrival_time": r.request.arrival_time,
                     "send_time": r.request.send_time,
@@ -595,3 +603,41 @@ class MetricsCollector:
             print(f"  GPU Memory: {metrics.gpu_memory_used:.1f} / {metrics.gpu_memory_total:.1f} GB")
         
         print("=" * 60 + "\n")
+    
+    def enable_incremental_save(self, base_path: str, interval: int = 100):
+        """Enable incremental saving of results.
+        
+        Args:
+            base_path: Base path for saving incremental results (without extension)
+            interval: Save every N requests (default: 100)
+        """
+        self.incremental_save_path = base_path
+        self.incremental_save_interval = interval
+        logger.info(f"Enabled incremental saving to {base_path} every {interval} requests")
+        
+    def _save_incremental(self):
+        """Save current results incrementally."""
+        if not self.incremental_save_path:
+            return
+            
+        try:
+            # Save CSV with current results
+            csv_path = f"{self.incremental_save_path}_incremental.csv"
+            self._export_csv(csv_path)
+            
+            # Also save a lightweight JSON summary
+            summary_path = f"{self.incremental_save_path}_incremental_summary.json"
+            summary_data = {
+                "timestamp": time.time(),
+                "total_requests": len(self.results),
+                "successful_requests": sum(1 for r in self.results if r.success),
+                "failed_requests": sum(1 for r in self.results if not r.success),
+                "aggregated_metrics": self.get_aggregated_metrics().__dict__
+            }
+            
+            with open(summary_path, 'w') as f:
+                json.dump(summary_data, f, indent=2)
+                
+            logger.info(f"Incremental save completed: {len(self.results)} results saved")
+        except Exception as e:
+            logger.error(f"Failed to save incremental results: {e}")

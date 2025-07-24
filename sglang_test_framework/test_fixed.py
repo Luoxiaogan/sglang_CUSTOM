@@ -8,6 +8,7 @@ os.environ['SGLANG_TEST_SHOW_SERVER_LOGS'] = 'true'
 
 import asyncio
 import logging
+import time
 from sglang_test_framework import (
     NodeConfig, ServerManager, RequestGenerator, 
     RequestSender, MetricsCollector, ResultManager,
@@ -107,6 +108,9 @@ async def run_fixed_test():
             
             if wait_time > 0:
                 await asyncio.sleep(wait_time)
+            
+            # Update arrival_time to absolute time after sleep
+            request.arrival_time = time.time()
             
             # Record and send request
             logger.info(f"Sending request {i+1}/{len(requests)} (ID: {request.request_id})")

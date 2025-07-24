@@ -343,8 +343,9 @@ class RequestSender:
                 error=error_msg
             )
         
+        # Record send time - this should already be an absolute time
         request.send_time = time.time()
-        logger.debug(f"Sending request {request.request_id} to {api_url}")
+        logger.debug(f"Sending request {request.request_id} to {api_url} at {request.send_time}")
         
         # Prepare payload based on API type
         if api_type == "sglang":

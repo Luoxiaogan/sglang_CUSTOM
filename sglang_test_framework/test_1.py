@@ -8,6 +8,7 @@ os.environ['SGLANG_TEST_SHOW_SERVER_LOGS'] = 'true'
 
 import asyncio
 import logging
+import time
 from sglang_test_framework import (
     NodeConfig, ServerManager, RequestGenerator, 
     RequestSender, MetricsCollector, ResultManager,
@@ -64,6 +65,12 @@ async def run_node_test():
     logger.info("Starting metrics collection...")
     metrics_collector.start_collection()
     
+    # Enable incremental saving
+    test_name = "node_test_example"
+    incremental_path = str(result_manager.output_dir / test_name / "results")
+    result_manager.output_dir.joinpath(test_name).mkdir(parents=True, exist_ok=True)
+    metrics_collector.enable_incremental_save(incremental_path, interval=50)
+    
     # 6. 发送请求并收集结果
     api_url = f"http://localhost:{server_config.port}/generate"
     
@@ -115,6 +122,9 @@ async def run_node_test():
             
             if wait_time > 0:
                 await asyncio.sleep(wait_time)
+            
+            # Update arrival_time to absolute time after sleep
+            request.arrival_time = time.time()
             
             # 记录请求开始
             logger.info(f"Sending request {i+1}/{len(requests)} (ID: {request.request_id})")
