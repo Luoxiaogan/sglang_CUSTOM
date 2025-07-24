@@ -22,8 +22,8 @@ async def run_routing_test():
     logger.info("Setting up routing test configuration...")
     config = RoutingConfig(
         model_path="/data/pretrained_models/Llama-2-7b-hf",  # Model path
-        num_gpus=2,                          # Number of GPUs to use
-        gpu_ids=[0, 1],               # Specific GPU IDs
+        num_gpus=2,                          # Number of GPUs to use (reduced from 4 to avoid Triton errors)
+        gpu_ids=[0, 1],                      # Specific GPU IDs
         routing_policy="cache_aware",        # Routing policy: cache_aware, round_robin, random, shortest_queue
         request_rate=50.0,                   # 50 requests per second
         num_prompts=1000,                    # Total number of requests
@@ -161,7 +161,8 @@ async def run_routing_comparison():
         
         config = RoutingConfig(
             model_path="/data/pretrained_models/Llama-2-7b-hf",
-            num_gpus=4,
+            num_gpus=2,
+            gpu_ids=[0, 1],
             routing_policy=policy,
             request_rate=50.0,
             num_prompts=500,  # Smaller test for comparison
@@ -238,8 +239,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SGLang Routing Test")
     parser.add_argument("--compare", action="store_true", 
                        help="Run comparison of different routing policies")
-    parser.add_argument("--num-gpus", type=int, default=4,
-                       help="Number of GPUs to use (default: 4)")
+    parser.add_argument("--num-gpus", type=int, default=2,
+                       help="Number of GPUs to use (default: 2)")
     parser.add_argument("--policy", type=str, default="cache_aware",
                        choices=["cache_aware", "round_robin", "random", "shortest_queue"],
                        help="Routing policy to use (default: cache_aware)")

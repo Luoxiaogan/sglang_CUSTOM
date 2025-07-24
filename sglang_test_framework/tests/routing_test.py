@@ -58,8 +58,22 @@ class RoutingTest:
             if self.config.collect_per_node_metrics:
                 for server in self.servers:
                     server_url = f"http://{server.config.host}:{server.config.port}"
+                    # Convert MetricsConfig to dict manually since it doesn't have to_dict()
+                    metrics_config_dict = {
+                        "collection_interval": self.config.metrics_config.collection_interval,
+                        "collect_throughput": self.config.metrics_config.collect_throughput,
+                        "collect_latency": self.config.metrics_config.collect_latency,
+                        "collect_queue_metrics": self.config.metrics_config.collect_queue_metrics,
+                        "collect_resource_usage": self.config.metrics_config.collect_resource_usage,
+                        "collect_cache_metrics": self.config.metrics_config.collect_cache_metrics,
+                        "latency_percentiles": self.config.metrics_config.latency_percentiles,
+                        "export_format": self.config.metrics_config.export_format,
+                        "export_interval": self.config.metrics_config.export_interval,
+                        "enable_dashboard": self.config.metrics_config.enable_dashboard,
+                        "dashboard_port": self.config.metrics_config.dashboard_port
+                    }
                     collector = MetricsCollector(
-                        config=self.config.metrics_config.to_dict(),
+                        config=metrics_config_dict,
                         server_url=server_url
                     )
                     self.metrics_collectors[server.config.server_id] = collector
@@ -75,8 +89,22 @@ class RoutingTest:
             router_url = f"http://{self.config.router_config.host}:{self.config.router_config.port}"
             
             # 4. Initialize router metrics collector
+            # Convert MetricsConfig to dict manually since it doesn't have to_dict()
+            metrics_config_dict = {
+                "collection_interval": self.config.metrics_config.collection_interval,
+                "collect_throughput": self.config.metrics_config.collect_throughput,
+                "collect_latency": self.config.metrics_config.collect_latency,
+                "collect_queue_metrics": self.config.metrics_config.collect_queue_metrics,
+                "collect_resource_usage": self.config.metrics_config.collect_resource_usage,
+                "collect_cache_metrics": self.config.metrics_config.collect_cache_metrics,
+                "latency_percentiles": self.config.metrics_config.latency_percentiles,
+                "export_format": self.config.metrics_config.export_format,
+                "export_interval": self.config.metrics_config.export_interval,
+                "enable_dashboard": self.config.metrics_config.enable_dashboard,
+                "dashboard_port": self.config.metrics_config.dashboard_port
+            }
             self.router_metrics_collector = MetricsCollector(
-                config=self.config.metrics_config.to_dict()
+                config=metrics_config_dict
             )
             
             # 5. Warm up servers
