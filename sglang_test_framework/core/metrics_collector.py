@@ -1,4 +1,10 @@
-"""Metrics collection and analysis for SGLang testing."""
+"""Metrics collection and analysis for SGLang testing.
+
+Enhanced from SGLang's benchmarking patterns.
+Source references:
+- python/sglang/bench_serving_new.py
+- python/sglang/bench_serving.py
+"""
 
 import asyncio
 import time
@@ -85,9 +91,11 @@ class AggregatedMetrics:
 class MetricsCollector:
     """Collects and analyzes metrics during testing."""
     
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: Dict[str, Any] = None, server_url: str = None):
         self.config = config or {}
         self.collection_interval = self.config.get("collection_interval", 1.0)
+        self.poll_interval = self.config.get("poll_interval", 0.1)  # Server polling interval
+        self.server_url = server_url
         
         # Storage for results
         self.results: List[RequestResult] = []
@@ -97,9 +105,13 @@ class MetricsCollector:
         self.active_requests: Dict[str, float] = {}  # request_id -> start_time
         self.queue_depths: Deque[Tuple[float, int]] = deque(maxlen=10000)
         
+        # Server metrics time series
+        self.server_metrics_history: List[Dict[str, Any]] = []
+        
         # Collection control
         self.collecting = False
         self.collection_task: Optional[asyncio.Task] = None
+        self.polling_task: Optional[asyncio.Task] = None
         self.start_time: Optional[float] = None
         
     def start_collection(self):
@@ -111,6 +123,11 @@ class MetricsCollector:
         self.collecting = True
         self.start_time = time.time()
         self.collection_task = asyncio.create_task(self._collection_loop())
+        
+        # Start server polling if URL provided
+        if self.server_url:
+            self.polling_task = asyncio.create_task(self._server_polling_loop())
+            
         logger.info("Started metrics collection")
         
     def stop_collection(self):
@@ -123,6 +140,9 @@ class MetricsCollector:
         if self.collection_task:
             self.collection_task.cancel()
             self.collection_task = None
+        if self.polling_task:
+            self.polling_task.cancel()
+            self.polling_task = None
         logger.info("Stopped metrics collection")
     
     def record_request_start(self, request_id: str):
@@ -153,6 +173,56 @@ class MetricsCollector:
             except Exception as e:
                 logger.error(f"Error in metrics collection: {e}")
     
+    async def _server_polling_loop(self):
+        """Poll server for real-time metrics."""
+        import aiohttp
+        
+        async with aiohttp.ClientSession() as session:
+            while self.collecting:
+                try:
+                    url = f"{self.server_url}/get_server_info"
+                    async with session.get(url, timeout=aiohttp.ClientTimeout(total=5)) as resp:
+                        if resp.status == 200:
+                            data = await resp.json()
+                            
+                            # Extract key metrics from server
+                            server_data = {
+                                "timestamp": time.time(),
+                                "num_running_reqs": 0,
+                                "num_queue_reqs": 0,
+                                "gen_throughput": 0.0,
+                                "prompt_tokens_total": 0,
+                                "generation_tokens_total": 0
+                            }
+                            
+                            # Parse internal states if available
+                            if "internal_states" in data:
+                                states = data["internal_states"]
+                                if isinstance(states, str):
+                                    # Parse string format from bench_serving_new.py pattern
+                                    import re
+                                    running_match = re.search(r"#running-req: (\d+)", states)
+                                    queue_match = re.search(r"#queue-req: (\d+)", states)
+                                    if running_match:
+                                        server_data["num_running_reqs"] = int(running_match.group(1))
+                                    if queue_match:
+                                        server_data["num_queue_reqs"] = int(queue_match.group(1))
+                                
+                            # Get throughput from proper fields
+                            server_data["gen_throughput"] = data.get("gen_throughput", 0.0)
+                            server_data["prompt_tokens_total"] = data.get("prompt_tokens_total", 0)
+                            server_data["generation_tokens_total"] = data.get("generation_tokens_total", 0)
+                            
+                            self.server_metrics_history.append(server_data)
+                            
+                    await asyncio.sleep(self.poll_interval)
+                    
+                except asyncio.CancelledError:
+                    break
+                except Exception as e:
+                    logger.debug(f"Error polling server metrics: {e}")
+                    await asyncio.sleep(self.poll_interval)
+    
     async def _collect_snapshot(self) -> MetricSnapshot:
         """Collect a snapshot of current metrics."""
         metrics = {
@@ -160,6 +230,13 @@ class MetricsCollector:
             "active_requests": len(self.active_requests),
             "completed_requests": len(self.results),
         }
+        
+        # Add latest server metrics if available
+        if self.server_metrics_history:
+            latest_server = self.server_metrics_history[-1]
+            metrics["server_running_reqs"] = latest_server["num_running_reqs"]
+            metrics["server_queue_reqs"] = latest_server["num_queue_reqs"]
+            metrics["server_throughput"] = latest_server["gen_throughput"]
         
         # Collect GPU metrics if available
         try:
@@ -183,6 +260,48 @@ class MetricsCollector:
             logger.debug(f"Could not collect GPU metrics: {e}")
             
         return MetricSnapshot(timestamp=time.time(), metrics=metrics)
+    
+    def get_concurrency_over_time(self) -> pd.DataFrame:
+        """Calculate concurrency over time from request data.
+        
+        Returns DataFrame with columns: timestamp, concurrency, queue_depth
+        """
+        events = []
+        
+        # Create events for each request
+        for r in self.results:
+            if r.request.send_time:
+                events.append((r.request.send_time, 1, "start"))
+            if r.request.completion_time:
+                events.append((r.request.completion_time, -1, "end"))
+        
+        # Sort events by time
+        events.sort(key=lambda x: x[0])
+        
+        # Calculate running concurrency
+        concurrency_data = []
+        current_concurrency = 0
+        
+        for timestamp, delta, event_type in events:
+            current_concurrency += delta
+            concurrency_data.append({
+                "timestamp": timestamp,
+                "concurrency": current_concurrency,
+                "event_type": event_type
+            })
+        
+        # Add server metrics if available
+        if self.server_metrics_history:
+            for metric in self.server_metrics_history:
+                concurrency_data.append({
+                    "timestamp": metric["timestamp"],
+                    "server_running": metric["num_running_reqs"],
+                    "server_queued": metric["num_queue_reqs"],
+                    "event_type": "server_poll"
+                })
+        
+        df = pd.DataFrame(concurrency_data).sort_values("timestamp")
+        return df
     
     def get_aggregated_metrics(self, 
                               start_time: Optional[float] = None,
@@ -358,27 +477,36 @@ class MetricsCollector:
             json.dump(data, f, indent=2)
     
     def _export_csv(self, path: str):
-        """Export results as CSV."""
+        """Export results as CSV with required format.
+        
+        Format: req_id, input_length, decode_length, arrival_time, to_server_time, 
+                finish_time, server_latency, total_latency, ttft
+        """
         records = []
         for r in self.results:
             record = {
-                "request_id": r.request.request_id,
-                "success": r.success,
-                "prompt_len": r.request.prompt_len,
-                "output_len": r.request.output_len,
-                "server_latency_ms": r.server_latency * 1000,
-                "total_latency_ms": r.total_latency * 1000,
-                "queue_time_ms": r.queue_time * 1000,
-                "ttft_ms": r.ttft * 1000,
-                "mean_itl_ms": np.mean(r.itl) * 1000 if r.itl else 0,
+                "req_id": r.request.request_id,
+                "input_length": r.request.prompt_len,
+                "decode_length": r.request.output_len,
                 "arrival_time": r.request.arrival_time,
-                "send_time": r.request.send_time,
-                "completion_time": r.request.completion_time,
-                "error": r.error
+                "to_server_time": r.request.send_time,
+                "finish_time": r.request.completion_time,
+                "server_latency": r.server_latency,  # Keep in seconds
+                "total_latency": r.total_latency,    # Keep in seconds
+                "ttft": r.ttft,                      # Keep in seconds
+                # Additional fields for analysis
+                "queue_time": r.queue_time,
+                "success": r.success,
+                "error": r.error if not r.success else ""
             }
             records.append(record)
             
         df = pd.DataFrame(records)
+        # Ensure column order matches requirements
+        columns = ["req_id", "input_length", "decode_length", "arrival_time", 
+                  "to_server_time", "finish_time", "server_latency", "total_latency", "ttft",
+                  "queue_time", "success", "error"]
+        df = df[columns]
         df.to_csv(path, index=False)
     
     def _export_parquet(self, path: str):
@@ -413,19 +541,19 @@ class MetricsCollector:
         print(" " * 20 + "METRICS SUMMARY")
         print("=" * 60)
         
-        print(f"\n=Ê Request Statistics:")
+        print(f"\n=ï¿½ Request Statistics:")
         print(f"  Total Requests: {metrics.total_requests}")
         print(f"  Successful: {metrics.completed_requests}")
         print(f"  Failed: {metrics.failed_requests}")
         print(f"  Success Rate: {metrics.completed_requests / metrics.total_requests * 100:.1f}%")
         
-        print(f"\n¡ Throughput Metrics:")
+        print(f"\nï¿½ Throughput Metrics:")
         print(f"  Request Throughput: {metrics.request_throughput:.2f} req/s")
         print(f"  Input Token Throughput: {metrics.input_token_throughput:.0f} tok/s")
         print(f"  Output Token Throughput: {metrics.output_token_throughput:.0f} tok/s")
         print(f"  Total Token Throughput: {metrics.total_token_throughput:.0f} tok/s")
         
-        print(f"\nñ  Latency Metrics:")
+        print(f"\nï¿½  Latency Metrics:")
         print(f"  Server Latency (ms):")
         print(f"    Mean: {metrics.mean_server_latency:.1f}")
         print(f"    Median: {metrics.median_server_latency:.1f}")
@@ -450,12 +578,12 @@ class MetricsCollector:
         print(f"    Mean TTFT: {metrics.mean_ttft:.1f} ms")
         print(f"    Mean ITL: {metrics.mean_itl:.1f} ms")
         
-        print(f"\n=È Queue Metrics:")
+        print(f"\n=ï¿½ Queue Metrics:")
         print(f"  Mean Queue Depth: {metrics.mean_queue_depth:.1f}")
         print(f"  Max Queue Depth: {metrics.max_queue_depth}")
         
         if metrics.gpu_utilization > 0:
-            print(f"\n=¥  GPU Metrics:")
+            print(f"\n=ï¿½  GPU Metrics:")
             print(f"  GPU Utilization: {metrics.gpu_utilization:.1f}%")
             print(f"  GPU Memory: {metrics.gpu_memory_used:.1f} / {metrics.gpu_memory_total:.1f} GB")
         
