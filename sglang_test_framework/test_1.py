@@ -28,7 +28,7 @@ async def run_node_test():
         gpu_id=1,
         max_running_requests=256,
         request_rate=50.0,
-        num_prompts=1000,  # Reduced for testing
+        num_prompts=100,  # Reduced for testing
         dataset_name="random",
         output_dir="/home/lg/sglang/results/new_test" ,
     )

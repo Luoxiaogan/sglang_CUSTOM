@@ -1,37 +1,185 @@
-[2025-07-25 00:16:08] [sglang_test_framework] [INFO] SGLang Testing Framework v1.0.0 initialized with log level: DEBUG
-[2025-07-25 00:16:11] [asyncio] [DEBUG] Using selector: EpollSelector
-[2025-07-25 00:16:11] [__main__] [INFO] Launching server...
-[2025-07-25 00:16:11] [sglang_test_framework.core.server_manager] [INFO] Starting server node_1 with command: python -m sglang.launch_server --model-path /data/pretrained_models/Llama-2-7b-hf --port 30000 --host 0.0.0.0 --mem-fraction-static 0.9 --max-running-requests 256 --chunked-prefill-size 8192 --max-prefill-tokens 16384 --schedule-conservativeness 1.0 --tp-size 1 --tokenizer-mode auto --dtype auto --load-format auto --log-level info --enable-metrics
-[2025-07-25 00:16:35] [sglang_test_framework.core.server_manager] [INFO] Server node_1 started successfully in 24.0s
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [INFO] Generating 10 requests from dataset 'random'...
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [INFO] Generating random requests with input_len=100, output_len=50, range_ratio=0.5
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [INFO] Successfully generated 10 random requests
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [INFO] Generating Poisson arrivals with rate=5.0 req/s
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [INFO] Total test duration: 1.2 seconds
-[2025-07-25 00:16:35] [sglang_test_framework.core.metrics_collector] [INFO] Started metrics collection
-[2025-07-25 00:16:35] [sglang_test_framework.core.metrics_collector] [INFO] Enabled incremental saving to results/timing_test/results every 5 requests
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [DEBUG] RequestSender session created with connection pool limit=100
-[2025-07-25 00:16:35] [__main__] [INFO] Sending request 1/10
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_0 to http://localhost:30000/generate at 1753373795.8878913
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_0 with payload: {'text': 'Random prompt 0 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 26, 'ignore_eos': True}, 'stream': True}
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_0
-[2025-07-25 00:16:35] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_0
-[2025-07-25 00:16:36] [sglang_test_framework.core.request_generator] [DEBUG] Request req_0 received DONE after 27 chunks
-[2025-07-25 00:16:36] [sglang_test_framework.core.request_generator] [DEBUG] Request req_0 completed: 87 chars, 27 chunks, TTFT=157.7ms
-[2025-07-25 00:16:36] [__main__] [INFO] Request req_0:
-[2025-07-25 00:16:36] [__main__] [INFO]   Queue time: 0.1 ms
-[2025-07-25 00:16:36] [__main__] [INFO]   Server latency: 0.0 ms
-[2025-07-25 00:16:36] [__main__] [INFO]   Total latency: 0.0 ms
-[2025-07-25 00:16:36] [sglang_test_framework.core.request_generator] [DEBUG] RequestSender session closed
-[2025-07-25 00:16:36] [__main__] [ERROR] Test failed: Server latency out of range: 0.0
-Traceback (most recent call last):
-  File "/home/lg/sglang/sglang_test_framework/test_timing_fix.py", line 123, in <module>
-    asyncio.run(test_timing_fixes())
-  File "/home/lg/.conda/envs/sglang_test/lib/python3.10/asyncio/runners.py", line 44, in run
-    return loop.run_until_complete(main)
-  File "/home/lg/.conda/envs/sglang_test/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
-    return future.result()
-  File "/home/lg/sglang/sglang_test_framework/test_timing_fix.py", line 89, in test_timing_fixes
-    assert 0 < result.server_latency_ms < 60000, f"Server latency out of range: {result.server_latency_ms}"
-AssertionError: Server latency out of range: 0.0
-[2025-07-25 00:16:36] [sglang_test_framework.core.server_manager] [INFO] Stopping server node_1
+[2025-07-25 01:21:46] [sglang_test_framework] [INFO] SGLang Testing Framework v1.0.0 initialized with log level: DEBUG
+[2025-07-25 01:21:49] [asyncio] [DEBUG] Using selector: EpollSelector
+[2025-07-25 01:21:49] [__main__] [INFO] Launching server...
+[2025-07-25 01:21:49] [sglang_test_framework.core.server_manager] [INFO] Starting server node_1 with command: python -m sglang.launch_server --model-path /data/pretrained_models/Llama-2-7b-hf --port 30000 --host 0.0.0.0 --mem-fraction-static 0.9 --max-running-requests 256 --chunked-prefill-size 8192 --max-prefill-tokens 16384 --schedule-conservativeness 1.0 --tp-size 1 --tokenizer-mode auto --dtype auto --load-format auto --log-level info --enable-metrics
+[2025-07-25 01:22:13] [sglang_test_framework.core.server_manager] [INFO] Server node_1 started successfully in 24.0s
+[2025-07-25 01:22:13] [sglang_test_framework.core.request_generator] [INFO] Generating 10 requests from dataset 'random'...
+[2025-07-25 01:22:13] [sglang_test_framework.core.request_generator] [INFO] Generating random requests with input_len=100, output_len=50, range_ratio=0.5
+[2025-07-25 01:22:13] [sglang_test_framework.core.request_generator] [INFO] Successfully generated 10 random requests
+[2025-07-25 01:22:13] [sglang_test_framework.core.request_generator] [INFO] Generating Poisson arrivals with rate=5.0 req/s
+[2025-07-25 01:22:13] [sglang_test_framework.core.request_generator] [INFO] Total test duration: 1.2 seconds
+[2025-07-25 01:22:13] [sglang_test_framework.core.metrics_collector] [INFO] Started metrics collection
+[2025-07-25 01:22:13] [sglang_test_framework.core.metrics_collector] [INFO] Enabled incremental saving to results/timing_test/results every 5 requests
+[2025-07-25 01:22:13] [sglang_test_framework.core.request_generator] [DEBUG] RequestSender session created with connection pool limit=100
+[2025-07-25 01:22:13] [__main__] [INFO] Sending request 1/10
+[2025-07-25 01:22:13] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_0 to http://localhost:30000/generate at 1753377733.9350674
+[2025-07-25 01:22:13] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_0 with payload: {'text': 'Random prompt 0 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 26, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:14] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_0
+[2025-07-25 01:22:14] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_0
+[2025-07-25 01:22:14] [sglang_test_framework.core.request_generator] [DEBUG] Request req_0 received DONE after 27 chunks
+[2025-07-25 01:22:14] [sglang_test_framework.core.request_generator] [DEBUG] Request req_0 completed: 87 chars, 27 chunks, TTFT=160.6ms
+[2025-07-25 01:22:14] [__main__] [INFO] Request req_0:
+[2025-07-25 01:22:14] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:14] [__main__] [INFO]   Server latency: 408.6 ms
+[2025-07-25 01:22:14] [__main__] [INFO]   Total latency: 408.7 ms
+[2025-07-25 01:22:14] [__main__] [INFO] Sending request 2/10
+[2025-07-25 01:22:14] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_1 to http://localhost:30000/generate at 1753377734.3443995
+[2025-07-25 01:22:14] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_1 with payload: {'text': 'Random prompt 1 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 73, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:14] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_1
+[2025-07-25 01:22:14] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_1
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Request req_1 received DONE after 74 chunks
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Request req_1 completed: 292 chars, 74 chunks, TTFT=32.5ms
+[2025-07-25 01:22:15] [__main__] [INFO] Request req_1:
+[2025-07-25 01:22:15] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:15] [__main__] [INFO]   Server latency: 746.9 ms
+[2025-07-25 01:22:15] [__main__] [INFO]   Total latency: 747.0 ms
+[2025-07-25 01:22:15] [__main__] [INFO] Sending request 3/10
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_2 to http://localhost:30000/generate at 1753377735.0918777
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_2 with payload: {'text': 'Random prompt 2 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 67, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_2
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_2
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Request req_2 received DONE after 67 chunks
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Request req_2 completed: 213 chars, 67 chunks, TTFT=33.4ms
+[2025-07-25 01:22:15] [__main__] [INFO] Request req_2:
+[2025-07-25 01:22:15] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:15] [__main__] [INFO]   Server latency: 687.0 ms
+[2025-07-25 01:22:15] [__main__] [INFO]   Total latency: 687.1 ms
+[2025-07-25 01:22:15] [__main__] [INFO] Sending request 4/10
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_3 to http://localhost:30000/generate at 1753377735.779506
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_3 with payload: {'text': 'Random prompt 3 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 36, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_3
+[2025-07-25 01:22:15] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_3
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Request req_3 received DONE after 37 chunks
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Request req_3 completed: 97 chars, 37 chunks, TTFT=31.7ms
+[2025-07-25 01:22:16] [__main__] [INFO] Request req_3:
+[2025-07-25 01:22:16] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:16] [__main__] [INFO]   Server latency: 377.8 ms
+[2025-07-25 01:22:16] [__main__] [INFO]   Total latency: 377.9 ms
+[2025-07-25 01:22:16] [__main__] [INFO] Sending request 5/10
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_4 to http://localhost:30000/generate at 1753377736.157864
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_4 with payload: {'text': 'Random prompt 4 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 34, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_4
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_4
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Request req_4 received DONE after 35 chunks
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Request req_4 completed: 111 chars, 35 chunks, TTFT=33.3ms
+[2025-07-25 01:22:16] [sglang_test_framework.core.metrics_collector] [INFO] Incremental save completed: 5 results saved
+[2025-07-25 01:22:16] [__main__] [INFO] Request req_4:
+[2025-07-25 01:22:16] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:16] [__main__] [INFO]   Server latency: 359.5 ms
+[2025-07-25 01:22:16] [__main__] [INFO]   Total latency: 359.6 ms
+[2025-07-25 01:22:16] [__main__] [INFO] Sending request 6/10
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_5 to http://localhost:30000/generate at 1753377736.5360258
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_5 with payload: {'text': 'Random prompt 5 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 34, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_5
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_5
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Request req_5 received DONE after 35 chunks
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Request req_5 completed: 111 chars, 35 chunks, TTFT=29.4ms
+[2025-07-25 01:22:16] [__main__] [INFO] Request req_5:
+[2025-07-25 01:22:16] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:16] [__main__] [INFO]   Server latency: 355.3 ms
+[2025-07-25 01:22:16] [__main__] [INFO]   Total latency: 355.4 ms
+[2025-07-25 01:22:16] [__main__] [INFO] Sending request 7/10
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_6 to http://localhost:30000/generate at 1753377736.8919604
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_6 with payload: {'text': 'Random prompt 6 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 40, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_6
+[2025-07-25 01:22:16] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_6
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Request req_6 received DONE after 41 chunks
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Request req_6 completed: 131 chars, 41 chunks, TTFT=32.8ms
+[2025-07-25 01:22:17] [__main__] [INFO] Request req_6:
+[2025-07-25 01:22:17] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:17] [__main__] [INFO]   Server latency: 417.3 ms
+[2025-07-25 01:22:17] [__main__] [INFO]   Total latency: 417.4 ms
+[2025-07-25 01:22:17] [__main__] [INFO] Sending request 8/10
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_7 to http://localhost:30000/generate at 1753377737.309462
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_7 with payload: {'text': 'Random prompt 7 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 51, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_7
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_7
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Request req_7 received DONE after 52 chunks
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Request req_7 completed: 204 chars, 52 chunks, TTFT=32.2ms
+[2025-07-25 01:22:17] [__main__] [INFO] Request req_7:
+[2025-07-25 01:22:17] [__main__] [INFO]   Queue time: 0.0 ms
+[2025-07-25 01:22:17] [__main__] [INFO]   Server latency: 527.4 ms
+[2025-07-25 01:22:17] [__main__] [INFO]   Total latency: 527.4 ms
+[2025-07-25 01:22:17] [__main__] [INFO] Sending request 9/10
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_8 to http://localhost:30000/generate at 1753377737.8374896
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_8 with payload: {'text': 'Random prompt 8 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 47, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_8
+[2025-07-25 01:22:17] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_8
+[2025-07-25 01:22:18] [sglang_test_framework.core.request_generator] [DEBUG] Request req_8 received DONE after 48 chunks
+[2025-07-25 01:22:18] [sglang_test_framework.core.request_generator] [DEBUG] Request req_8 completed: 152 chars, 48 chunks, TTFT=33.1ms
+[2025-07-25 01:22:18] [__main__] [INFO] Request req_8:
+[2025-07-25 01:22:18] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:18] [__main__] [INFO]   Server latency: 488.3 ms
+[2025-07-25 01:22:18] [__main__] [INFO]   Total latency: 488.3 ms
+[2025-07-25 01:22:18] [__main__] [INFO] Sending request 10/10
+[2025-07-25 01:22:18] [sglang_test_framework.core.request_generator] [DEBUG] Sending request req_9 to http://localhost:30000/generate at 1753377738.3263772
+[2025-07-25 01:22:18] [sglang_test_framework.core.request_generator] [DEBUG] Posting request req_9 with payload: {'text': 'Random prompt 9 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'sampling_params': {'temperature': 0.0, 'max_new_tokens': 40, 'ignore_eos': True}, 'stream': True}
+[2025-07-25 01:22:18] [sglang_test_framework.core.request_generator] [DEBUG] Got response status 200 for request req_9
+[2025-07-25 01:22:18] [sglang_test_framework.core.request_generator] [DEBUG] Handling stream response for request req_9
+[2025-07-25 01:22:18] [sglang_test_framework.core.request_generator] [DEBUG] Request req_9 received DONE after 41 chunks
+[2025-07-25 01:22:18] [sglang_test_framework.core.request_generator] [DEBUG] Request req_9 completed: 160 chars, 41 chunks, TTFT=33.4ms
+[2025-07-25 01:22:18] [sglang_test_framework.core.metrics_collector] [INFO] Incremental save completed: 10 results saved
+[2025-07-25 01:22:18] [__main__] [INFO] Request req_9:
+[2025-07-25 01:22:18] [__main__] [INFO]   Queue time: 0.1 ms
+[2025-07-25 01:22:18] [__main__] [INFO]   Server latency: 420.0 ms
+[2025-07-25 01:22:18] [__main__] [INFO]   Total latency: 420.1 ms
+[2025-07-25 01:22:19] [sglang_test_framework.core.request_generator] [DEBUG] RequestSender session closed
+[2025-07-25 01:22:19] [sglang_test_framework.core.metrics_collector] [INFO] Stopped metrics collection
+[2025-07-25 01:22:19] [sglang_test_framework.core.metrics_collector] [INFO] Exported metrics to results/timing_test/metrics.json
+[2025-07-25 01:22:19] [sglang_test_framework.core.metrics_collector] [INFO] Exported metrics to results/timing_test/results.csv
+[2025-07-25 01:22:19] [sglang_test_framework.core.result_manager] [INFO] Exported per-request metrics to results/timing_test/results.csv
+[2025-07-25 01:22:19] [sglang_test_framework.core.metrics_collector] [INFO] Generating metrics summary...
+[2025-07-25 01:22:19] [sglang_test_framework.core.result_manager] [INFO] Results saved to results/timing_test
+[2025-07-25 01:22:19] [__main__] [INFO] Results saved to results/timing_test
+[2025-07-25 01:22:19] [__main__] [INFO] ✓ CSV export verified
+[2025-07-25 01:22:19] [__main__] [INFO] ✓ Incremental saving verified
+[2025-07-25 01:22:19] [sglang_test_framework.core.metrics_collector] [INFO] Generating metrics summary...
+
+============================================================
+                    METRICS SUMMARY
+============================================================
+
+=� Request Statistics:
+  Total Requests: 10
+  Successful: 10
+  Failed: 0
+  Success Rate: 100.0%
+
+� Throughput Metrics:
+  Request Throughput: 2.27 req/s
+  Input Token Throughput: 232 tok/s
+  Output Token Throughput: 102 tok/s
+  Total Token Throughput: 334 tok/s
+
+�  Latency Metrics:
+  Server Latency (ms):
+    Mean: 478.8
+    Median: 418.6
+    P95: 719.9
+    P99: 741.5
+    Max: 746.9
+
+  Total Latency (ms):
+    Mean: 478.9
+    Median: 418.7
+    P95: 720.0
+    P99: 741.6
+    Max: 747.0
+
+  Queue Time (ms):
+    Mean: 0.1
+    Median: 0.1
+    P95: 0.1
+    P99: 0.1
+
+  Token Generation:
+    Mean TTFT: 45.2 ms
+    Mean ITL: 9.9 ms
+
+=� Queue Metrics:
+  Mean Queue Depth: 0.5
+  Max Queue Depth: 1
+============================================================
+
+[2025-07-25 01:22:19] [sglang_test_framework.core.server_manager] [INFO] Stopping server node_1
+[2025-07-25 01:22:23] [__main__] [INFO] ✅ All timing fixes verified successfully!
