@@ -1,4 +1,10 @@
-"""Server management for SGLang instances."""
+"""Server management for SGLang instances.
+
+Adapted from SGLang's server launch and management patterns.
+Source references:
+- python/sglang/launch_server.py
+- python/sglang/bench_serving_new.py
+"""
 
 import asyncio
 import subprocess
@@ -99,29 +105,17 @@ class SGLangServer:
             self.is_running = False
     
     async def update_param(self, param: str, value: Any) -> bool:
-        """Update a server parameter dynamically."""
-        if param == "max_running_requests":
-            # For max_running_requests, we need to implement a custom endpoint
-            # or use the approach described in the demand document
-            url = f"http://{self.config.host}:{self.config.port}/update_max_running_requests"
-            payload = {"value": value}
-            
-            try:
-                async with aiohttp.ClientSession() as session:
-                    async with session.post(url, json=payload) as response:
-                        if response.status == 200:
-                            setattr(self.config, param, value)
-                            logger.info(f"Updated {param} to {value} for server {self.config.server_id}")
-                            return True
-                        else:
-                            logger.error(f"Failed to update {param}: {await response.text()}")
-                            return False
-            except Exception as e:
-                logger.error(f"Error updating {param}: {e}")
-                return False
-        else:
-            logger.warning(f"Dynamic update not supported for parameter: {param}")
-            return False
+        """Update a server parameter dynamically.
+        
+        Note: SGLang does not currently support dynamic parameter updates via API.
+        This method is kept for future compatibility when such endpoints are added.
+        For now, it will log a warning and return False.
+        """
+        # TODO: When SGLang adds support for dynamic parameter updates,
+        # implement the actual API call here
+        logger.warning(f"Dynamic parameter update not yet supported by SGLang for {param}. "
+                      f"Would have updated to {value} for server {self.config.server_id}")
+        return False
     
     async def get_metrics(self) -> Dict[str, Any]:
         """Get server metrics."""

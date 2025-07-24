@@ -1,4 +1,10 @@
-"""Configuration for multi-node routing testing."""
+"""Configuration for multi-node routing testing.
+
+Adapted from SGLang Router's configuration patterns.
+Source references:
+- python/sglang_router/
+- .DUCUMENT/SGLang_Router_详解.md
+"""
 
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any
@@ -8,45 +14,75 @@ from .base import BaseConfig, ServerConfig, MetricsConfig
 
 @dataclass
 class RouterConfig:
-    """Configuration for SGLang router."""
+    """Configuration for SGLang router.
+    
+    Based on SGLang Router arguments from:
+    - python/sglang_router/launch_router.py  
+    - .DUCUMENT/SGLang_Router_详解.md
+    """
     
     # Router identification
     port: int = 30000
     host: str = "0.0.0.0"
     
+    # Router mode
+    router_mode: str = "separate"  # Options: "joint", "separate"
+    
+    # Data parallelism (for joint mode)
+    dp_size: Optional[int] = None  # Number of data parallel replicas
+    
+    # Model configuration (for joint mode)
+    model_path: Optional[str] = None
+    
     # Routing policy
-    policy: str = "cache_aware"  # Options: "cache_aware", "round_robin", "random", "shortest_queue", "custom"
+    policy: str = "cache_aware"  # Options: "cache_aware", "round_robin", "random", "shortest_queue"
     
     # Cache-aware routing parameters
     cache_threshold: float = 0.5
     balance_abs_threshold: int = 32
     balance_rel_threshold: float = 1.0001
-    eviction_interval: int = 60
-    max_tree_size: int = 16777216
+    eviction_interval: int = 60  # seconds
+    max_tree_size: int = 16777216  # 16MB default
     
-    # Fault tolerance
-    max_worker_retries: int = 3
-    max_total_retries: int = 6
+    # Request handling
+    max_outstanding_requests: Optional[int] = None
     
     # Custom policy configuration
     custom_policy_class: Optional[str] = None
     custom_policy_config: Optional[Dict[str, Any]] = None
     
     def get_launch_args(self) -> List[str]:
-        """Get command line arguments for launching the router."""
+        """Get command line arguments for launching the router.
+        
+        Note: In joint mode, the model path and dp-size are required.
+        In separate mode, worker URLs are passed separately.
+        """
         args = [
             "--port", str(self.port),
             "--host", self.host,
             "--policy", self.policy,
-            "--cache-threshold", str(self.cache_threshold),
-            "--balance-abs-threshold", str(self.balance_abs_threshold),
-            "--balance-rel-threshold", str(self.balance_rel_threshold),
-            "--eviction-interval", str(self.eviction_interval),
-            "--max-tree-size", str(self.max_tree_size),
-            "--max-worker-retries", str(self.max_worker_retries),
-            "--max-total-retries", str(self.max_total_retries),
         ]
         
+        # Add model and dp-size for joint mode
+        if self.router_mode == "joint":
+            if not self.model_path or not self.dp_size:
+                raise ValueError("model_path and dp_size are required for joint mode")
+            args.extend(["--model-path", self.model_path])
+            args.extend(["--dp-size", str(self.dp_size)])
+        
+        # Cache-aware routing parameters
+        if self.policy == "cache_aware":
+            args.extend([
+                "--cache-threshold", str(self.cache_threshold),
+                "--balance-abs-threshold", str(self.balance_abs_threshold),
+                "--balance-rel-threshold", str(self.balance_rel_threshold),
+                "--eviction-interval", str(self.eviction_interval),
+                "--max-tree-size", str(self.max_tree_size),
+            ])
+        
+        if self.max_outstanding_requests:
+            args.extend(["--max-outstanding-requests", str(self.max_outstanding_requests)])
+            
         if self.custom_policy_class:
             args.extend(["--custom-policy-class", self.custom_policy_class])
             

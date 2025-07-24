@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-SGLang Testing Framework 是一个专门为 SGLang 设计的综合测试框架，支持单节点（单 GPU）和多节点（多 GPU）测试场景。框架提供了灵活的批处理策略、路由策略以及详细的性能指标收集功能。
+SGLang Testing Framework 是一个专门为 SGLang 设计的综合测试框架，支持单节点（单 GPU）和多节点（多 GPU）测试场景。框架提供了灵活的路由策略以及详细的性能指标收集功能。SGLang 自动处理批处理，无需手动配置批处理策略。
 
 ## 核心功能
 
@@ -10,18 +10,19 @@ SGLang Testing Framework 是一个专门为 SGLang 设计的综合测试框架�
 
 #### 1.1 节点级测试（Node Level Testing）
 - 在单个 GPU 上启动一个 SGLang 服务器
-- 支持静态批处理和连续批处理策略
-- 可配置服务器参数，如 `--max-running-requests`
+- 可配置服务器参数，如 `--max-running-requests`、`--tp-size`、`--mem-fraction-static` 等
 - 收集详细的延迟和吞吐量指标
+- 支持张量并行（Tensor Parallelism）配置
 
 #### 1.2 路由级测试（Routing Level Testing）
 - 在多个 GPU 上启动多个 SGLang 服务器
-- 支持多种路由策略：
-  - Uniform Random Routing（均匀随机路由）
-  - Shortest Job First（最短作业优先）
-  - Parameter-Aware Routing（参数感知路由）
+- 支持 SGLang Router 的路由策略：
+  - Cache-Aware Routing（缓存感知路由）
+  - Round Robin（轮询）
+  - Random（随机）
+  - Shortest Queue（最短队列）
 - 支持自定义路由策略扩展
-- 动态更新服务器参数
+- 注意：动态参数更新功能待 SGLang 支持相应 API
 
 ### 2. 指标收集
 
@@ -48,8 +49,8 @@ SGLang Testing Framework 是一个专门为 SGLang 设计的综合测试框架�
 - 基于泊松分布生成请求到达时间
 - 支持多种数据集：ShareGPT、Random、Custom
 - 可配置输入/输出长度分布
-- 精确记录三个关键时刻：
-  1. 请求到达时刻（生成时刻）
+- 精确记录三个关键时刻（遵循 bench_serving_new.py 模式）：
+  1. 请求到达时刻（睡眠后记录，即实际到达时刻）
   2. 请求发送到服务器时刻
   3. 请求完成时刻
 
@@ -102,7 +103,7 @@ config = NodeConfig(
     model_path="meta-llama/Llama-2-7b-hf",
     gpu_id=0,
     max_running_requests=256,
-    batch_strategy="continuous",  # 或 "static"
+    tp_size=1,  # 张量并行大小
     request_rate=10.0,  # 每秒 10 个请求
     num_prompts=1000,
     dataset_name="sharegpt"
@@ -126,11 +127,10 @@ from sglang_test_framework.config.routing_config import RoutingConfig
 config = RoutingConfig(
     model_path="meta-llama/Llama-2-7b-hf",
     num_gpus=4,
-    routing_policy="shortest_job",  # 可选: "uniform", "param_aware"
+    routing_policy="cache_aware",  # 可选: "round_robin", "random", "shortest_queue"
     request_rate=40.0,
     num_prompts=5000,
-    dynamic_max_requests=True,  # 支持动态调整
-    initial_max_requests=256
+    max_running_requests=256  # 每个服务器的最大并发请求数
 )
 
 # 运行测试
@@ -177,47 +177,36 @@ class CustomRoutingPolicy(BaseRoutingPolicy):
         return max(scores, key=lambda x: x[1])[0]
 ```
 
-### 4. 静态批处理配置
+### 4. API 类型支持
 
 ```python
-from sglang_test_framework.strategies.batching.static import StaticBatchingStrategy
+# 使用原生 SGLang API
+async with RequestSender() as sender:
+    result = await sender.send_request(
+        request, 
+        api_url="http://localhost:30000/generate",
+        api_type="sglang"
+    )
 
-# 配置静态批处理
-static_config = {
-    "batch_size": 32,
-    "timeout_ms": 100,  # 批次超时时间
-    "length_distribution": {
-        "type": "normal",
-        "mean_input": 512,
-        "mean_output": 128,
-        "variance": 10.0
-    }
-}
-
-strategy = StaticBatchingStrategy(static_config)
+# 使用 OpenAI 兼容 API
+async with RequestSender() as sender:
+    result = await sender.send_request(
+        request, 
+        api_url="http://localhost:30000/v1/chat/completions",
+        api_type="openai"
+    )
 ```
 
-### 5. 动态参数更新
+### 5. 动态参数更新（待支持）
 
 ```python
-# 在路由测试中动态更新 max-running-requests
-test = RoutingTest(config)
+# 注意：SGLang 目前不支持通过 API 动态更新服务器参数
+# 框架保留了相关接口，以便将来 SGLang 支持此功能时可以使用
 
-# 启动测试
-test.start()
-
-# 运行一段时间后更新参数
-import time
-time.sleep(60)
-
-# 更新特定节点的参数
-test.update_node_param(node_id=0, param="max_running_requests", value=512)
-
-# 更新所有节点的参数
-test.update_all_nodes_param(param="max_running_requests", value=384)
-
-# 继续测试并收集结果
-results = test.complete()
+# 当前可以通过重启服务器来更改参数
+server_manager.stop_server("worker_0")
+config.max_running_requests = 512
+server_manager.launch_server(config)
 ```
 
 ## API 参考
@@ -233,7 +222,7 @@ class NodeConfig:
     port: int = 30000           # 服务端口
     max_running_requests: int    # 最大并发请求数
     mem_fraction_static: float   # 静态内存分配比例
-    batch_strategy: str          # 批处理策略
+    tp_size: int = 1            # 张量并行大小
     request_rate: float          # 请求速率
     num_prompts: int            # 测试请求数
     dataset_name: str           # 数据集名称
@@ -247,13 +236,12 @@ class NodeConfig:
 class RoutingConfig:
     model_path: str              # 模型路径
     num_gpus: int               # GPU 数量
-    routing_policy: str         # 路由策略
+    routing_policy: str         # 路由策略（cache_aware, round_robin, random, shortest_queue）
     request_rate: float         # 总请求速率
     num_prompts: int           # 测试请求数
     dataset_name: str          # 数据集名称
-    dynamic_max_requests: bool  # 是否支持动态更新
-    initial_max_requests: int   # 初始最大请求数
-    router_config: dict        # 路由器配置参数
+    max_running_requests: int   # 每个服务器的最大请求数
+    router_config: RouterConfig # 路由器配置对象
 ```
 
 ### 核心组件
@@ -262,10 +250,11 @@ class RoutingConfig:
 
 ```python
 class ServerManager:
-    def launch_server(config: NodeConfig) -> Server
-    def launch_multiple_servers(configs: List[NodeConfig]) -> List[Server]
+    def launch_server(config: ServerConfig) -> SGLangServer
+    def launch_multiple_servers(configs: List[ServerConfig]) -> List[SGLangServer]
+    def launch_router(config: RouterConfig, worker_urls: List[str]) -> RouterManager
     def stop_server(server_id: str) -> None
-    def update_server_param(server_id: str, param: str, value: Any) -> None
+    def update_server_param(server_id: str, param: str, value: Any) -> bool  # 目前返回 False，待 SGLang 支持
     def get_server_metrics(server_id: str) -> Dict[str, Any]
 ```
 
@@ -339,22 +328,23 @@ class MetricsCollector:
 
 ## 扩展开发
 
-### 添加新的批处理策略
+### 添加新的路由策略
 
-1. 继承 `BaseBatchingStrategy`
-2. 实现 `process_batch` 方法
+1. 继承 `BaseRoutingPolicy`
+2. 实现 `route_request` 方法
 3. 注册到策略工厂
 
 ```python
-from sglang_test_framework.strategies.batching.base import BaseBatchingStrategy
+from sglang_test_framework.strategies.routing.base import BaseRoutingPolicy
 
-class MyBatchingStrategy(BaseBatchingStrategy):
-    def process_batch(self, requests):
-        # 实现批处理逻辑
+class MyRoutingPolicy(BaseRoutingPolicy):
+    def route_request(self, request, server_metrics):
+        # 实现路由逻辑
+        # 返回选中的 worker_id
         pass
 
 # 注册策略
-BatchingFactory.register("my_strategy", MyBatchingStrategy)
+RoutingFactory.register("my_policy", MyRoutingPolicy)
 ```
 
 ### 添加新的指标
@@ -460,9 +450,10 @@ node_config:
   enable_torch_compile: true
   
 routing_config:
-  policy: "param_aware"
-  balance_threshold: 1.2
-  cache_threshold: 0.7
+  policy: "cache_aware"
+  balance_abs_threshold: 32
+  balance_rel_threshold: 1.0001
+  cache_threshold: 0.5
 ```
 
 #### 低延迟配置
@@ -473,8 +464,8 @@ node_config:
   schedule_conservativeness: 0.5
   
 routing_config:
-  policy: "shortest_job"
-  max_queue_depth: 10
+  policy: "shortest_queue"
+  # shortest_queue 策略会选择队列最短的服务器
 ```
 
 ### 常用脚本
@@ -521,7 +512,7 @@ def compare_results(result_files):
 本框架的设计和实现基于以下 SGLang 文档：
 
 1. **服务器参数** - 参见 `.DUCUMENT/Server_Arguments.md`
-2. **路由实现** - 参见 `.DUCUMENT/Router_for_Data_Parallelism.md`
+2. **路由实现** - 参见 `.DUCUMENT/SGLang_Router_详解.md`
 3. **基准测试** - 参见 `.DUCUMENT/Benchmark_and_Profiling.md`
 4. **采样参数** - 参见 `.DUCUMENT/Sampling_Parameters.md`
 5. **超参数调优** - 参见 `.DUCUMENT/Hyperparameter_Tuning.md`

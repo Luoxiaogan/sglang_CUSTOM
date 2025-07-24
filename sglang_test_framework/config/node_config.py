@@ -1,4 +1,8 @@
-"""Configuration for single node (single GPU) testing."""
+"""Configuration for single node (single GPU) testing.
+
+Adapted from SGLang's configuration patterns.
+Note: SGLang handles batching automatically, no batch strategy configuration needed.
+"""
 
 from dataclasses import dataclass
 from typing import Optional, Dict, Any
@@ -24,12 +28,10 @@ class NodeConfig(BaseConfig):
     max_running_requests: int = 256
     max_total_tokens: Optional[int] = None
     chunked_prefill_size: int = 8192
+    max_prefill_tokens: int = 16384
     
-    # Batching strategy
-    batch_strategy: str = "continuous"  # Options: "continuous", "static"
-    
-    # Static batching configuration (if batch_strategy == "static")
-    static_batch_config: Optional[Dict[str, Any]] = None
+    # Parallelism
+    tp_size: int = 1  # Tensor parallelism size
     
     # Performance tuning
     enable_torch_compile: bool = False
@@ -56,19 +58,6 @@ class NodeConfig(BaseConfig):
         # Create default metrics config if not provided
         if self.metrics_config is None:
             self.metrics_config = MetricsConfig()
-            
-        # Initialize static batch config with defaults
-        if self.batch_strategy == "static" and self.static_batch_config is None:
-            self.static_batch_config = {
-                "batch_size": 32,
-                "timeout_ms": 100,
-                "length_distribution": {
-                    "type": "normal",
-                    "mean_input": self.random_input_len,
-                    "mean_output": self.random_output_len,
-                    "variance": 10.0
-                }
-            }
     
     def validate(self):
         """Validate node configuration."""
@@ -86,8 +75,8 @@ class NodeConfig(BaseConfig):
         if self.max_running_requests <= 0:
             raise ValueError("max_running_requests must be positive")
             
-        if self.batch_strategy not in ["continuous", "static"]:
-            raise ValueError(f"Unknown batch strategy: {self.batch_strategy}")
+        if self.tp_size <= 0:
+            raise ValueError("tp_size must be positive")
             
         if self.enable_dynamic_params and not self.param_update_schedule:
             raise ValueError("param_update_schedule required when enable_dynamic_params is True")
@@ -105,6 +94,8 @@ class NodeConfig(BaseConfig):
             max_running_requests=self.max_running_requests,
             max_total_tokens=self.max_total_tokens,
             chunked_prefill_size=self.chunked_prefill_size,
+            max_prefill_tokens=self.max_prefill_tokens,
+            tp_size=self.tp_size,
             enable_torch_compile=self.enable_torch_compile,
             disable_radix_cache=self.disable_radix_cache,
             schedule_conservativeness=self.schedule_conservativeness,
@@ -121,6 +112,5 @@ class NodeConfig(BaseConfig):
             gpu_id=gpu_id,
             num_prompts=1000,
             request_rate=10.0,
-            max_running_requests=256,
-            batch_strategy="continuous"
+            max_running_requests=256
         )

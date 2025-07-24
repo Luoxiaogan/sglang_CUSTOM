@@ -1,4 +1,10 @@
-"""Request generation for testing."""
+"""Request generation for testing.
+
+Adapted from SGLang's benchmarking tools.
+Source references:
+- python/sglang/bench_serving_new.py
+- python/sglang/bench_serving.py
+"""
 
 import asyncio
 import json
@@ -39,9 +45,12 @@ class RequestResult:
     error: str = ""
     ttft: float = 0.0  # Time to first token
     itl: List[float] = None  # Inter-token latencies
-    server_latency: float = 0.0  # From send to completion
-    total_latency: float = 0.0  # From arrival to completion
-    queue_time: float = 0.0  # From arrival to send
+    server_latency: float = 0.0  # From send to completion (seconds)
+    total_latency: float = 0.0  # From arrival to completion (seconds)
+    queue_time: float = 0.0  # From arrival to send (seconds)
+    server_latency_ms: float = 0.0  # Server latency in milliseconds
+    total_latency_ms: float = 0.0  # Total latency in milliseconds
+    queue_time_ms: float = 0.0  # Queue time in milliseconds
     
     def __post_init__(self):
         if self.itl is None:
@@ -56,6 +65,11 @@ class RequestResult:
             
         if self.request.send_time and self.request.arrival_time:
             self.queue_time = self.request.send_time - self.request.arrival_time
+            
+        # Convert to milliseconds for consistency with bench_serving_new.py
+        self.server_latency_ms = self.server_latency * 1000
+        self.total_latency_ms = self.total_latency * 1000
+        self.queue_time_ms = self.queue_time * 1000
 
 
 class RequestGenerator:
@@ -270,24 +284,42 @@ class RequestSender:
         self,
         request: Request,
         api_url: str,
-        stream: bool = True
+        stream: bool = True,
+        api_type: str = "sglang"  # Options: "sglang", "openai"
     ) -> RequestResult:
-        """Send a single request to the server."""
+        """Send a single request to the server.
+        
+        Supports both native SGLang API (/generate) and OpenAI-compatible API.
+        """
         request.send_time = time.time()
         
-        # Prepare payload
-        payload = {
-            "text": request.prompt,
-            "sampling_params": {
+        # Prepare payload based on API type
+        if api_type == "sglang":
+            # Native SGLang API format
+            payload = {
+                "text": request.prompt,
+                "sampling_params": {
+                    "temperature": 0.0,
+                    "max_new_tokens": request.output_len,
+                    "ignore_eos": True
+                },
+                "stream": stream
+            }
+            
+            if request.image_data:
+                payload["image_data"] = request.image_data
+                
+        elif api_type == "openai":
+            # OpenAI-compatible API format
+            payload = {
+                "model": "default",  # Will use the loaded model
+                "messages": [{"role": "user", "content": request.prompt}],
                 "temperature": 0.0,
-                "max_new_tokens": request.output_len,
-                "ignore_eos": True
-            },
-            "stream": stream
-        }
-        
-        if request.image_data:
-            payload["image_data"] = request.image_data
+                "max_tokens": request.output_len,
+                "stream": stream
+            }
+        else:
+            raise ValueError(f"Unknown API type: {api_type}")
             
         if request.extra_params:
             payload.update(request.extra_params)
@@ -342,9 +374,21 @@ class RequestSender:
             try:
                 data = json.loads(chunk)
                 
+                # Handle both SGLang and OpenAI response formats
+                text_field = None
                 if "text" in data:
+                    text_field = "text"  # SGLang format
+                elif "choices" in data and data["choices"]:
+                    # OpenAI format
+                    delta = data["choices"][0].get("delta", {})
+                    if "content" in delta:
+                        text_field = "choices"
+                        generated_text += delta["content"]
+                
+                if text_field:
                     current_time = time.time()
-                    generated_text = data["text"]
+                    if text_field == "text":
+                        generated_text = data["text"]
                     
                     # First token
                     if ttft == 0.0:
@@ -372,10 +416,18 @@ class RequestSender:
         data = await response.json()
         request.completion_time = time.time()
         
+        # Handle both SGLang and OpenAI response formats
+        if "text" in data:
+            generated_text = data["text"]
+        elif "choices" in data and data["choices"]:
+            generated_text = data["choices"][0].get("message", {}).get("content", "")
+        else:
+            generated_text = ""
+        
         result = RequestResult(
             request=request,
             success=True,
-            generated_text=data.get("text", ""),
+            generated_text=generated_text,
             ttft=request.completion_time - request.send_time  # No streaming, so TTFT = total time
         )
         
@@ -411,11 +463,21 @@ async def generate_and_send_requests(
     semaphore = asyncio.Semaphore(max_concurrency) if max_concurrency else None
     
     async def send_with_delay(request: Request):
-        """Send request after waiting for its arrival time."""
-        # Wait until arrival time
-        wait_time = request.arrival_time - time.time()
+        """Send request after waiting for its arrival time.
+        
+        Following bench_serving_new.py pattern:
+        - Sleep until scheduled arrival time
+        - Record actual arrival time AFTER sleep
+        - Then send the request
+        """
+        # Wait until scheduled arrival time
+        scheduled_time = request.arrival_time
+        wait_time = scheduled_time - time.time()
         if wait_time > 0:
             await asyncio.sleep(wait_time)
+            
+        # Record actual arrival time (after sleep)
+        request.arrival_time = time.time()
             
         # Acquire semaphore if needed
         if semaphore:

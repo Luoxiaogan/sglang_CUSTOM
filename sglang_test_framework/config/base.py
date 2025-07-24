@@ -1,4 +1,10 @@
-"""Base configuration classes for SGLang testing framework."""
+"""Base configuration classes for SGLang testing framework.
+
+Adapted from SGLang's configuration patterns.
+Source references:
+- python/sglang/srt/server_args.py
+- .DUCUMENT/Server_Arguments.md
+"""
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -74,17 +80,28 @@ class BaseConfig(ABC):
 
 @dataclass
 class ServerConfig:
-    """Configuration for a single SGLang server."""
+    """Configuration for a single SGLang server.
+    
+    Based on SGLang server arguments from:
+    - python/sglang/srt/server_args.py
+    - .DUCUMENT/Server_Arguments.md
+    """
     
     # Server identification
     server_id: str
-    gpu_id: int
+    gpu_id: int  # Used for CUDA_VISIBLE_DEVICES env var
     port: int = 30000
     host: str = "0.0.0.0"
     
     # Model configuration
     model_path: str
     tokenizer_path: Optional[str] = None
+    tokenizer_mode: str = "auto"
+    trust_remote_code: bool = False
+    
+    # Model loading
+    dtype: str = "auto"  # Options: "auto", "float16", "bfloat16", "float32"
+    load_format: str = "auto"  # Options: "auto", "pt", "safetensors", etc.
     
     # Memory configuration
     mem_fraction_static: float = 0.9
@@ -93,25 +110,37 @@ class ServerConfig:
     max_running_requests: int = 256
     max_total_tokens: Optional[int] = None
     chunked_prefill_size: int = 8192
+    max_prefill_tokens: int = 16384
+    
+    # Parallelism
+    tp_size: int = 1  # Tensor parallelism size
     
     # Performance tuning
     enable_torch_compile: bool = False
     disable_radix_cache: bool = False
     disable_regex_jump_forward: bool = False
+    disable_flashinfer: bool = False
     schedule_conservativeness: float = 1.0
     
     # Quantization
-    quantization: Optional[str] = None  # Options: "fp8", "int8", etc.
+    quantization: Optional[str] = None  # Options: "fp8", "int8", "awq", "gptq", etc.
     
     # Attention backend
     attention_backend: Optional[str] = None  # Auto-selected if None
     
-    # Logging
+    # Logging and monitoring
     log_level: str = "info"
     enable_metrics: bool = True
     
+    # OpenAI API compatibility
+    api_key: Optional[str] = None
+    
     def get_launch_args(self) -> List[str]:
-        """Get command line arguments for launching the server."""
+        """Get command line arguments for launching the server.
+        
+        Note: CUDA_VISIBLE_DEVICES should be set as an environment variable,
+        not as a command line argument. The server_manager handles this.
+        """
         args = [
             "--model-path", self.model_path,
             "--port", str(self.port),
@@ -119,7 +148,12 @@ class ServerConfig:
             "--mem-fraction-static", str(self.mem_fraction_static),
             "--max-running-requests", str(self.max_running_requests),
             "--chunked-prefill-size", str(self.chunked_prefill_size),
+            "--max-prefill-tokens", str(self.max_prefill_tokens),
             "--schedule-conservativeness", str(self.schedule_conservativeness),
+            "--tp-size", str(self.tp_size),
+            "--tokenizer-mode", self.tokenizer_mode,
+            "--dtype", self.dtype,
+            "--load-format", self.load_format,
             "--log-level", self.log_level,
         ]
         
@@ -128,6 +162,9 @@ class ServerConfig:
             
         if self.max_total_tokens:
             args.extend(["--max-total-tokens", str(self.max_total_tokens)])
+            
+        if self.trust_remote_code:
+            args.append("--trust-remote-code")
             
         if self.enable_torch_compile:
             args.append("--enable-torch-compile")
@@ -138,6 +175,9 @@ class ServerConfig:
         if self.disable_regex_jump_forward:
             args.append("--disable-regex-jump-forward")
             
+        if self.disable_flashinfer:
+            args.append("--disable-flashinfer")
+            
         if self.quantization:
             args.extend(["--quantization", self.quantization])
             
@@ -147,9 +187,9 @@ class ServerConfig:
         if self.enable_metrics:
             args.append("--enable-metrics")
             
-        # Set CUDA_VISIBLE_DEVICES for GPU selection
-        args = ["CUDA_VISIBLE_DEVICES=" + str(self.gpu_id)] + args
-        
+        if self.api_key:
+            args.extend(["--api-key", self.api_key])
+            
         return args
 
 
