@@ -204,7 +204,7 @@ class NodeTest:
         print("=" * 60)
         
         # Configuration summary
-        print("\n=Ë Test Configuration:")
+        print("\n= Test Configuration:")
         print(f"  Model: {self.config.model_path}")
         print(f"  GPU ID: {self.config.gpu_id}")
         print(f"  Max Running Requests: {self.config.max_running_requests}")
@@ -214,14 +214,14 @@ class NodeTest:
         
         # Metrics summary
         metrics = results['metrics']
-        print("\n=Ê Performance Metrics:")
+        print("\n=ï¿½ Performance Metrics:")
         print(f"  Success Rate: {results['success_rate'] * 100:.1f}%")
         print(f"  Request Throughput: {metrics.get('request_throughput', 0):.2f} req/s")
         print(f"  Token Throughput:")
         print(f"    Input: {metrics.get('input_token_throughput', 0):.0f} tok/s")
         print(f"    Output: {metrics.get('output_token_throughput', 0):.0f} tok/s")
         
-        print("\nñ  Latency Metrics:")
+        print("\nï¿½  Latency Metrics:")
         print(f"  Server Latency (ms):")
         print(f"    Mean: {metrics.get('mean_server_latency', 0):.1f}")
         print(f"    P95: {metrics.get('p95_server_latency', 0):.1f}")
@@ -238,17 +238,17 @@ class NodeTest:
         
         # GPU metrics if available
         if metrics.get('gpu_utilization', 0) > 0:
-            print(f"\n=¥  GPU Metrics:")
+            print(f"\n=ï¿½  GPU Metrics:")
             print(f"  Utilization: {metrics.get('gpu_utilization', 0):.1f}%")
             print(f"  Memory: {metrics.get('gpu_memory_used', 0):.1f} / "
                   f"{metrics.get('gpu_memory_total', 0):.1f} GB")
         
         # Test duration
-        print(f"\nò  Test Duration: {results['test_duration']:.1f} seconds")
+        print(f"\nï¿½  Test Duration: {results['test_duration']:.1f} seconds")
         
         # Exported files
         if 'exported_files' in results:
-            print(f"\n=¾ Exported Files:")
+            print(f"\n=ï¿½ Exported Files:")
             for fmt, path in results['exported_files'].items():
                 print(f"  {fmt.upper()}: {path}")
         

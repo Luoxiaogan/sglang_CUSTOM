@@ -22,8 +22,8 @@ async def run_routing_test():
     logger.info("Setting up routing test configuration...")
     config = RoutingConfig(
         model_path="/data/pretrained_models/Llama-2-7b-hf",  # Model path
-        num_gpus=4,                          # Number of GPUs to use
-        gpu_ids=[0, 1, 2, 3],               # Specific GPU IDs
+        num_gpus=2,                          # Number of GPUs to use
+        gpu_ids=[0, 1],               # Specific GPU IDs
         routing_policy="cache_aware",        # Routing policy: cache_aware, round_robin, random, shortest_queue
         request_rate=50.0,                   # 50 requests per second
         num_prompts=1000,                    # Total number of requests
