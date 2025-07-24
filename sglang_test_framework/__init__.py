@@ -3,7 +3,7 @@
 from .config import NodeConfig, RoutingConfig
 from .core import (
     ServerManager, RequestGenerator, MetricsCollector, ResultManager,
-    Request, RequestResult
+    Request, RequestResult, RequestSender
 )
 
 __version__ = "1.0.0"
@@ -22,4 +22,5 @@ __all__ = [
     # Data types
     "Request",
     "RequestResult",
+    "RequestSender"
 ]
