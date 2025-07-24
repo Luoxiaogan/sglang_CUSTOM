@@ -51,6 +51,8 @@ class RequestResult:
     server_latency_ms: float = 0.0  # Server latency in milliseconds
     total_latency_ms: float = 0.0  # Total latency in milliseconds
     queue_time_ms: float = 0.0  # Queue time in milliseconds
+    worker_url: Optional[str] = None  # Worker URL that handled the request
+    gpu_id: Optional[int] = None  # GPU ID mapped from worker URL
     
     def __post_init__(self):
         if self.itl is None:
@@ -430,6 +432,11 @@ class RequestSender:
         """Handle streaming response."""
         logger.debug(f"Handling stream response for request {request.request_id}")
         
+        # Extract worker URL from response header
+        worker_url = response.headers.get('X-SGLang-Worker')
+        if worker_url:
+            logger.debug(f"Request {request.request_id} handled by worker: {worker_url}")
+        
         generated_text = ""
         ttft = 0.0
         itl_list = []
@@ -491,7 +498,8 @@ class RequestSender:
             success=True,
             generated_text=generated_text,
             ttft=ttft,
-            itl=itl_list
+            itl=itl_list,
+            worker_url=worker_url
         )
         
         logger.debug(f"Request {request.request_id} completed: {len(generated_text)} chars, {chunk_count} chunks, TTFT={ttft*1000:.1f}ms")
@@ -503,6 +511,11 @@ class RequestSender:
         response: aiohttp.ClientResponse
     ) -> RequestResult:
         """Handle non-streaming response."""
+        # Extract worker URL from response header
+        worker_url = response.headers.get('X-SGLang-Worker')
+        if worker_url:
+            logger.debug(f"Request {request.request_id} handled by worker: {worker_url}")
+        
         data = await response.json()
         
         # Set completion time BEFORE creating result
@@ -524,7 +537,8 @@ class RequestSender:
             request=request,
             success=True,
             generated_text=generated_text,
-            ttft=ttft
+            ttft=ttft,
+            worker_url=worker_url
         )
         
         return result

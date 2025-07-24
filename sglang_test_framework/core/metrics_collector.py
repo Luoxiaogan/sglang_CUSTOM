@@ -461,6 +461,101 @@ class MetricsCollector:
         
         return metrics
     
+    def get_gpu_aggregated_metrics(self) -> Dict[int, AggregatedMetrics]:
+        """Get aggregated metrics grouped by GPU ID."""
+        gpu_metrics = defaultdict(lambda: AggregatedMetrics())
+        gpu_results = defaultdict(list)
+        
+        # Group results by GPU ID
+        for result in self.results:
+            if result.gpu_id is not None:
+                gpu_results[result.gpu_id].append(result)
+        
+        # Calculate metrics for each GPU
+        for gpu_id, results in gpu_results.items():
+            metrics = AggregatedMetrics()
+            
+            # Basic counts
+            metrics.completed_requests = sum(1 for r in results if r.success)
+            metrics.failed_requests = sum(1 for r in results if not r.success)
+            metrics.total_requests = len(results)
+            
+            # Only process successful results for timing metrics
+            successful_results = [r for r in results if r.success]
+            
+            if successful_results:
+                # Calculate throughput (need time range)
+                start_times = [r.request.arrival_time for r in successful_results]
+                end_times = [r.request.completion_time for r in successful_results]
+                
+                if start_times and end_times:
+                    duration = max(end_times) - min(start_times)
+                    metrics.start_time = min(start_times)
+                    metrics.end_time = max(end_times)
+                    metrics.duration = duration
+                    
+                    if duration > 0:
+                        metrics.request_throughput = len(successful_results) / duration
+                        
+                        # Token throughput
+                        total_input_tokens = sum(r.request.prompt_len for r in successful_results)
+                        total_output_tokens = sum(len(r.generated_text.split()) for r in successful_results)
+                        
+                        metrics.input_token_throughput = total_input_tokens / duration
+                        metrics.output_token_throughput = total_output_tokens / duration
+                        metrics.total_token_throughput = (total_input_tokens + total_output_tokens) / duration
+                
+                # Latency metrics
+                server_latencies = [r.server_latency_ms for r in successful_results]
+                total_latencies = [r.total_latency_ms for r in successful_results]
+                queue_times = [r.queue_time_ms for r in successful_results]
+                ttfts = [r.ttft * 1000 for r in successful_results if r.ttft > 0]
+                
+                # Calculate percentiles
+                if server_latencies:
+                    metrics.mean_server_latency = np.mean(server_latencies)
+                    metrics.median_server_latency = np.median(server_latencies)
+                    metrics.p95_server_latency = np.percentile(server_latencies, 95)
+                    metrics.p99_server_latency = np.percentile(server_latencies, 99)
+                    metrics.max_server_latency = max(server_latencies)
+                
+                if total_latencies:
+                    metrics.mean_total_latency = np.mean(total_latencies)
+                    metrics.median_total_latency = np.median(total_latencies)
+                    metrics.p95_total_latency = np.percentile(total_latencies, 95)
+                    metrics.p99_total_latency = np.percentile(total_latencies, 99)
+                    metrics.max_total_latency = max(total_latencies)
+                
+                if queue_times:
+                    metrics.mean_queue_time = np.mean(queue_times)
+                    metrics.median_queue_time = np.median(queue_times)
+                    metrics.p95_queue_time = np.percentile(queue_times, 95)
+                    metrics.p99_queue_time = np.percentile(queue_times, 99)
+                    metrics.max_queue_time = max(queue_times)
+                
+                if ttfts:
+                    metrics.mean_ttft = np.mean(ttfts)
+                    metrics.median_ttft = np.median(ttfts)
+                    metrics.p95_ttft = np.percentile(ttfts, 95)
+                    metrics.p99_ttft = np.percentile(ttfts, 99)
+                
+                # Inter-token latencies
+                all_itls = []
+                for r in successful_results:
+                    if r.itl:
+                        all_itls.extend([itl * 1000 for itl in r.itl])
+                
+                if all_itls:
+                    metrics.mean_itl = np.mean(all_itls)
+                    metrics.median_itl = np.median(all_itls)
+                    metrics.p95_itl = np.percentile(all_itls, 95)
+                    metrics.p99_itl = np.percentile(all_itls, 99)
+                    metrics.max_itl = max(all_itls)
+            
+            gpu_metrics[gpu_id] = metrics
+        
+        return dict(gpu_metrics)
+    
     def export_metrics(self, format: str = "json", path: str = None) -> str:
         """Export metrics to file."""
         if path is None:
@@ -481,25 +576,17 @@ class MetricsCollector:
     
     def _export_json(self, path: str):
         """Export metrics as JSON."""
+        # Get GPU metrics if available
+        gpu_metrics = self.get_gpu_aggregated_metrics()
+        
         data = {
             "summary": self.get_aggregated_metrics().__dict__,
-            "results": [
-                {
-                    "request_id": r.request.request_id,
-                    "success": r.success,
-                    "prompt_len": r.request.prompt_len,
-                    "output_len": r.request.output_len,
-                    "server_latency_ms": r.server_latency_ms,
-                    "total_latency_ms": r.total_latency_ms,
-                    "queue_time_ms": r.queue_time_ms,
-                    "ttft_ms": r.ttft * 1000,
-                    "arrival_time": r.request.arrival_time,
-                    "send_time": r.request.send_time,
-                    "completion_time": r.request.completion_time,
-                    "error": r.error
-                }
-                for r in self.results
-            ],
+            "gpu_metrics": {str(gpu_id): metrics.__dict__ for gpu_id, metrics in gpu_metrics.items()},
+            "total_requests": len(self.results),
+            "successful_requests": sum(1 for r in self.results if r.success),
+            "failed_requests": sum(1 for r in self.results if not r.success),
+            "test_duration": max((r.request.completion_time or 0) for r in self.results) - 
+                           min((r.request.arrival_time or 0) for r in self.results) if self.results else 0,
             "snapshots": [
                 {
                     "timestamp": s.timestamp,
@@ -544,7 +631,9 @@ class MetricsCollector:
                 # Additional fields for analysis
                 "queue_time": r.queue_time,
                 "success": r.success,
-                "error": r.error if not r.success else ""
+                "error": r.error if not r.success else "",
+                "worker_url": r.worker_url if hasattr(r, 'worker_url') else "",
+                "gpu_id": r.gpu_id if hasattr(r, 'gpu_id') else None
             }
             records.append(record)
             
@@ -552,7 +641,7 @@ class MetricsCollector:
         # Ensure column order matches requirements
         columns = ["req_id", "input_length", "decode_length", "arrival_time", 
                   "to_server_time", "finish_time", "server_latency", "total_latency", "ttft",
-                  "queue_time", "success", "error"]
+                  "queue_time", "success", "error", "worker_url", "gpu_id"]
         df = df[columns]
         df.to_csv(path, index=False)
     

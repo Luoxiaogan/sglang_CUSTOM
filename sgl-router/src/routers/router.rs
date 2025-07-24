@@ -446,7 +446,9 @@ impl Router {
         if !is_stream {
             // For non-streaming requests, get response first
             let response = match res.bytes().await {
-                Ok(body) => HttpResponse::build(status).body(body.to_vec()),
+                Ok(body) => HttpResponse::build(status)
+                    .insert_header(("X-SGLang-Worker", worker_url))
+                    .body(body.to_vec()),
                 Err(e) => {
                     let error_msg = format!("Failed to get response body: {}", e);
                     HttpResponse::InternalServerError().body(error_msg)
@@ -472,10 +474,12 @@ impl Router {
         } else if load_incremented {
             // For streaming with load tracking, we need to manually decrement when done
             let workers = Arc::clone(&self.workers);
+            let worker_url_for_header = worker_url.to_string();
             let worker_url = worker_url.to_string();
 
             HttpResponse::build(status)
                 .insert_header((CONTENT_TYPE, HeaderValue::from_static("text/event-stream")))
+                .insert_header(("X-SGLang-Worker", worker_url_for_header))
                 .streaming(
                     res.bytes_stream()
                         .map_err(|_| {
@@ -508,6 +512,7 @@ impl Router {
             // For requests without load tracking, just stream
             HttpResponse::build(status)
                 .insert_header((CONTENT_TYPE, HeaderValue::from_static("text/event-stream")))
+                .insert_header(("X-SGLang-Worker", worker_url))
                 .streaming(res.bytes_stream().map_err(|_| {
                     actix_web::error::ErrorInternalServerError("Failed to read stream")
                 }))

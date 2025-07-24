@@ -107,7 +107,15 @@ class RoutingTest:
                     )
                     self.metrics_collectors[server.config.server_id] = collector
             
-            # 3. Launch router
+            # 3. Create worker URL to GPU ID mapping
+            self.worker_url_to_gpu_id = {}
+            for server in self.servers:
+                worker_url = f"http://{server.config.host}:{server.config.port}"
+                gpu_id = server.config.gpu_id
+                self.worker_url_to_gpu_id[worker_url] = gpu_id
+                logger.info(f"Mapped worker {worker_url} to GPU {gpu_id}")
+            
+            # 4. Launch router
             worker_urls = self.config.get_worker_urls()
             logger.info(f"Launching router with policy: {self.config.routing_policy}")
             self.router = await self.server_manager.launch_router(
@@ -177,6 +185,11 @@ class RoutingTest:
                     api_url, 
                     request_config
                 ):
+                    # Map worker URL to GPU ID
+                    if result.worker_url and result.worker_url in self.worker_url_to_gpu_id:
+                        result.gpu_id = self.worker_url_to_gpu_id[result.worker_url]
+                        logger.debug(f"Request {result.request.request_id} processed by GPU {result.gpu_id}")
+                    
                     self.router_metrics_collector.record_request_complete(result)
             
             # Cancel failure task if running
@@ -202,11 +215,15 @@ class RoutingTest:
                 for server_id, collector in self.metrics_collectors.items():
                     server_metrics[server_id] = collector.get_aggregated_metrics().__dict__
             
-            # 11. Prepare results
+            # 11. Get GPU metrics
+            gpu_metrics = self.router_metrics_collector.get_gpu_aggregated_metrics()
+            
+            # 12. Prepare results
             results = {
                 "config": self.config.to_dict(),
                 "router_metrics": router_metrics.__dict__,
                 "server_metrics": server_metrics,
+                "gpu_metrics": {gpu_id: metrics.__dict__ for gpu_id, metrics in gpu_metrics.items()},
                 "test_duration": end_time - start_time,
                 "router_url": router_url,
                 "num_servers": len(self.servers),
@@ -304,6 +321,35 @@ class RoutingTest:
         """
         return asyncio.run(self._run_async())
     
+    def analyze_results(self, results: Dict[str, Any]):
+        """Analyze and print test results with per-GPU breakdown."""
+        self._print_results(results)
+        
+        # Print per-GPU metrics
+        if 'gpu_metrics' in results and results['gpu_metrics']:
+            print("\n📊 Per-GPU Metrics:")
+            print("-" * 80)
+            
+            for gpu_id in sorted(results['gpu_metrics'].keys()):
+                gpu_metric = results['gpu_metrics'][gpu_id]
+                print(f"\n🖥️ GPU {gpu_id}:")
+                print(f"  Requests: {gpu_metric['completed_requests']} completed, "
+                      f"{gpu_metric['failed_requests']} failed, "
+                      f"{gpu_metric['total_requests']} total")
+                
+                if gpu_metric['completed_requests'] > 0:
+                    print(f"  Throughput: {gpu_metric['request_throughput']:.2f} req/s, "
+                          f"{gpu_metric['total_token_throughput']:.0f} tok/s")
+                    print(f"  Latencies (ms):")
+                    print(f"    Server: mean={gpu_metric['mean_server_latency']:.1f}, "
+                          f"p95={gpu_metric['p95_server_latency']:.1f}, "
+                          f"p99={gpu_metric['p99_server_latency']:.1f}")
+                    print(f"    Total: mean={gpu_metric['mean_total_latency']:.1f}, "
+                          f"p95={gpu_metric['p95_total_latency']:.1f}, "
+                          f"p99={gpu_metric['p99_total_latency']:.1f}")
+                    print(f"    TTFT: mean={gpu_metric['mean_ttft']:.1f}, "
+                          f"p95={gpu_metric['p95_ttft']:.1f}")
+    
     def visualize_results(self, results: Dict[str, Any]):
         """Create visualizations for test results.
         
@@ -315,21 +361,22 @@ class RoutingTest:
         fig.suptitle(f"Routing Test Results - {self.config.routing_policy.upper()} Policy", 
                      fontsize=16)
         
-        # 1. Request distribution across servers
-        if results['server_metrics']:
+        # 1. Request distribution across GPUs
+        if results['gpu_metrics']:
             ax = axes[0, 0]
-            server_ids = list(results['server_metrics'].keys())
-            request_counts = [results['server_metrics'][sid]['completed_requests'] 
-                            for sid in server_ids]
+            gpu_ids = sorted(results['gpu_metrics'].keys())
+            request_counts = [results['gpu_metrics'][gpu_id]['completed_requests'] 
+                            for gpu_id in gpu_ids]
             
-            ax.bar(server_ids, request_counts)
-            ax.set_xlabel("Server ID")
+            x_labels = [f"GPU {gpu_id}" for gpu_id in gpu_ids]
+            ax.bar(x_labels, request_counts)
+            ax.set_xlabel("GPU")
             ax.set_ylabel("Completed Requests")
-            ax.set_title("Request Distribution Across Servers")
+            ax.set_title("Request Distribution Across GPUs")
             
             # Add percentage labels
             total_requests = sum(request_counts)
-            for i, (sid, count) in enumerate(zip(server_ids, request_counts)):
+            for i, (gpu_id, count) in enumerate(zip(gpu_ids, request_counts)):
                 percentage = (count / total_requests * 100) if total_requests > 0 else 0
                 ax.text(i, count, f"{percentage:.1f}%", ha='center', va='bottom')
         
