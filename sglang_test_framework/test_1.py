@@ -127,7 +127,10 @@ async def run_node_test():
             # Update arrival_time to absolute time after sleep
             request.arrival_time = time.time()
             
-            # 记录请求开始
+            # Record request arrival (enters queue)
+            metrics_collector.record_request_arrival(request.request_id)
+            
+            # 记录请求开始发送
             logger.info(f"Sending request {i+1}/{len(requests)} (ID: {request.request_id})")
             metrics_collector.record_request_start(request.request_id)
             

@@ -76,6 +76,8 @@ class AggregatedMetrics:
     # Queue metrics
     mean_queue_depth: float = 0.0
     max_queue_depth: int = 0
+    mean_queue_length: float = 0.0
+    max_queue_length: int = 0
     
     # System metrics
     gpu_utilization: float = 0.0
@@ -102,8 +104,12 @@ class MetricsCollector:
         self.snapshots: List[MetricSnapshot] = []
         
         # Real-time metrics
-        self.active_requests: Dict[str, float] = {}  # request_id -> start_time
-        self.queue_depths: Deque[Tuple[float, int]] = deque(maxlen=10000)
+        self.active_requests: Dict[str, float] = {}  # request_id -> start_time (sent but not completed)
+        self.queue_depths: Deque[Tuple[float, int]] = deque(maxlen=10000)  # Legacy - tracks active requests
+        
+        # Queue tracking
+        self.arrived_requests: Dict[str, float] = {}  # request_id -> arrival_time (arrived but not sent)
+        self.queue_lengths: Deque[Tuple[float, int]] = deque(maxlen=10000)  # Track actual queue length
         
         # Server metrics time series
         self.server_metrics_history: List[Dict[str, Any]] = []
@@ -149,8 +155,19 @@ class MetricsCollector:
             self.polling_task = None
         logger.info("Stopped metrics collection")
     
+    def record_request_arrival(self, request_id: str):
+        """Record that a request has arrived (entered the queue)."""
+        self.arrived_requests[request_id] = time.time()
+        self.queue_lengths.append((time.time(), len(self.arrived_requests)))
+        
     def record_request_start(self, request_id: str):
-        """Record that a request has started."""
+        """Record that a request has been sent to the server (left the queue)."""
+        # Remove from arrived queue
+        if request_id in self.arrived_requests:
+            del self.arrived_requests[request_id]
+            self.queue_lengths.append((time.time(), len(self.arrived_requests)))
+        
+        # Add to active requests
         self.active_requests[request_id] = time.time()
         self.queue_depths.append((time.time(), len(self.active_requests)))
         
@@ -416,11 +433,17 @@ class MetricsCollector:
             metrics.p99_itl = np.percentile(all_itls, 99)
             metrics.max_itl = np.max(all_itls)
         
-        # Queue depth stats
+        # Queue depth stats (active requests)
         if self.queue_depths:
             queue_values = [depth for _, depth in self.queue_depths]
             metrics.mean_queue_depth = np.mean(queue_values)
             metrics.max_queue_depth = max(queue_values)
+            
+        # Queue length stats (waiting requests)
+        if self.queue_lengths:
+            queue_length_values = [length for _, length in self.queue_lengths]
+            metrics.mean_queue_length = np.mean(queue_length_values)
+            metrics.max_queue_length = max(queue_length_values)
         
         # GPU metrics from snapshots
         if self.snapshots:
@@ -605,8 +628,12 @@ class MetricsCollector:
         print(f"    Mean ITL: {metrics.mean_itl:.1f} ms")
         
         print(f"\n=� Queue Metrics:")
-        print(f"  Mean Queue Depth: {metrics.mean_queue_depth:.1f}")
-        print(f"  Max Queue Depth: {metrics.max_queue_depth}")
+        print(f"  Queue Length (waiting to send):")
+        print(f"    Mean: {metrics.mean_queue_length:.1f}")
+        print(f"    Max: {metrics.max_queue_length}")
+        print(f"  Active Requests (sent to server):")
+        print(f"    Mean: {metrics.mean_queue_depth:.1f}")
+        print(f"    Max: {metrics.max_queue_depth}")
         
         if metrics.gpu_utilization > 0:
             print(f"\n=�  GPU Metrics:")

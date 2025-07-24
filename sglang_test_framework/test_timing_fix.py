@@ -71,6 +71,9 @@ async def test_timing_fixes():
             # Update arrival_time to absolute time
             request.arrival_time = time.time()
             
+            # Record request arrival (enters queue)
+            metrics_collector.record_request_arrival(request.request_id)
+            
             logger.info(f"Sending request {i+1}/{len(requests)}")
             metrics_collector.record_request_start(request.request_id)
             

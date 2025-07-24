@@ -112,6 +112,9 @@ async def run_fixed_test():
             # Update arrival_time to absolute time after sleep
             request.arrival_time = time.time()
             
+            # Record request arrival (enters queue)
+            metrics_collector.record_request_arrival(request.request_id)
+            
             # Record and send request
             logger.info(f"Sending request {i+1}/{len(requests)} (ID: {request.request_id})")
             metrics_collector.record_request_start(request.request_id)

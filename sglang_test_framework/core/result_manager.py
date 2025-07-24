@@ -86,9 +86,9 @@ class ResultManager:
             metrics_collector, save_dir / "throughput_over_time.png"
         )
         
-        # 3. Queue depth over time
-        plots['queue_depth'] = self._plot_queue_depth(
-            metrics_collector, save_dir / "queue_depth.png"
+        # 3. Queue length over time
+        plots['queue_length'] = self._plot_queue_length(
+            metrics_collector, save_dir / "queue_length.png"
         )
         
         # 4. Request timeline
@@ -233,33 +233,33 @@ class ResultManager:
         
         return str(save_path)
     
-    def _plot_queue_depth(self,
-                         metrics_collector: MetricsCollector,
-                         save_path: Path) -> str:
-        """Plot queue depth over time."""
-        if not metrics_collector.queue_depths:
+    def _plot_queue_length(self,
+                          metrics_collector: MetricsCollector,
+                          save_path: Path) -> str:
+        """Plot queue length over time."""
+        if not metrics_collector.queue_lengths:
             return ""
             
-        times, depths = zip(*metrics_collector.queue_depths)
+        times, lengths = zip(*metrics_collector.queue_lengths)
         
         # Convert to relative time
         start_time = times[0]
         times = [(t - start_time) for t in times]
         
         fig, ax = plt.subplots(figsize=(12, 6))
-        ax.plot(times, depths, 'b-', linewidth=1, alpha=0.7)
-        ax.fill_between(times, depths, alpha=0.3)
+        ax.plot(times, lengths, 'b-', linewidth=1, alpha=0.7)
+        ax.fill_between(times, lengths, alpha=0.3)
         
         ax.set_xlabel('Time (seconds)')
-        ax.set_ylabel('Queue Depth')
-        ax.set_title('Queue Depth Over Time')
+        ax.set_ylabel('Queue Length (requests waiting)')
+        ax.set_title('Queue Length Over Time')
         ax.grid(True, alpha=0.3)
         
         # Add statistics
-        ax.axhline(np.mean(depths), color='red', linestyle='--', 
-                  label=f'Mean: {np.mean(depths):.1f}')
-        ax.axhline(np.max(depths), color='orange', linestyle='--', 
-                  label=f'Max: {np.max(depths)}')
+        ax.axhline(np.mean(lengths), color='red', linestyle='--', 
+                  label=f'Mean: {np.mean(lengths):.1f}')
+        ax.axhline(np.max(lengths), color='orange', linestyle='--', 
+                  label=f'Max: {np.max(lengths)}')
         ax.legend()
         
         plt.tight_layout()
@@ -337,8 +337,8 @@ class ResultManager:
             },
             'Queue': {
                 'Mean Time (ms)': metrics.mean_queue_time,
-                'Mean Depth': metrics.mean_queue_depth,
-                'Max Depth': float(metrics.max_queue_depth),
+                'Mean Length': metrics.mean_queue_length,
+                'Max Length': float(metrics.max_queue_length),
             }
         }
         
@@ -581,7 +581,7 @@ class ResultManager:
                 'P95 Latency (ms)': summary['p95_total_latency'],
                 'P99 Latency (ms)': summary['p99_total_latency'],
                 'Mean Queue Time (ms)': summary['mean_queue_time'],
-                'Max Queue Depth': summary['max_queue_depth']
+                'Max Queue Length': summary.get('max_queue_length', 0)
             }
             rows.append(row)
         
