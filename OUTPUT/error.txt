@@ -1,0 +1,197 @@
+(sglang_test) lg@user-NULL:~/sglang$ python sglang_test_framework/test_1.py
+Server node_1 failed to start
+stdout: 
+stderr: usage: launch_server.py [-h] --model-path MODEL_PATH
+                        [--tokenizer-path TOKENIZER_PATH]
+                        [--tokenizer-mode {auto,slow}] [--skip-tokenizer-init]
+                        [--load-format {auto,pt,safetensors,npcache,dummy,sharded_state,gguf,bitsandbytes,layered,remote}]
+                        [--model-loader-extra-config MODEL_LOADER_EXTRA_CONFIG]
+                        [--trust-remote-code]
+                        [--context-length CONTEXT_LENGTH] [--is-embedding]
+                        [--enable-multimodal] [--revision REVISION]
+                        [--model-impl MODEL_IMPL] [--host HOST] [--port PORT]
+                        [--skip-server-warmup] [--warmups WARMUPS]
+                        [--nccl-port NCCL_PORT]
+                        [--dtype {auto,half,float16,bfloat16,float,float32}]
+                        [--quantization {awq,fp8,gptq,marlin,gptq_marlin,awq_marlin,bitsandbytes,gguf,modelopt,modelopt_fp4,petit_nvfp4,w8a8_int8,w8a8_fp8,moe_wna16,qoq,w4afp8}]
+                        [--quantization-param-path QUANTIZATION_PARAM_PATH]
+                        [--kv-cache-dtype {auto,fp8_e5m2,fp8_e4m3}]
+                        [--mem-fraction-static MEM_FRACTION_STATIC]
+                        [--max-running-requests MAX_RUNNING_REQUESTS]
+                        [--max-total-tokens MAX_TOTAL_TOKENS]
+                        [--chunked-prefill-size CHUNKED_PREFILL_SIZE]
+                        [--max-prefill-tokens MAX_PREFILL_TOKENS]
+                        [--schedule-policy {lpm,random,fcfs,dfs-weight}]
+                        [--schedule-conservativeness SCHEDULE_CONSERVATIVENESS]
+                        [--cpu-offload-gb CPU_OFFLOAD_GB]
+                        [--page-size PAGE_SIZE]
+                        [--hybrid-kvcache-ratio [HYBRID_KVCACHE_RATIO]]
+                        [--swa-full-tokens-ratio SWA_FULL_TOKENS_RATIO]
+                        [--disable-hybrid-swa-memory] [--device DEVICE]
+                        [--tensor-parallel-size TENSOR_PARALLEL_SIZE]
+                        [--pipeline-parallel-size PIPELINE_PARALLEL_SIZE]
+                        [--max-micro-batch-size MAX_MICRO_BATCH_SIZE]
+                        [--stream-interval STREAM_INTERVAL] [--stream-output]
+                        [--random-seed RANDOM_SEED]
+                        [--constrained-json-whitespace-pattern CONSTRAINED_JSON_WHITESPACE_PATTERN]
+                        [--watchdog-timeout WATCHDOG_TIMEOUT]
+                        [--dist-timeout DIST_TIMEOUT]
+                        [--download-dir DOWNLOAD_DIR]
+                        [--base-gpu-id BASE_GPU_ID]
+                        [--gpu-id-step GPU_ID_STEP] [--sleep-on-idle]
+                        [--log-level LOG_LEVEL]
+                        [--log-level-http LOG_LEVEL_HTTP] [--log-requests]
+                        [--log-requests-level {0,1,2,3}]
+                        [--crash-dump-folder CRASH_DUMP_FOLDER]
+                        [--show-time-cost] [--enable-metrics]
+                        [--enable-metrics-for-all-schedulers]
+                        [--bucket-time-to-first-token BUCKET_TIME_TO_FIRST_TOKEN [BUCKET_TIME_TO_FIRST_TOKEN ...]]
+                        [--bucket-inter-token-latency BUCKET_INTER_TOKEN_LATENCY [BUCKET_INTER_TOKEN_LATENCY ...]]
+                        [--bucket-e2e-request-latency BUCKET_E2E_REQUEST_LATENCY [BUCKET_E2E_REQUEST_LATENCY ...]]
+                        [--collect-tokens-histogram]
+                        [--decode-log-interval DECODE_LOG_INTERVAL]
+                        [--enable-request-time-stats-logging]
+                        [--kv-events-config KV_EVENTS_CONFIG]
+                        [--api-key API_KEY]
+                        [--served-model-name SERVED_MODEL_NAME]
+                        [--chat-template CHAT_TEMPLATE]
+                        [--completion-template COMPLETION_TEMPLATE]
+                        [--file-storage-path FILE_STORAGE_PATH]
+                        [--enable-cache-report]
+                        [--reasoning-parser {deepseek-r1,qwen3,kimi}]
+                        [--tool-call-parser {qwen25,mistral,llama3,deepseekv3,pythonic,kimi_k2,qwen3}]
+                        [--data-parallel-size DATA_PARALLEL_SIZE]
+                        [--load-balance-method {round_robin,shortest_queue}]
+                        [--dist-init-addr DIST_INIT_ADDR] [--nnodes NNODES]
+                        [--node-rank NODE_RANK]
+                        [--json-model-override-args JSON_MODEL_OVERRIDE_ARGS]
+                        [--preferred-sampling-params PREFERRED_SAMPLING_PARAMS]
+                        [--enable-lora] [--max-lora-rank MAX_LORA_RANK]
+                        [--lora-target-modules [{q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj,all} ...]]
+                        [--lora-paths [LORA_PATHS ...]]
+                        [--max-loras-per-batch MAX_LORAS_PER_BATCH]
+                        [--lora-backend LORA_BACKEND]
+                        [--attention-backend {aiter,cutlass_mla,fa3,flashinfer,flashmla,intel_amx,torch_native,ascend,triton}]
+                        [--sampling-backend {flashinfer,pytorch}]
+                        [--grammar-backend {xgrammar,outlines,llguidance,none}]
+                        [--speculative-algorithm {EAGLE,EAGLE3,NEXTN}]
+                        [--speculative-draft-model-path SPECULATIVE_DRAFT_MODEL_PATH]
+                        [--speculative-num-steps SPECULATIVE_NUM_STEPS]
+                        [--speculative-eagle-topk SPECULATIVE_EAGLE_TOPK]
+                        [--speculative-num-draft-tokens SPECULATIVE_NUM_DRAFT_TOKENS]
+                        [--speculative-accept-threshold-single SPECULATIVE_ACCEPT_THRESHOLD_SINGLE]
+                        [--speculative-accept-threshold-acc SPECULATIVE_ACCEPT_THRESHOLD_ACC]
+                        [--speculative-token-map SPECULATIVE_TOKEN_MAP]
+                        [--mm-attention-backend {sdpa,fa3,triton_attn}]
+                        [--expert-parallel-size EXPERT_PARALLEL_SIZE]
+                        [--enable-ep-moe] [--enable-flashinfer-moe]
+                        [--enable-flashinfer-allreduce-fusion]
+                        [--enable-deepep-moe]
+                        [--deepep-mode {normal,low_latency,auto}]
+                        [--ep-num-redundant-experts EP_NUM_REDUNDANT_EXPERTS]
+                        [--ep-dispatch-algorithm EP_DISPATCH_ALGORITHM]
+                        [--init-expert-location INIT_EXPERT_LOCATION]
+                        [--enable-eplb] [--eplb-algorithm EPLB_ALGORITHM]
+                        [--eplb-rebalance-num-iterations EPLB_REBALANCE_NUM_ITERATIONS]
+                        [--eplb-rebalance-layers-per-chunk EPLB_REBALANCE_LAYERS_PER_CHUNK]
+                        [--expert-distribution-recorder-mode EXPERT_DISTRIBUTION_RECORDER_MODE]
+                        [--expert-distribution-recorder-buffer-size EXPERT_DISTRIBUTION_RECORDER_BUFFER_SIZE]
+                        [--enable-expert-distribution-metrics]
+                        [--deepep-config DEEPEP_CONFIG]
+                        [--moe-dense-tp-size MOE_DENSE_TP_SIZE]
+                        [--enable-hierarchical-cache]
+                        [--hicache-ratio HICACHE_RATIO]
+                        [--hicache-size HICACHE_SIZE]
+                        [--hicache-write-policy {write_back,write_through,write_through_selective}]
+                        [--hicache-io-backend {direct,kernel}]
+                        [--hicache-storage-backend {file}]
+                        [--enable-double-sparsity]
+                        [--ds-channel-config-path DS_CHANNEL_CONFIG_PATH]
+                        [--ds-heavy-channel-num DS_HEAVY_CHANNEL_NUM]
+                        [--ds-heavy-token-num DS_HEAVY_TOKEN_NUM]
+                        [--ds-heavy-channel-type DS_HEAVY_CHANNEL_TYPE]
+                        [--ds-sparse-decode-threshold DS_SPARSE_DECODE_THRESHOLD]
+                        [--disable-radix-cache]
+                        [--cuda-graph-max-bs CUDA_GRAPH_MAX_BS]
+                        [--cuda-graph-bs CUDA_GRAPH_BS [CUDA_GRAPH_BS ...]]
+                        [--disable-cuda-graph] [--disable-cuda-graph-padding]
+                        [--enable-profile-cuda-graph] [--enable-nccl-nvls]
+                        [--enable-tokenizer-batch-encode]
+                        [--disable-outlines-disk-cache]
+                        [--disable-custom-all-reduce] [--enable-mscclpp]
+                        [--disable-overlap-schedule]
+                        [--disable-overlap-cg-plan] [--enable-mixed-chunk]
+                        [--enable-dp-attention] [--enable-dp-lm-head]
+                        [--enable-two-batch-overlap] [--enable-torch-compile]
+                        [--torch-compile-max-bs TORCH_COMPILE_MAX_BS]
+                        [--torchao-config TORCHAO_CONFIG]
+                        [--enable-nan-detection] [--enable-p2p-check]
+                        [--triton-attention-reduce-in-fp32]
+                        [--triton-attention-num-kv-splits TRITON_ATTENTION_NUM_KV_SPLITS]
+                        [--num-continuous-decode-steps NUM_CONTINUOUS_DECODE_STEPS]
+                        [--delete-ckpt-after-loading] [--enable-memory-saver]
+                        [--allow-auto-truncate]
+                        [--enable-custom-logit-processor]
+                        [--flashinfer-mla-disable-ragged]
+                        [--disable-shared-experts-fusion]
+                        [--disable-chunked-prefix-cache]
+                        [--disable-fast-image-processor]
+                        [--enable-return-hidden-states]
+                        [--enable-triton-kernel-moe]
+                        [--debug-tensor-dump-output-folder DEBUG_TENSOR_DUMP_OUTPUT_FOLDER]
+                        [--debug-tensor-dump-input-file DEBUG_TENSOR_DUMP_INPUT_FILE]
+                        [--debug-tensor-dump-inject DEBUG_TENSOR_DUMP_INJECT]
+                        [--debug-tensor-dump-prefill-only]
+                        [--disaggregation-mode {null,prefill,decode}]
+                        [--disaggregation-transfer-backend {mooncake,nixl,ascend}]
+                        [--disaggregation-bootstrap-port DISAGGREGATION_BOOTSTRAP_PORT]
+                        [--disaggregation-decode-tp DISAGGREGATION_DECODE_TP]
+                        [--disaggregation-decode-dp DISAGGREGATION_DECODE_DP]
+                        [--disaggregation-prefill-pp DISAGGREGATION_PREFILL_PP]
+                        [--disaggregation-ib-device DISAGGREGATION_IB_DEVICE]
+                        [--num-reserved-decode-tokens NUM_RESERVED_DECODE_TOKENS]
+                        [--pdlb-url PDLB_URL]
+                        [--custom-weight-loader [CUSTOM_WEIGHT_LOADER ...]]
+                        [--enable-pdmux] [--sm-group-num SM_GROUP_NUM]
+                        [--weight-loader-disable-mmap]
+launch_server.py: error: the following arguments are required: --model-path/--model
+
+Traceback (most recent call last):
+  File "/home/lg/sglang/sglang_test_framework/test_1.py", line 94, in <module>
+    asyncio.run(run_node_test())
+  File "/home/lg/.conda/envs/sglang_test/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/home/lg/.conda/envs/sglang_test/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/lg/sglang/sglang_test_framework/test_1.py", line 29, in run_node_test
+    server = await server_manager.launch_server(server_config)
+  File "/home/lg/sglang/sglang_test_framework/core/server_manager.py", line 264, in launch_server
+    raise RuntimeError(f"Failed to start server {config.server_id}")
+RuntimeError: Failed to start server node_1
+(sglang_test) lg@user-NULL:~/sglang$ 
+(sglang_test) lg@user-NULL:~/sglang$ cd /data/
+(sglang_test) lg@user-NULL:/data$ ls
+align_anything_gpu  datasets  home  home_backup  lost+found  outputs  pretrained_models  result
+(sglang_test) lg@user-NULL:/data$ cd datasets/
+(sglang_test) lg@user-NULL:/data/datasets$ ls
+ac-sgd-arxiv21                        coco             glue        openwebtext   tactics_lean4_v0  tactics_lean4_v4             ydove
+Align-Anything-TI2T-Instruction-100K  coyo-700m        gsm8k       rottentomato  tactics_lean4_v1  tinyshakespeare              zsc
+alpaca-cleaned                        fineweb10B       imagenet1k  sd_data_2k    tactics_lean4_v2  viggo
+c4                                    fineweb10B_gpt2  lg          t2t           tactics_lean4_v3  wikitext__wikitext-2-raw-v1
+(sglang_test) lg@user-NULL:/data/datasets$ cd ..
+(sglang_test) lg@user-NULL:/data$ cd pretrained_models/
+(sglang_test) lg@user-NULL:/data/pretrained_models$ ls
+byt5-small                 leandojo-lean4-tacgen-byt5-small  Mistral-7B-Instruct-v0.2            Realistic_Vision_V4.0_noVAE
+control_v11f1p_sd15_depth  LLaDA-8B-Instruct                 mistral-7B-v0.1                     roberta-base
+deberta-v2-xxlarge         Llama-2-7b-chat-hf                MMaDA_model_huggingface             roberta-large
+gemma-2b                   Llama-2-7b-hf                     models--GSAI-ML--LLaDA-8B-Instruct  sd-vae-ft-mse
+gpt2-large                 Llama-2-7b-hf-4bit-64rank         opt-13b                             stable-diffusion-v1-5
+gpt2-xl                    llava-1.5-7b-hf                   opt-1.3b                            swin
+IP-Adapter                 Meta-Llama-3-8B                   Qwen2.5-0.5B-Instruct               zsc
+kandinsky-2-2-prior        Meta-Llama-3-8B-Instruct          Qwen2.5-1.5B-Instruct
+(sglang_test) lg@user-NULL:/data/pretrained_models$ cd Qwen2.5-0.5B-Instruct/
+(sglang_test) lg@user-NULL:/data/pretrained_models/Qwen2.5-0.5B-Instruct$ ls
+config.json  generation_config.json  merges.txt  tokenizer_config.json  tokenizer.json  vocab.json
+(sglang_test) lg@user-NULL:/data/pretrained_models/Qwen2.5-0.5B-Instruct$ pwd
+/data/pretrained_models/Qwen2.5-0.5B-Instruct
+(sglang_test) lg@user-NULL:/data/pretrained_models/Qwen2.5-0.5B-Instruct$ 
