@@ -1,0 +1,47 @@
+
+============================================================
+                    METRICS SUMMARY
+============================================================
+
+=� Request Statistics:
+  Total Requests: 50
+  Successful: 50
+  Failed: 0
+  Success Rate: 100.0%
+
+� Throughput Metrics:
+  Request Throughput: 10.47 req/s
+  Input Token Throughput: 5073 tok/s
+  Output Token Throughput: 1333 tok/s
+  Total Token Throughput: 6406 tok/s
+
+�  Latency Metrics:
+  Server Latency (ms):
+    Mean: 0.0
+    Median: 0.0
+    P95: 0.0
+    P99: 0.0
+    Max: 0.0
+
+  Total Latency (ms):
+    Mean: 0.0
+    Median: 0.0
+    P95: 0.0
+    P99: 0.0
+    Max: 0.0
+
+  Queue Time (ms):
+    Mean: 1718303308584.0
+    Median: 1753370723043.7
+    P95: 1753370723044.4
+    P99: 1753370723075.1
+
+  Token Generation:
+    Mean TTFT: 56.6 ms
+    Mean ITL: 13.1 ms
+
+=� Queue Metrics:
+  Mean Queue Depth: 25.0
+  Max Queue Depth: 50
+============================================================
+
