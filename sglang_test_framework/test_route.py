@@ -53,6 +53,8 @@ async def run_routing_test():
     
     # 2. 创建路由测试实例
     logger.info("Initializing routing test...")
+    logger.info("Note: GPU tracking uses fallback assignment for round_robin policy")
+    logger.info("To enable header-based tracking, use pip-installed router or see ROUTER_ASYNC_ISSUE.md")
     routing_test = RoutingTest(config)
     
     # 3. 运行测试
