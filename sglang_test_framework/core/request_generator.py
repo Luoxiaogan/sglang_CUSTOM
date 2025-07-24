@@ -70,6 +70,18 @@ class RequestResult:
         self.server_latency_ms = self.server_latency * 1000
         self.total_latency_ms = self.total_latency * 1000
         self.queue_time_ms = self.queue_time * 1000
+        
+        # Validation for successful requests
+        if self.success:
+            if self.server_latency <= 0:
+                logger.warning(f"Request {self.request.request_id}: Invalid server_latency={self.server_latency}s "
+                            f"(send_time={self.request.send_time}, completion_time={self.request.completion_time})")
+            if self.total_latency <= 0:
+                logger.warning(f"Request {self.request.request_id}: Invalid total_latency={self.total_latency}s "
+                            f"(arrival_time={self.request.arrival_time}, completion_time={self.request.completion_time})")
+            if self.queue_time < 0:
+                logger.warning(f"Request {self.request.request_id}: Invalid queue_time={self.queue_time}s "
+                            f"(arrival_time={self.request.arrival_time}, send_time={self.request.send_time})")
 
 
 class RequestGenerator:
@@ -417,10 +429,10 @@ class RequestSender:
     ) -> RequestResult:
         """Handle streaming response."""
         logger.debug(f"Handling stream response for request {request.request_id}")
-        result = RequestResult(request=request, success=True)
         
         generated_text = ""
         ttft = 0.0
+        itl_list = []
         last_timestamp = request.send_time
         chunk_count = 0
         
@@ -461,18 +473,26 @@ class RequestSender:
                     # First token
                     if ttft == 0.0:
                         ttft = current_time - request.send_time
-                        result.ttft = ttft
                     else:
                         # Inter-token latency
-                        result.itl.append(current_time - last_timestamp)
+                        itl_list.append(current_time - last_timestamp)
                         
                     last_timestamp = current_time
                     
             except json.JSONDecodeError:
                 logger.warning(f"Failed to parse chunk: {chunk}")
-                
+        
+        # Set completion time BEFORE creating result
         request.completion_time = time.time()
-        result.generated_text = generated_text
+        
+        # Now create result with all timing info available
+        result = RequestResult(
+            request=request,
+            success=True,
+            generated_text=generated_text,
+            ttft=ttft,
+            itl=itl_list
+        )
         
         logger.debug(f"Request {request.request_id} completed: {len(generated_text)} chars, {chunk_count} chunks, TTFT={ttft*1000:.1f}ms")
         return result
@@ -484,6 +504,8 @@ class RequestSender:
     ) -> RequestResult:
         """Handle non-streaming response."""
         data = await response.json()
+        
+        # Set completion time BEFORE creating result
         request.completion_time = time.time()
         
         # Handle both SGLang and OpenAI response formats
@@ -494,11 +516,15 @@ class RequestSender:
         else:
             generated_text = ""
         
+        # Calculate TTFT for non-streaming
+        ttft = request.completion_time - request.send_time
+        
+        # Now create result with all timing info available
         result = RequestResult(
             request=request,
             success=True,
             generated_text=generated_text,
-            ttft=request.completion_time - request.send_time  # No streaming, so TTFT = total time
+            ttft=ttft
         )
         
         return result

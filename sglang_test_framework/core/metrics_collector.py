@@ -495,15 +495,26 @@ class MetricsCollector:
         Format: req_id, input_length, decode_length, arrival_time, to_server_time, 
                 finish_time, server_latency, total_latency, ttft
         """
+        # Find the earliest timestamp to calculate relative times
+        if self.results:
+            min_time = min(r.request.arrival_time for r in self.results if r.request.arrival_time is not None)
+        else:
+            min_time = 0
+        
         records = []
         for r in self.results:
+            # Convert times to relative values from test start
+            arrival_relative = (r.request.arrival_time - min_time) if r.request.arrival_time else None
+            send_relative = (r.request.send_time - min_time) if r.request.send_time else None
+            finish_relative = (r.request.completion_time - min_time) if r.request.completion_time else None
+            
             record = {
                 "req_id": r.request.request_id,
                 "input_length": r.request.prompt_len,
                 "decode_length": r.request.output_len,
-                "arrival_time": r.request.arrival_time,
-                "to_server_time": r.request.send_time,
-                "finish_time": r.request.completion_time,
+                "arrival_time": arrival_relative,
+                "to_server_time": send_relative,
+                "finish_time": finish_relative,
                 "server_latency": r.server_latency,  # Keep in seconds
                 "total_latency": r.total_latency,    # Keep in seconds
                 "ttft": r.ttft,                      # Keep in seconds
