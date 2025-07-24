@@ -1,0 +1,24 @@
+# Core dependencies
+numpy>=1.21.0
+pandas>=1.3.0
+matplotlib>=3.4.0
+seaborn>=0.11.0
+aiohttp>=3.8.0
+tqdm>=4.62.0
+psutil>=5.8.0
+
+# Transformer models support
+transformers>=4.30.0
+
+# SGLang dependencies (should already be installed)
+# sglang>=0.3.0
+# sglang-router>=0.1.0
+
+# Optional GPU monitoring
+pynvml>=11.5.0
+
+# Data serialization
+pyarrow>=10.0.0  # For parquet support
+
+# Logging and configuration
+pyyaml>=6.0
