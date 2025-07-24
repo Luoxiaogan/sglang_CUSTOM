@@ -582,6 +582,10 @@ class MetricsCollector:
         # Log summary of GPU tracking
         if gpu_metrics:
             logger.info(f"GPU metrics available for GPUs: {list(gpu_metrics.keys())}")
+            # Check if using fallback tracking
+            has_worker_urls = any(getattr(r, 'worker_url', None) for r in self.results[:10])
+            if not has_worker_urls:
+                logger.info("Note: Using fallback GPU assignment based on routing policy (no worker URLs from router)")
         else:
             logger.warning("No GPU metrics available - worker URL tracking may not be working")
             # Log sample of results to debug

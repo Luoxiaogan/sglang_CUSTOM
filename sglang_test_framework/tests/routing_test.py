@@ -177,6 +177,9 @@ class RoutingTest:
                 "request_rate": self.config.request_rate
             }
             
+            # Initialize request counter for fallback tracking
+            request_counter = 0
+            
             # Send requests and collect results
             async with RequestSender() as sender:
                 async for result in generate_and_send_requests(
@@ -193,8 +196,22 @@ class RoutingTest:
                         else:
                             logger.warning(f"Unknown worker URL {result.worker_url} for request {result.request.request_id}. Known workers: {list(self.worker_url_to_gpu_id.keys())}")
                     else:
-                        logger.debug(f"No worker URL for request {result.request.request_id}")
+                        # Fallback GPU assignment based on routing policy
+                        if self.config.routing_policy == "round_robin":
+                            # Round robin assignment
+                            result.gpu_id = request_counter % self.config.num_gpus
+                            logger.debug(f"Fallback round-robin: Request {result.request.request_id} assigned to GPU {result.gpu_id}")
+                        elif self.config.routing_policy == "random":
+                            # Random assignment based on request ID hash
+                            import hashlib
+                            hash_val = int(hashlib.md5(result.request.request_id.encode()).hexdigest(), 16)
+                            result.gpu_id = hash_val % self.config.num_gpus
+                            logger.debug(f"Fallback random: Request {result.request.request_id} assigned to GPU {result.gpu_id}")
+                        else:
+                            # For cache_aware and shortest_queue, can't determine without router info
+                            logger.debug(f"No worker URL for request {result.request.request_id}, policy {self.config.routing_policy} requires router info")
                     
+                    request_counter += 1
                     self.router_metrics_collector.record_request_complete(result)
             
             # Cancel failure task if running
@@ -246,11 +263,14 @@ class RoutingTest:
                     "router_json": str(json_path)
                 }
                 
-                # Export per-server metrics
+                # Export per-server metrics if they have results
                 for server_id, collector in self.metrics_collectors.items():
-                    server_csv = collector.export_metrics("csv", 
-                        f"server_{server_id}_metrics.csv")
-                    results["exported_files"][f"{server_id}_csv"] = str(server_csv)
+                    if collector.results:  # Only export if there are results
+                        server_csv = collector.export_metrics("csv", 
+                            f"server_{server_id}_metrics.csv")
+                        results["exported_files"][f"{server_id}_csv"] = str(server_csv)
+                    else:
+                        logger.debug(f"Skipping export for {server_id} - no results in collector")
             
             return results
             
