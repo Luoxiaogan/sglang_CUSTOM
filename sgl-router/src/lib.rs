@@ -6,6 +6,7 @@ pub mod core;
 pub mod metrics;
 pub mod openai_api_types;
 pub mod policies;
+pub mod request_tracker;
 pub mod routers;
 pub mod server;
 pub mod service_discovery;
@@ -54,6 +55,10 @@ struct Router {
     // PD-specific fields (only used when pd_disaggregation is true)
     prefill_urls: Option<Vec<(String, Option<u16>)>>,
     decode_urls: Option<Vec<String>>,
+    // Request tracking configuration
+    enable_request_tracking: bool,
+    max_trace_entries: usize,
+    trace_ttl_seconds: i64,
 }
 
 impl Router {
@@ -116,6 +121,18 @@ impl Router {
             _ => None,
         };
 
+        // Request tracking configuration
+        let request_tracking = if self.enable_request_tracking {
+            Some(request_tracker::RequestTrackingConfig {
+                enabled: true,
+                max_entries: self.max_trace_entries,
+                ttl_seconds: self.trace_ttl_seconds,
+                cleanup_interval_seconds: 60, // Default cleanup interval
+            })
+        } else {
+            None
+        };
+
         Ok(config::RouterConfig {
             mode,
             policy,
@@ -129,6 +146,7 @@ impl Router {
             metrics,
             log_dir: self.log_dir.clone(),
             log_level: self.log_level.clone(),
+            request_tracking,
         })
     }
 }
@@ -163,7 +181,10 @@ impl Router {
         request_timeout_secs = 600,  // Add configurable request timeout
         pd_disaggregation = false,  // New flag for PD mode
         prefill_urls = None,
-        decode_urls = None
+        decode_urls = None,
+        enable_request_tracking = false,
+        max_trace_entries = 100000,
+        trace_ttl_seconds = 3600
     ))]
     fn new(
         worker_urls: Vec<String>,
@@ -193,6 +214,9 @@ impl Router {
         pd_disaggregation: bool,
         prefill_urls: Option<Vec<(String, Option<u16>)>>,
         decode_urls: Option<Vec<String>>,
+        enable_request_tracking: bool,
+        max_trace_entries: usize,
+        trace_ttl_seconds: i64,
     ) -> PyResult<Self> {
         Ok(Router {
             host,
@@ -222,6 +246,9 @@ impl Router {
             pd_disaggregation,
             prefill_urls,
             decode_urls,
+            enable_request_tracking,
+            max_trace_entries,
+            trace_ttl_seconds,
         })
     }
 

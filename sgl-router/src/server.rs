@@ -7,6 +7,7 @@ use crate::service_discovery::{start_service_discovery, ServiceDiscoveryConfig};
 use actix_web::{
     error, get, post, web, App, Error, HttpRequest, HttpResponse, HttpServer, Responder,
 };
+use serde::Deserialize;
 use futures_util::StreamExt;
 use reqwest::Client;
 use std::collections::HashMap;
@@ -192,6 +193,136 @@ async fn get_loads(_req: HttpRequest, data: web::Data<AppState>) -> impl Respond
     data.router.get_worker_loads(&data.client).await
 }
 
+// ============= Request Tracking API =============
+
+#[get("/v1/traces/{request_id}")]
+async fn get_request_trace(
+    path: web::Path<String>,
+    data: web::Data<AppState>,
+) -> impl Responder {
+    let request_id = path.into_inner();
+    
+    // Check if router supports tracking
+    match data.router.as_any().downcast_ref::<crate::routers::Router>() {
+        Some(router) => {
+            if let Some(tracker) = router.request_tracker() {
+                if let Some(trace) = tracker.get_trace(&request_id) {
+                    HttpResponse::Ok().json(trace)
+                } else {
+                    HttpResponse::NotFound().json(serde_json::json!({
+                        "error": "Request not found",
+                        "request_id": request_id
+                    }))
+                }
+            } else {
+                HttpResponse::NotImplemented().json(serde_json::json!({
+                    "error": "Request tracking is not enabled"
+                }))
+            }
+        }
+        None => {
+            HttpResponse::NotImplemented().json(serde_json::json!({
+                "error": "Request tracking is not supported for this router type"
+            }))
+        }
+    }
+}
+
+#[derive(Deserialize)]
+struct BatchTraceRequest {
+    request_ids: Vec<String>,
+}
+
+#[post("/v1/traces/batch")]
+async fn batch_get_traces(
+    body: web::Json<BatchTraceRequest>,
+    data: web::Data<AppState>,
+) -> impl Responder {
+    match data.router.as_any().downcast_ref::<crate::routers::Router>() {
+        Some(router) => {
+            if let Some(tracker) = router.request_tracker() {
+                let traces = tracker.get_traces_batch(&body.request_ids);
+                HttpResponse::Ok().json(traces)
+            } else {
+                HttpResponse::NotImplemented().json(serde_json::json!({
+                    "error": "Request tracking is not enabled"
+                }))
+            }
+        }
+        None => {
+            HttpResponse::NotImplemented().json(serde_json::json!({
+                "error": "Request tracking is not supported for this router type"
+            }))
+        }
+    }
+}
+
+#[derive(Deserialize)]
+struct ListTracesQuery {
+    limit: Option<usize>,
+    node_id: Option<String>,
+    status: Option<String>,
+}
+
+#[get("/v1/traces")]
+async fn list_recent_traces(
+    query: web::Query<ListTracesQuery>,
+    data: web::Data<AppState>,
+) -> impl Responder {
+    match data.router.as_any().downcast_ref::<crate::routers::Router>() {
+        Some(router) => {
+            if let Some(tracker) = router.request_tracker() {
+                let limit = query.limit.unwrap_or(100).min(1000);
+                let status = query.status.as_ref().and_then(|s| {
+                    match s.as_str() {
+                        "routed" => Some(crate::request_tracker::RequestStatus::Routed),
+                        "processing" => Some(crate::request_tracker::RequestStatus::Processing),
+                        "completed" => Some(crate::request_tracker::RequestStatus::Completed),
+                        "failed" => Some(crate::request_tracker::RequestStatus::Failed),
+                        _ => None
+                    }
+                });
+                
+                let traces = tracker.get_recent_traces(
+                    limit,
+                    query.node_id.as_deref(),
+                    status
+                );
+                HttpResponse::Ok().json(traces)
+            } else {
+                HttpResponse::NotImplemented().json(serde_json::json!({
+                    "error": "Request tracking is not enabled"
+                }))
+            }
+        }
+        None => {
+            HttpResponse::NotImplemented().json(serde_json::json!({
+                "error": "Request tracking is not supported for this router type"
+            }))
+        }
+    }
+}
+
+#[get("/v1/traces/stats")]
+async fn get_trace_stats(data: web::Data<AppState>) -> impl Responder {
+    match data.router.as_any().downcast_ref::<crate::routers::Router>() {
+        Some(router) => {
+            if let Some(tracker) = router.request_tracker() {
+                HttpResponse::Ok().json(tracker.get_stats())
+            } else {
+                HttpResponse::NotImplemented().json(serde_json::json!({
+                    "error": "Request tracking is not enabled"
+                }))
+            }
+        }
+        None => {
+            HttpResponse::NotImplemented().json(serde_json::json!({
+                "error": "Request tracking is not supported for this router type"
+            }))
+        }
+    }
+}
+
 pub struct ServerConfig {
     pub host: String,
     pub port: u16,
@@ -322,6 +453,11 @@ pub async fn startup(config: ServerConfig) -> std::io::Result<()> {
             .service(list_workers)
             .service(flush_cache)
             .service(get_loads)
+            // Request tracking endpoints
+            .service(get_request_trace)
+            .service(batch_get_traces)
+            .service(list_recent_traces)
+            .service(get_trace_stats)
             .default_service(web::route().to(sink_handler))
     })
     .bind_auto_h2c((config.host, config.port))?

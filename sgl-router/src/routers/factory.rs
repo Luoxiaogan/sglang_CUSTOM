@@ -30,12 +30,13 @@ impl RouterFactory {
         // Create policy
         let policy = PolicyFactory::create_from_config(policy_config);
 
-        // Create regular router with injected policy
-        let router = Router::new(
+        // Create regular router with injected policy and optional tracking
+        let router = Router::new_with_tracking(
             worker_urls.to_vec(),
             policy,
             router_config.worker_startup_timeout_secs,
             router_config.worker_startup_check_interval_secs,
+            router_config.request_tracking.clone(),
         )?;
 
         Ok(Box::new(router))

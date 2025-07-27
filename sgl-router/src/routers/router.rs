@@ -1,14 +1,17 @@
 use crate::core::{HealthChecker, Worker, WorkerFactory};
 use crate::metrics::RouterMetrics;
 use crate::policies::LoadBalancingPolicy;
+use crate::request_tracker::{RequestTracker, RequestTrace, RequestStatus, worker_url_to_node_id};
 use actix_web::http::header::{HeaderValue, CONTENT_TYPE};
 use actix_web::{HttpRequest, HttpResponse};
+use chrono::Utc;
 use futures_util::{StreamExt, TryStreamExt};
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use std::thread;
 use std::time::{Duration, Instant};
 use tracing::{debug, error, info, warn};
+use uuid::Uuid;
 
 pub fn copy_request_headers(req: &HttpRequest) -> Vec<(String, String)> {
     req.headers()
@@ -32,6 +35,7 @@ pub struct Router {
     _worker_loads: Arc<tokio::sync::watch::Receiver<HashMap<String, isize>>>,
     _load_monitor_handle: Option<Arc<tokio::task::JoinHandle<()>>>,
     _health_checker: Option<HealthChecker>,
+    request_tracker: Option<Arc<RequestTracker>>,
 }
 
 impl Router {
@@ -41,6 +45,17 @@ impl Router {
         policy: Arc<dyn LoadBalancingPolicy>,
         timeout_secs: u64,
         interval_secs: u64,
+    ) -> Result<Self, String> {
+        Self::new_with_tracking(worker_urls, policy, timeout_secs, interval_secs, None)
+    }
+
+    /// Create a new router with injected policy and optional request tracking
+    pub fn new_with_tracking(
+        worker_urls: Vec<String>,
+        policy: Arc<dyn LoadBalancingPolicy>,
+        timeout_secs: u64,
+        interval_secs: u64,
+        tracking_config: Option<crate::request_tracker::RequestTrackingConfig>,
     ) -> Result<Self, String> {
         // Update active workers gauge
         RouterMetrics::set_active_workers(worker_urls.len());
@@ -83,6 +98,11 @@ impl Router {
             None
         };
 
+        // Create request tracker if configured
+        let request_tracker = tracking_config.map(|config| {
+            Arc::new(RequestTracker::new(config))
+        });
+
         Ok(Router {
             workers,
             policy,
@@ -91,7 +111,13 @@ impl Router {
             _worker_loads: worker_loads,
             _load_monitor_handle: load_monitor_handle,
             _health_checker: Some(health_checker),
+            request_tracker,
         })
+    }
+
+    /// Get the request tracker
+    pub fn request_tracker(&self) -> Option<&Arc<RequestTracker>> {
+        self.request_tracker.as_ref()
     }
 
     /// Get the current list of worker URLs
@@ -307,6 +333,35 @@ impl Router {
             // Select worker based on text
             let worker_url = self.select_generate_worker_from_text(&text);
             let mut request_retries = 0;
+            
+            // Extract or generate request ID for tracking
+            let request_id = typed_req.extract_request_id()
+                .unwrap_or_else(|| format!("req_{}", uuid::Uuid::new_v4()));
+            
+            // Record request trace if tracking is enabled
+            if let Some(tracker) = &self.request_tracker {
+                // Find worker index to generate node_id
+                let worker_index = self.workers.read().unwrap()
+                    .iter()
+                    .position(|w| w.url() == &worker_url)
+                    .unwrap_or(0);
+                
+                let trace = RequestTrace {
+                    request_id: request_id.clone(),
+                    worker_url: worker_url.clone(),
+                    node_id: worker_url_to_node_id(&worker_url, worker_index),
+                    timestamp: Utc::now(),
+                    routing_policy: self.policy.name().to_string(),
+                    status: RequestStatus::Routed,
+                    route: route.to_string(),
+                    cache_hit: None, // Could be populated from cache-aware policy
+                    input_tokens: Some(text.len() / 4), // Rough estimate
+                    completion_time: None,
+                    error_message: None,
+                };
+                
+                tracker.record_trace(trace);
+            }
 
             // Try the same worker multiple times
             while request_retries < MAX_REQUEST_RETRIES {
@@ -345,6 +400,12 @@ impl Router {
                 if response.status().is_success() {
                     let duration = start.elapsed();
                     RouterMetrics::record_generate_duration(duration);
+                    
+                    // Update trace status to completed
+                    if let Some(tracker) = &self.request_tracker {
+                        tracker.update_trace_status(&request_id, RequestStatus::Completed, None);
+                    }
+                    
                     return response;
                 } else {
                     // if the worker is healthy, it means the request is bad, so return the error response
@@ -375,6 +436,16 @@ impl Router {
         }
 
         RouterMetrics::record_request_error(route, "request_failed");
+        
+        // Update trace status to failed
+        if let Some(tracker) = &self.request_tracker {
+            tracker.update_trace_status(
+                &request_id, 
+                RequestStatus::Failed, 
+                Some("All retry attempts failed".to_string())
+            );
+        }
+        
         HttpResponse::InternalServerError().body("All retry attempts failed")
     }
 

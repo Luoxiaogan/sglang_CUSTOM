@@ -1,4 +1,5 @@
 use super::ConfigResult;
+use crate::request_tracker::RequestTrackingConfig;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -29,6 +30,8 @@ pub struct RouterConfig {
     pub log_dir: Option<String>,
     /// Log level (None = info)
     pub log_level: Option<String>,
+    /// Request tracking configuration (optional)
+    pub request_tracking: Option<RequestTrackingConfig>,
 }
 
 /// Routing mode configuration

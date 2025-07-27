@@ -39,6 +39,7 @@ metrics-exporter-prometheus = "0.17.0"
 uuid = { version = "1.10", features = ["v4", "serde"] }
 thiserror = "2.0.12"
 url = "2.5.4"
+chrono = { version = "0.4", features = ["serde"] }
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }

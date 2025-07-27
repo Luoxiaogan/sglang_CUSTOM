@@ -16,6 +16,11 @@ pub trait GenerationRequest: Send + Sync {
 
     /// Extract text content for routing decisions
     fn extract_text_for_routing(&self) -> String;
+    
+    /// Extract request ID if provided
+    fn extract_request_id(&self) -> Option<String> {
+        None // Default implementation returns None
+    }
 }
 
 // ============= Completions API (v1/completions) - DEPRECATED but still supported =============
