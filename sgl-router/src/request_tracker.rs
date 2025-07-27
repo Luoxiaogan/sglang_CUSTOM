@@ -2,7 +2,7 @@ use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, VecDeque};
 use std::sync::{Arc, RwLock};
-use tracing::{debug, info, warn};
+use tracing::{debug, info};
 
 /// Status of a tracked request
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
@@ -52,6 +52,7 @@ impl Default for RequestTrackingConfig {
 }
 
 /// Request tracker that stores routing information
+#[derive(Debug)]
 pub struct RequestTracker {
     traces: Arc<RwLock<HashMap<String, RequestTrace>>>,
     trace_order: Arc<RwLock<VecDeque<String>>>, // For LRU eviction
@@ -151,7 +152,7 @@ impl RequestTracker {
         let traces = self.traces.read().unwrap();
         let order = self.trace_order.read().unwrap();
 
-        let mut result: Vec<RequestTrace> = order
+        let result: Vec<RequestTrace> = order
             .iter()
             .rev() // Most recent first
             .filter_map(|id| traces.get(id))

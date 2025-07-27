@@ -2,7 +2,7 @@ use crate::config::RouterConfig;
 use crate::logging::{self, LoggingConfig};
 use crate::metrics::{self, PrometheusConfig};
 use crate::openai_api_types::{ChatCompletionRequest, CompletionRequest, GenerateRequest};
-use crate::routers::{RouterFactory, RouterTrait};
+use crate::routers::{RouterFactory, RouterTrait, router::Router};
 use crate::service_discovery::{start_service_discovery, ServiceDiscoveryConfig};
 use actix_web::{
     error, get, post, web, App, Error, HttpRequest, HttpResponse, HttpServer, Responder,
@@ -203,7 +203,7 @@ async fn get_request_trace(
     let request_id = path.into_inner();
     
     // Check if router supports tracking
-    match data.router.as_any().downcast_ref::<crate::routers::Router>() {
+    match data.router.as_any().downcast_ref::<Router>() {
         Some(router) => {
             if let Some(tracker) = router.request_tracker() {
                 if let Some(trace) = tracker.get_trace(&request_id) {
@@ -238,7 +238,7 @@ async fn batch_get_traces(
     body: web::Json<BatchTraceRequest>,
     data: web::Data<AppState>,
 ) -> impl Responder {
-    match data.router.as_any().downcast_ref::<crate::routers::Router>() {
+    match data.router.as_any().downcast_ref::<Router>() {
         Some(router) => {
             if let Some(tracker) = router.request_tracker() {
                 let traces = tracker.get_traces_batch(&body.request_ids);
@@ -269,7 +269,7 @@ async fn list_recent_traces(
     query: web::Query<ListTracesQuery>,
     data: web::Data<AppState>,
 ) -> impl Responder {
-    match data.router.as_any().downcast_ref::<crate::routers::Router>() {
+    match data.router.as_any().downcast_ref::<Router>() {
         Some(router) => {
             if let Some(tracker) = router.request_tracker() {
                 let limit = query.limit.unwrap_or(100).min(1000);
@@ -305,7 +305,7 @@ async fn list_recent_traces(
 
 #[get("/v1/traces/stats")]
 async fn get_trace_stats(data: web::Data<AppState>) -> impl Responder {
-    match data.router.as_any().downcast_ref::<crate::routers::Router>() {
+    match data.router.as_any().downcast_ref::<Router>() {
         Some(router) => {
             if let Some(tracker) = router.request_tracker() {
                 HttpResponse::Ok().json(tracker.get_stats())

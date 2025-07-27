@@ -181,6 +181,7 @@ impl Default for RouterConfig {
             metrics: None,
             log_dir: None,
             log_level: None,
+            request_tracking: None,
         }
     }
 }

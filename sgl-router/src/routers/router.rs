@@ -11,7 +11,6 @@ use std::sync::{Arc, RwLock};
 use std::thread;
 use std::time::{Duration, Instant};
 use tracing::{debug, error, info, warn};
-use uuid::Uuid;
 
 pub fn copy_request_headers(req: &HttpRequest) -> Vec<(String, String)> {
     req.headers()
@@ -324,6 +323,10 @@ impl Router {
         const MAX_REQUEST_RETRIES: u32 = 3;
         const MAX_TOTAL_RETRIES: u32 = 6;
         let mut total_retries = 0;
+        
+        // Extract or generate request ID for tracking (moved outside loop)
+        let request_id = typed_req.extract_request_id()
+            .unwrap_or_else(|| format!("req_{}", uuid::Uuid::new_v4()));
 
         while total_retries < MAX_TOTAL_RETRIES {
             // Extract routing text directly from typed request
@@ -333,10 +336,6 @@ impl Router {
             // Select worker based on text
             let worker_url = self.select_generate_worker_from_text(&text);
             let mut request_retries = 0;
-            
-            // Extract or generate request ID for tracking
-            let request_id = typed_req.extract_request_id()
-                .unwrap_or_else(|| format!("req_{}", uuid::Uuid::new_v4()));
             
             // Record request trace if tracking is enabled
             if let Some(tracker) = &self.request_tracker {
