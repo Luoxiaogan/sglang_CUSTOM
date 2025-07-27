@@ -16,6 +16,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import importlib.util
 import sys
+import aiohttp
+import re
 
 from ..config.routing_config import RoutingConfig
 from ..core.server_manager import ServerManager, SGLangServer, RouterManager
@@ -70,7 +72,102 @@ class RoutingTest:
         self.router_metrics_collector: Optional[MetricsCollector] = None
         self.result_manager = ResultManager(config.output_dir)
         self.servers: List[SGLangServer] = []
-        self.router: Optional[RouterManager] = None
+    
+    async def fetch_prometheus_metrics(self, prometheus_url: str) -> Optional[str]:
+        """Fetch metrics from Prometheus endpoint.
+        
+        Args:
+            prometheus_url: URL of the Prometheus metrics endpoint
+            
+        Returns:
+            Metrics text in Prometheus format or None if failed
+        """
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(prometheus_url, timeout=aiohttp.ClientTimeout(total=10)) as response:
+                    if response.status == 200:
+                        return await response.text()
+                    else:
+                        logger.error(f"Failed to fetch Prometheus metrics: status {response.status}")
+                        return None
+        except Exception as e:
+            logger.error(f"Error fetching Prometheus metrics: {e}")
+            return None
+    
+    def parse_worker_request_counts(self, metrics_text: str) -> Dict[str, int]:
+        """Parse per-worker request counts from Prometheus metrics.
+        
+        Args:
+            metrics_text: Raw Prometheus metrics text
+            
+        Returns:
+            Dictionary mapping worker URL to request count
+        """
+        worker_counts = {}
+        
+        # Parse sgl_router_processed_requests_total
+        for line in metrics_text.split('\n'):
+            if 'sgl_router_processed_requests_total{' in line:
+                # Extract worker URL and count
+                # Format: sgl_router_processed_requests_total{worker="http://0.0.0.0:30001"} 123
+                match = re.search(r'worker="([^"]+)".*} (\d+)', line)
+                if match:
+                    worker_url = match.group(1)
+                    count = int(match.group(2))
+                    worker_counts[worker_url] = count
+                    logger.info(f"Prometheus: Worker {worker_url} processed {count} requests")
+        
+        # Also check for PD mode metrics if available
+        for line in metrics_text.split('\n'):
+            if 'sgl_router_pd_prefill_requests_total{' in line:
+                match = re.search(r'worker="([^"]+)".*} (\d+)', line)
+                if match:
+                    worker_url = match.group(1)
+                    count = int(match.group(2))
+                    # Add to existing count or create new entry
+                    worker_counts[worker_url] = worker_counts.get(worker_url, 0) + count
+                    
+            if 'sgl_router_pd_decode_requests_total{' in line:
+                match = re.search(r'worker="([^"]+)".*} (\d+)', line)
+                if match:
+                    worker_url = match.group(1)
+                    count = int(match.group(2))
+                    # Add to existing count or create new entry
+                    worker_counts[worker_url] = worker_counts.get(worker_url, 0) + count
+        
+        return worker_counts
+    
+    def map_prometheus_counts_to_gpu(self, worker_counts: Dict[str, int]) -> Dict[int, int]:
+        """Map Prometheus worker counts to GPU IDs.
+        
+        Args:
+            worker_counts: Dictionary mapping worker URL to request count
+            
+        Returns:
+            Dictionary mapping GPU ID to request count
+        """
+        gpu_counts = {}
+        
+        for worker_url, count in worker_counts.items():
+            # Try direct mapping first
+            if worker_url in self.worker_url_to_gpu_id:
+                gpu_id = self.worker_url_to_gpu_id[worker_url]
+                gpu_counts[gpu_id] = gpu_counts.get(gpu_id, 0) + count
+            else:
+                # Try to extract port and map
+                port_match = re.search(r':(\d+)/?$', worker_url)
+                if port_match:
+                    port = int(port_match.group(1))
+                    if port in self.port_to_gpu_id:
+                        gpu_id = self.port_to_gpu_id[port]
+                        gpu_counts[gpu_id] = gpu_counts.get(gpu_id, 0) + count
+                        logger.info(f"Mapped worker {worker_url} to GPU {gpu_id} via port {port}")
+                    else:
+                        logger.warning(f"Could not map worker {worker_url} to GPU ID")
+                else:
+                    logger.warning(f"Could not extract port from worker URL {worker_url}")
+        
+        return gpu_counts
         
     async def _run_async(self) -> Dict[str, Any]:
         """Async implementation of test run."""
@@ -135,15 +232,23 @@ class RoutingTest:
                 
                 logger.info(f"Mapped port {port} and various URL formats to GPU {gpu_id}")
             
-            # 4. Launch router
+            # 4. Launch router with Prometheus enabled
             worker_urls = self.config.get_worker_urls()
             logger.info(f"Launching router with policy: {self.config.routing_policy}")
+            
+            # Enable Prometheus metrics if not already configured
+            if not self.config.router_config.prometheus_port:
+                self.config.router_config.prometheus_port = 29000
+                self.config.router_config.prometheus_host = "0.0.0.0"
+                logger.info(f"Enabled Prometheus metrics on port {self.config.router_config.prometheus_port}")
+            
             self.router = await self.server_manager.launch_router(
                 self.config.router_config,
                 worker_urls
             )
             
             router_url = f"http://{self.config.router_config.host}:{self.config.router_config.port}"
+            prometheus_url = f"http://{self.config.router_config.prometheus_host}:{self.config.router_config.prometheus_port}/metrics"
             
             # 4. Initialize router metrics collector
             # Convert MetricsConfig to dict manually since it doesn't have to_dict()
@@ -258,7 +363,20 @@ class RoutingTest:
             for collector in self.metrics_collectors.values():
                 collector.stop_collection()
             
-            # 10. Calculate final metrics
+            # 10. Fetch Prometheus metrics for accurate per-node counts
+            prometheus_worker_counts = {}
+            prometheus_gpu_counts = {}
+            if self.config.router_config.prometheus_port:
+                logger.info("Fetching Prometheus metrics for per-worker request counts")
+                metrics_text = await self.fetch_prometheus_metrics(prometheus_url)
+                if metrics_text:
+                    prometheus_worker_counts = self.parse_worker_request_counts(metrics_text)
+                    prometheus_gpu_counts = self.map_prometheus_counts_to_gpu(prometheus_worker_counts)
+                    logger.info(f"Prometheus GPU counts: {prometheus_gpu_counts}")
+                else:
+                    logger.warning("Could not fetch Prometheus metrics")
+            
+            # 11. Calculate final metrics
             end_time = time.time()
             router_metrics = self.router_metrics_collector.get_aggregated_metrics()
             
@@ -268,15 +386,31 @@ class RoutingTest:
                 for server_id, collector in self.metrics_collectors.items():
                     server_metrics[server_id] = collector.get_aggregated_metrics().__dict__
             
-            # 11. Get GPU metrics
+            # 12. Get GPU metrics from CSV data
             gpu_metrics = self.router_metrics_collector.get_gpu_aggregated_metrics()
             
-            # 12. Prepare results
+            # Merge with Prometheus data if available
+            if prometheus_gpu_counts:
+                # Update GPU metrics with accurate counts from Prometheus
+                for gpu_id, prom_count in prometheus_gpu_counts.items():
+                    if gpu_id in gpu_metrics:
+                        csv_count = gpu_metrics[gpu_id].completed_requests
+                        logger.info(f"GPU {gpu_id}: CSV count={csv_count}, Prometheus count={prom_count}")
+                        # Use Prometheus count as it's more accurate
+                        gpu_metrics[gpu_id].completed_requests = prom_count
+                        gpu_metrics[gpu_id].total_requests = prom_count
+                    else:
+                        # GPU not in CSV data but has Prometheus count
+                        logger.warning(f"GPU {gpu_id} has Prometheus count {prom_count} but no CSV data")
+            
+            # 13. Prepare results
             results = {
                 "config": self.config.to_dict(),
                 "router_metrics": router_metrics.__dict__,
                 "server_metrics": server_metrics,
                 "gpu_metrics": {gpu_id: metrics.__dict__ for gpu_id, metrics in gpu_metrics.items()},
+                "prometheus_worker_counts": prometheus_worker_counts,
+                "prometheus_gpu_counts": prometheus_gpu_counts,
                 "test_duration": end_time - start_time,
                 "router_url": router_url,
                 "num_servers": len(self.servers),
@@ -381,9 +515,19 @@ class RoutingTest:
         """Analyze and print test results with per-GPU breakdown."""
         self._print_results(results)
         
+        # Print Prometheus metrics if available
+        if 'prometheus_gpu_counts' in results and results['prometheus_gpu_counts']:
+            print("\n🎯 Prometheus Per-GPU Request Counts (Most Accurate):")
+            print("-" * 80)
+            total_prom_requests = sum(results['prometheus_gpu_counts'].values())
+            for gpu_id in sorted(results['prometheus_gpu_counts'].keys()):
+                count = results['prometheus_gpu_counts'][gpu_id]
+                percentage = (count / total_prom_requests * 100) if total_prom_requests > 0 else 0
+                print(f"  GPU {gpu_id}: {count} requests ({percentage:.1f}%)")
+        
         # Print per-GPU metrics
         if 'gpu_metrics' in results and results['gpu_metrics']:
-            print("\n📊 Per-GPU Metrics:")
+            print("\n📊 Per-GPU Metrics (from CSV data):")
             print("-" * 80)
             
             for gpu_id in sorted(results['gpu_metrics'].keys()):
@@ -418,17 +562,33 @@ class RoutingTest:
                      fontsize=16)
         
         # 1. Request distribution across GPUs
-        if results['gpu_metrics']:
+        if results.get('prometheus_gpu_counts'):
+            # Use Prometheus data if available (more accurate)
+            ax = axes[0, 0]
+            gpu_ids = sorted(results['prometheus_gpu_counts'].keys())
+            request_counts = [results['prometheus_gpu_counts'][gpu_id] 
+                            for gpu_id in gpu_ids]
+            data_source = " (Prometheus)"
+        elif results.get('gpu_metrics'):
+            # Fall back to CSV data
             ax = axes[0, 0]
             gpu_ids = sorted(results['gpu_metrics'].keys())
             request_counts = [results['gpu_metrics'][gpu_id]['completed_requests'] 
                             for gpu_id in gpu_ids]
+            data_source = " (CSV)"
+        else:
+            ax = axes[0, 0]
+            gpu_ids = []
+            request_counts = []
+            data_source = ""
+        
+        if gpu_ids:
             
             x_labels = [f"GPU {gpu_id}" for gpu_id in gpu_ids]
             ax.bar(x_labels, request_counts)
             ax.set_xlabel("GPU")
             ax.set_ylabel("Completed Requests")
-            ax.set_title("Request Distribution Across GPUs")
+            ax.set_title(f"Request Distribution Across GPUs{data_source}")
             
             # Add percentage labels
             total_requests = sum(request_counts)

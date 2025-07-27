@@ -51,6 +51,10 @@ class RouterConfig:
     custom_policy_class: Optional[str] = None
     custom_policy_config: Optional[Dict[str, Any]] = None
     
+    # Prometheus metrics configuration
+    prometheus_port: Optional[int] = None
+    prometheus_host: Optional[str] = None
+    
     def get_launch_args(self) -> List[str]:
         """Get command line arguments for launching the router.
         
@@ -85,6 +89,12 @@ class RouterConfig:
             
         if self.custom_policy_class:
             args.extend(["--custom-policy-class", self.custom_policy_class])
+            
+        # Prometheus metrics parameters
+        if self.prometheus_port:
+            args.extend(["--prometheus-port", str(self.prometheus_port)])
+        if self.prometheus_host:
+            args.extend(["--prometheus-host", self.prometheus_host])
             
         return args
 
