@@ -158,3 +158,44 @@ Capturing batches (bs=1 avail_mem=8.53 GB): 100%|██████████�
 
 最近的请求: 10 个
 (lg) root:/nas/ganluo/sglang_CUSTOM# 
+
+接下来, 按照要求, 我需要测试:
+
+(lg) root:/nas/ganluo/sglang_CUSTOM# curl http://localhost:30009/
+(lg) root:/nas/ganluo/sglang_CUSTOM# curl http://localhost:30009/traces
+(lg) root:/nas/ganluo/sglang_CUSTOM# curl http://localhost:30009/api/traces
+(lg) root:/nas/ganluo/sglang_CUSTOM# curl http://localhost:30009/trace
+(lg) root:/nas/ganluo/sglang_CUSTOM# python -m sglang_router_rs --help
+/usr/local/conda/envs/lg/bin/python: No module named sglang_router_rs.__main__; 'sglang_router_rs' is a package and cannot be directly executed
+(lg) root:/nas/ganluo/sglang_CUSTOM# 
+
+
+那么重新发送一些命令之后?
+
+(lg) root:/nas/ganluo/sglang_CUSTOM# python /nas/ganluo/sglang_CUSTOM/test_request_tracking.py
+=== SGLang Router 请求追踪测试 ===
+
+✅ 路由器健康检查通过
+
+发送测试请求...
+✅ 请求 1 发送成功: test-req-1753670358418-0
+✅ 请求 2 发送成功: test-req-1753670358625-1
+✅ 请求 3 发送成功: test-req-1753670358829-2
+✅ 请求 4 发送成功: test-req-1753670359003-3
+✅ 请求 5 发送成功: test-req-1753670359178-4
+
+等待请求处理...
+
+查询请求追踪信息...
+❌ 无法获取请求追踪: 404
+
+批量查询结果: 找到 0 个请求
+
+最近的请求: 5 个
+(lg) root:/nas/ganluo/sglang_CUSTOM# curl http://localhost:30009/
+(lg) root:/nas/ganluo/sglang_CUSTOM# curl http://localhost:30009/traces
+(lg) root:/nas/ganluo/sglang_CUSTOM# curl http://localhost:30009/api/traces
+(lg) root:/nas/ganluo/sglang_CUSTOM# curl http://localhost:30009/trace
+(lg) root:/nas/ganluo/sglang_CUSTOM# python -m sglang_router_rs --help
+/usr/local/conda/envs/lg/bin/python: No module named sglang_router_rs.__main__; 'sglang_router_rs' is a package and cannot be directly executed
+(lg) root:/nas/ganluo/sglang_CUSTOM# 
