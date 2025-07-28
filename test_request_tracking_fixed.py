@@ -53,7 +53,7 @@ async def test_request_tracking():
                     json=data
                 ) as resp:
                     if resp.status == 200:
-                        result = await resp.json()
+                        result = json.loads(await resp.text())
                         print(f"✅ 请求 {i+1} 发送成功")
                         sent_requests.append({
                             "index": i,
@@ -98,16 +98,49 @@ async def test_request_tracking():
         # 获取统计信息
         async with session.get(f"{ROUTER_URL}/v1/traces/stats") as resp:
             if resp.status == 200:
-                stats = await resp.json()
-                print(f"\n追踪统计信息:")
-                print(f"  总请求数: {stats['total_requests']}")
-                print(f"  活跃请求数: {stats['active_traces']}")
-                print(f"  节点分布:")
-                for node_id, count in stats['requests_per_node'].items():
-                    print(f"    - {node_id}: {count} 个请求")
-                print(f"  状态分布:")
-                for status, count in stats['requests_per_status'].items():
-                    print(f"    - {status}: {count} 个请求")
+                try:
+                    stats = json.loads(await resp.text())
+                    print(f"\n追踪统计信息:")
+                    
+                    # 安全地访问字段，使用 get() 方法
+                    if 'total_requests' in stats:
+                        print(f"  总请求数: {stats['total_requests']}")
+                    elif 'total_traces' in stats:
+                        print(f"  总请求数: {stats['total_traces']}")
+                    
+                    if 'active_traces' in stats:
+                        print(f"  活跃请求数: {stats['active_traces']}")
+                    elif 'active_requests' in stats:
+                        print(f"  活跃请求数: {stats['active_requests']}")
+                    
+                    if 'requests_per_node' in stats:
+                        print(f"  节点分布:")
+                        for node_id, count in stats['requests_per_node'].items():
+                            print(f"    - {node_id}: {count} 个请求")
+                    elif 'traces_per_node' in stats:
+                        print(f"  节点分布:")
+                        for node_id, count in stats['traces_per_node'].items():
+                            print(f"    - {node_id}: {count} 个请求")
+                    
+                    if 'requests_per_status' in stats:
+                        print(f"  状态分布:")
+                        for status, count in stats['requests_per_status'].items():
+                            print(f"    - {status}: {count} 个请求")
+                    elif 'traces_per_status' in stats:
+                        print(f"  状态分布:")
+                        for status, count in stats['traces_per_status'].items():
+                            print(f"    - {status}: {count} 个请求")
+                    
+                    # 如果字段名都不匹配，打印实际的响应结构
+                    available_keys = list(stats.keys())
+                    if not any(key in stats for key in ['total_requests', 'total_traces', 'active_traces', 
+                                                         'active_requests', 'requests_per_node', 'traces_per_node',
+                                                         'requests_per_status', 'traces_per_status']):
+                        print(f"\n实际的统计数据结构: {available_keys}")
+                        print(f"原始数据: {json.dumps(stats, indent=2)}")
+                        
+                except Exception as e:
+                    print(f"\n解析统计信息时出错: {e}")
             else:
                 # 注意：当前实现中 /v1/traces/stats 实际上被当作 /v1/traces/{request_id}
                 # 所以会返回 404
