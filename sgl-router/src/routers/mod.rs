@@ -98,4 +98,9 @@ pub trait RouterTrait: Send + Sync + Debug + WorkerManagement {
 
     /// Server readiness check - is the server ready to handle requests
     fn readiness(&self) -> HttpResponse;
+
+    /// Get request tracker if available
+    fn request_tracker(&self) -> Option<&Arc<crate::request_tracker::RequestTracker>> {
+        None
+    }
 }

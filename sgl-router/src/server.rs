@@ -203,28 +203,19 @@ async fn get_request_trace(
     let request_id = path.into_inner();
     
     // Check if router supports tracking
-    match data.router.as_any().downcast_ref::<Router>() {
-        Some(router) => {
-            if let Some(tracker) = router.request_tracker() {
-                if let Some(trace) = tracker.get_trace(&request_id) {
-                    HttpResponse::Ok().json(trace)
-                } else {
-                    HttpResponse::NotFound().json(serde_json::json!({
-                        "error": "Request not found",
-                        "request_id": request_id
-                    }))
-                }
-            } else {
-                HttpResponse::NotImplemented().json(serde_json::json!({
-                    "error": "Request tracking is not enabled"
-                }))
-            }
-        }
-        None => {
-            HttpResponse::NotImplemented().json(serde_json::json!({
-                "error": "Request tracking is not supported for this router type"
+    if let Some(tracker) = data.router.request_tracker() {
+        if let Some(trace) = tracker.get_trace(&request_id) {
+            HttpResponse::Ok().json(trace)
+        } else {
+            HttpResponse::NotFound().json(serde_json::json!({
+                "error": "Request not found",
+                "request_id": request_id
             }))
         }
+    } else {
+        HttpResponse::NotImplemented().json(serde_json::json!({
+            "error": "Request tracking is not enabled"
+        }))
     }
 }
 
@@ -238,22 +229,13 @@ async fn batch_get_traces(
     body: web::Json<BatchTraceRequest>,
     data: web::Data<AppState>,
 ) -> impl Responder {
-    match data.router.as_any().downcast_ref::<Router>() {
-        Some(router) => {
-            if let Some(tracker) = router.request_tracker() {
-                let traces = tracker.get_traces_batch(&body.request_ids);
-                HttpResponse::Ok().json(traces)
-            } else {
-                HttpResponse::NotImplemented().json(serde_json::json!({
-                    "error": "Request tracking is not enabled"
-                }))
-            }
-        }
-        None => {
-            HttpResponse::NotImplemented().json(serde_json::json!({
-                "error": "Request tracking is not supported for this router type"
-            }))
-        }
+    if let Some(tracker) = data.router.request_tracker() {
+        let traces = tracker.get_traces_batch(&body.request_ids);
+        HttpResponse::Ok().json(traces)
+    } else {
+        HttpResponse::NotImplemented().json(serde_json::json!({
+            "error": "Request tracking is not enabled"
+        }))
     }
 }
 
@@ -269,57 +251,39 @@ async fn list_recent_traces(
     query: web::Query<ListTracesQuery>,
     data: web::Data<AppState>,
 ) -> impl Responder {
-    match data.router.as_any().downcast_ref::<Router>() {
-        Some(router) => {
-            if let Some(tracker) = router.request_tracker() {
-                let limit = query.limit.unwrap_or(100).min(1000);
-                let status = query.status.as_ref().and_then(|s| {
-                    match s.as_str() {
-                        "routed" => Some(crate::request_tracker::RequestStatus::Routed),
-                        "processing" => Some(crate::request_tracker::RequestStatus::Processing),
-                        "completed" => Some(crate::request_tracker::RequestStatus::Completed),
-                        "failed" => Some(crate::request_tracker::RequestStatus::Failed),
-                        _ => None
-                    }
-                });
-                
-                let traces = tracker.get_recent_traces(
-                    limit,
-                    query.node_id.as_deref(),
-                    status
-                );
-                HttpResponse::Ok().json(traces)
-            } else {
-                HttpResponse::NotImplemented().json(serde_json::json!({
-                    "error": "Request tracking is not enabled"
-                }))
+    if let Some(tracker) = data.router.request_tracker() {
+        let limit = query.limit.unwrap_or(100).min(1000);
+        let status = query.status.as_ref().and_then(|s| {
+            match s.as_str() {
+                "routed" => Some(crate::request_tracker::RequestStatus::Routed),
+                "processing" => Some(crate::request_tracker::RequestStatus::Processing),
+                "completed" => Some(crate::request_tracker::RequestStatus::Completed),
+                "failed" => Some(crate::request_tracker::RequestStatus::Failed),
+                _ => None
             }
-        }
-        None => {
-            HttpResponse::NotImplemented().json(serde_json::json!({
-                "error": "Request tracking is not supported for this router type"
-            }))
-        }
+        });
+        
+        let traces = tracker.get_recent_traces(
+            limit,
+            query.node_id.as_deref(),
+            status
+        );
+        HttpResponse::Ok().json(traces)
+    } else {
+        HttpResponse::NotImplemented().json(serde_json::json!({
+            "error": "Request tracking is not enabled"
+        }))
     }
 }
 
 #[get("/v1/traces/stats")]
 async fn get_trace_stats(data: web::Data<AppState>) -> impl Responder {
-    match data.router.as_any().downcast_ref::<Router>() {
-        Some(router) => {
-            if let Some(tracker) = router.request_tracker() {
-                HttpResponse::Ok().json(tracker.get_stats())
-            } else {
-                HttpResponse::NotImplemented().json(serde_json::json!({
-                    "error": "Request tracking is not enabled"
-                }))
-            }
-        }
-        None => {
-            HttpResponse::NotImplemented().json(serde_json::json!({
-                "error": "Request tracking is not supported for this router type"
-            }))
-        }
+    if let Some(tracker) = data.router.request_tracker() {
+        HttpResponse::Ok().json(tracker.get_stats())
+    } else {
+        HttpResponse::NotImplemented().json(serde_json::json!({
+            "error": "Request tracking is not enabled"
+        }))
     }
 }
 

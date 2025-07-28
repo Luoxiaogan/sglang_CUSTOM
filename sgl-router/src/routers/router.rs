@@ -987,6 +987,10 @@ impl RouterTrait for Router {
             }))
         }
     }
+
+    fn request_tracker(&self) -> Option<&Arc<crate::request_tracker::RequestTracker>> {
+        self.request_tracker.as_ref()
+    }
 }
 
 #[cfg(test)]
