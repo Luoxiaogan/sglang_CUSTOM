@@ -418,10 +418,11 @@ pub async fn startup(config: ServerConfig) -> std::io::Result<()> {
             .service(flush_cache)
             .service(get_loads)
             // Request tracking endpoints
-            .service(get_request_trace)
+            // Note: Order matters! Specific routes must come before parameterized routes
+            .service(get_trace_stats)
             .service(batch_get_traces)
             .service(list_recent_traces)
-            .service(get_trace_stats)
+            .service(get_request_trace)
             .default_service(web::route().to(sink_handler))
     })
     .bind_auto_h2c((config.host, config.port))?
