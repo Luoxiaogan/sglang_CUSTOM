@@ -240,3 +240,184 @@ curl -X POST http://localhost:30009/generate \
   }'
 {"text":"! I'm a simple bot that can help you","meta_info":{"id":"b53ff5aacb394bba94511b23a1701a00","finish_reason":{"type":"length","length":10},"prompt_tokens":3,"completion_tokens":10,"cached_tokens":1,"e2e_latency":0.07783317565917969}}(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# curl hcurl http://localhost:30009/v1/traces/test-manual-123
 {"error":"Request not found","request_id":"test-manual-123"}(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# 
+
+
+### 第三个版本的修改并且编译并且安装之后：
+
+(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# python /nas/ganluo/sglang_CUSTOM/test_request_tracking_fixed.py
+=== SGLang Router 请求追踪测试 ===
+
+✅ 路由器健康检查通过
+
+发送测试请求...
+❌ 请求 1 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:30009/generate'
+❌ 请求 2 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:30009/generate'
+❌ 请求 3 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:30009/generate'
+❌ 请求 4 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:30009/generate'
+❌ 请求 5 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:30009/generate'
+
+等待请求处理...
+
+查询请求追踪信息...
+
+找到 5 个最近的请求
+
+请求 1:
+  请求ID: req_0fcd1a38-1054-4975-8563-2844cd421737
+  节点: gpu_4 (http://localhost:30005)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T03:34:18.420146326Z
+
+请求 2:
+  请求ID: req_a5d33b73-2169-402f-8090-a3d0ac215406
+  节点: gpu_5 (http://localhost:30006)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T03:34:18.247289069Z
+
+请求 3:
+  请求ID: req_aaceb54a-702f-456e-9db6-c4db7afac4b6
+  节点: gpu_4 (http://localhost:30005)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T03:34:18.071940625Z
+
+请求 4:
+  请求ID: req_717e6263-fc7f-46be-8404-06c136988c43
+  节点: gpu_5 (http://localhost:30006)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T03:34:17.897529731Z
+
+请求 5:
+  请求ID: req_d6a4080d-a037-4fcf-bcee-baa7a98ba948
+  节点: gpu_4 (http://localhost:30005)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T03:34:17.691467184Z
+
+追踪统计信息:
+Traceback (most recent call last):
+  File "/nas/ganluo/sglang_CUSTOM/test_request_tracking_fixed.py", line 118, in <module>
+    asyncio.run(test_request_tracking())
+  File "/usr/local/conda/envs/lg/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/local/conda/envs/lg/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/nas/ganluo/sglang_CUSTOM/test_request_tracking_fixed.py", line 103, in test_request_tracking
+    print(f"  总请求数: {stats['total_requests']}")
+KeyError: 'total_requests'
+(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# curl http://localhost:30009/v1/traces/stats
+{"config":{"enabled":true,"max_entries":100000,"ttl_seconds":3600},"newest_trace":"2025-07-28T03:34:18.348059489Z","node_distribution":{"gpu_4":3,"gpu_5":2},"oldest_trace":"2025-07-28T03:34:17.584325373Z","route_distribution":{"/generate":5},"status_distribution":{"Completed":5},"total_traces":5}(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# 
+
+
+(lg) root:/nas/ganluo/sglang_CUSTOM# conda deactivate
+(zp) root:/nas/ganluo/sglang_CUSTOM# conda activate lg
+(lg) root:/nas/ganluo/sglang_CUSTOM# python /nas/ganluo/sglang_CUSTOM/start_test_router.py
+启动路由器（启用请求追踪）...
+2025-07-28 03:33:54  INFO sglang_router_rs::server: src/server.rs:331: 🚧 Initializing Prometheus metrics on 127.0.0.1:29000
+2025-07-28 03:33:54  INFO sglang_router_rs::server: src/server.rs:340: 🚧 Initializing router on 127.0.0.1:30009
+2025-07-28 03:33:54  INFO sglang_router_rs::server: src/server.rs:341: 🚧 Router mode: Regular { worker_urls: ["http://localhost:30005", "http://localhost:30006"] }
+2025-07-28 03:33:54  INFO sglang_router_rs::server: src/server.rs:342: 🚧 Policy: CacheAware { cache_threshold: 0.5, balance_abs_threshold: 32, balance_rel_threshold: 1.0001, eviction_interval_secs: 60, max_tree_size: 16777216 }
+2025-07-28 03:33:54  INFO sglang_router_rs::server: src/server.rs:343: 🚧 Max payload size: 256 MB
+2025-07-28 03:33:54  INFO sglang_router_rs::server: src/server.rs:353: 🚧 Service discovery disabled
+2025-07-28 03:33:54  INFO sglang_router_rs::routers::router: src/routers/router.rs:181: All workers are healthy
+2025-07-28 03:33:54  INFO sglang_router_rs::request_tracker: src/request_tracker.rs:65: Initializing request tracker with max_entries=100000, ttl=3600s
+2025-07-28 03:33:54  INFO sglang_router_rs::server: src/server.rs:390: ✅ Serving router on 127.0.0.1:30009
+2025-07-28 03:33:54  INFO sglang_router_rs::server: src/server.rs:391: ✅ Serving workers on ["http://localhost:30005", "http://localhost:30006"]
+2025-07-28 03:34:54  INFO sglang_router_rs::tree: src/tree.rs:430: Before eviction - Used size per tenant:
+2025-07-28 03:34:54  INFO sglang_router_rs::tree: src/tree.rs:432: Tenant: http://localhost:30005, Size: 60
+2025-07-28 03:34:54  INFO sglang_router_rs::tree: src/tree.rs:432: Tenant: http://localhost:30006, Size: 44
+2025-07-28 03:34:54  INFO sglang_router_rs::tree: src/tree.rs:481: After eviction - Used size per tenant:
+2025-07-28 03:34:54  INFO sglang_router_rs::tree: src/tree.rs:483: Tenant: http://localhost:30005, Size: 60
+2025-07-28 03:34:54  INFO sglang_router_rs::tree: src/tree.rs:483: Tenant: http://localhost:30006, Size: 44
+2025-07-28 03:35:54  INFO sglang_router_rs::tree: src/tree.rs:430: Before eviction - Used size per tenant:
+2025-07-28 03:35:54  INFO sglang_router_rs::tree: src/tree.rs:432: Tenant: http://localhost:30005, Size: 60
+2025-07-28 03:35:54  INFO sglang_router_rs::tree: src/tree.rs:432: Tenant: http://localhost:30006, Size: 44
+2025-07-28 03:35:54  INFO sglang_router_rs::tree: src/tree.rs:481: After eviction - Used size per tenant:
+2025-07-28 03:35:54  INFO sglang_router_rs::tree: src/tree.rs:483: Tenant: http://localhost:30005, Size: 60
+2025-07-28 03:35:54  INFO sglang_router_rs::tree: src/tree.rs:483: Tenant: http://localhost:30006, Size: 44
+
+
+cuda:2 
+Capturing batches (bs=1 avail_mem=8.53 GB): 100%|██████████████████████████████████████████| 23/23 [00:06<00:00,  3.77it/s]
+[2025-07-28 11:32:30] Capture cuda graph end. Time elapsed: 6.33 s. mem usage=1.07 GB. avail mem=8.53 GB.
+[2025-07-28 11:32:30] max_total_num_tokens=439212, chunked_prefill_size=8192, max_prefill_tokens=16384, max_running_requests=4096, context_len=8192, available_gpu_mem=8.53 GB
+[2025-07-28 11:32:31] INFO:     Started server process [257297]
+[2025-07-28 11:32:31] INFO:     Waiting for application startup.
+[2025-07-28 11:32:31] INFO:     Application startup complete.
+[2025-07-28 11:32:31] INFO:     Uvicorn running on http://0.0.0.0:30005 (Press CTRL+C to quit)
+[2025-07-28 11:32:32] INFO:     127.0.0.1:51290 - "GET /get_model_info HTTP/1.1" 200 OK
+[2025-07-28 11:32:32] Prefill batch. #new-seq: 1, #new-token: 7, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 11:32:33] INFO:     127.0.0.1:51302 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 11:32:33] The server is fired up and ready to roll!
+[2025-07-28 11:33:54] INFO:     127.0.0.1:59070 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:33:54] INFO:     127.0.0.1:59076 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:04] INFO:     127.0.0.1:59416 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:14] INFO:     127.0.0.1:44236 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:17] Prefill batch. #new-seq: 1, #new-token: 9, #cached-token: 1, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 11:34:17] INFO:     127.0.0.1:44242 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 11:34:17] Prefill batch. #new-seq: 1, #new-token: 6, #cached-token: 4, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 11:34:18] INFO:     127.0.0.1:44242 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 11:34:18] Prefill batch. #new-seq: 1, #new-token: 6, #cached-token: 4, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 11:34:18] INFO:     127.0.0.1:44242 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 11:34:24] INFO:     127.0.0.1:53648 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:34] INFO:     127.0.0.1:48430 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:44] INFO:     127.0.0.1:38794 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:54] INFO:     127.0.0.1:50724 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:04] INFO:     127.0.0.1:48456 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:14] INFO:     127.0.0.1:45980 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:24] INFO:     127.0.0.1:49808 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:34] INFO:     127.0.0.1:57024 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:44] INFO:     127.0.0.1:49608 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:54] INFO:     127.0.0.1:57980 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:04] INFO:     127.0.0.1:45866 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:14] INFO:     127.0.0.1:49830 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:24] INFO:     127.0.0.1:51296 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:34] INFO:     127.0.0.1:34774 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:44] INFO:     127.0.0.1:50858 - "GET /health HTTP/1.1" 200 OK
+
+
+cuda:3
+Capturing batches (bs=1 avail_mem=8.53 GB): 100%|██████████████████████████████████████████| 23/23 [00:05<00:00,  4.51it/s]
+[2025-07-28 11:32:38] Capture cuda graph end. Time elapsed: 5.36 s. mem usage=1.07 GB. avail mem=8.53 GB.
+[2025-07-28 11:32:38] max_total_num_tokens=439212, chunked_prefill_size=8192, max_prefill_tokens=16384, max_running_requests=4096, context_len=8192, available_gpu_mem=8.53 GB
+[2025-07-28 11:32:39] INFO:     Started server process [257774]
+[2025-07-28 11:32:39] INFO:     Waiting for application startup.
+[2025-07-28 11:32:39] INFO:     Application startup complete.
+[2025-07-28 11:32:39] INFO:     Uvicorn running on http://0.0.0.0:30006 (Press CTRL+C to quit)
+[2025-07-28 11:32:40] INFO:     127.0.0.1:42480 - "GET /get_model_info HTTP/1.1" 200 OK
+[2025-07-28 11:32:40] Prefill batch. #new-seq: 1, #new-token: 7, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 11:32:40] INFO:     127.0.0.1:42492 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 11:32:40] The server is fired up and ready to roll!
+[2025-07-28 11:33:54] INFO:     127.0.0.1:51876 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:33:54] INFO:     127.0.0.1:51886 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:04] INFO:     127.0.0.1:32894 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:14] INFO:     127.0.0.1:34058 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:17] Prefill batch. #new-seq: 1, #new-token: 9, #cached-token: 1, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 11:34:17] INFO:     127.0.0.1:34064 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 11:34:18] Prefill batch. #new-seq: 1, #new-token: 6, #cached-token: 4, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 11:34:18] INFO:     127.0.0.1:34064 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 11:34:24] INFO:     127.0.0.1:52482 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:34] INFO:     127.0.0.1:40816 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:44] INFO:     127.0.0.1:46464 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:34:54] INFO:     127.0.0.1:36582 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:04] INFO:     127.0.0.1:40576 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:14] INFO:     127.0.0.1:48972 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:24] INFO:     127.0.0.1:36936 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:34] INFO:     127.0.0.1:46330 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:44] INFO:     127.0.0.1:33296 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:35:54] INFO:     127.0.0.1:36956 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:04] INFO:     127.0.0.1:39576 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:14] INFO:     127.0.0.1:41814 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:24] INFO:     127.0.0.1:38928 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:34] INFO:     127.0.0.1:60724 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:44] INFO:     127.0.0.1:37550 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 11:36:54] INFO:     127.0.0.1:51316 - "GET /health HTTP/1.1" 200 OK
+
