@@ -1,0 +1,50 @@
+⚠️  Warning: `build-backend` in pyproject.toml is not set to `maturin`, packaging tools such as pip will not use maturin to build this project.
+🔗 Found pyo3 bindings
+🐍 Found CPython 3.10 at /usr/local/conda/envs/lg/bin/python3
+   Compiling tokio-util v0.7.15
+   Compiling hyper v0.14.32
+   Compiling tokio-io-timeout v1.2.1
+   Compiling actix-rt v2.10.0
+   Compiling tower v0.5.2
+   Compiling actix-router v0.5.3
+   Compiling backoff v0.4.0
+   Compiling metrics-util v0.20.0
+   Compiling kube-core v0.88.1
+   Compiling tracing-appender v0.2.3
+   Compiling native-tls v0.2.14
+   Compiling pyo3-macros v0.22.6
+   Compiling tokio-rustls v0.24.1
+   Compiling icu_provider v2.0.0
+   Compiling tokio-rustls v0.26.2
+   Compiling actix-server v2.6.0
+   Compiling h2 v0.4.11
+   Compiling tower v0.4.13
+   Compiling h2 v0.3.27
+   Compiling actix-codec v0.5.2
+   Compiling tower-http v0.6.6
+   Compiling tokio-native-tls v0.3.1
+   Compiling icu_properties v2.0.1
+   Compiling icu_normalizer v2.0.0
+   Compiling hyper-rustls v0.24.2
+   Compiling hyper-timeout v0.4.1
+   Compiling idna_adapter v1.2.1
+   Compiling idna v1.0.3
+   Compiling pyo3 v0.22.6
+   Compiling hyper v1.6.0
+   Compiling kube-client v0.88.1
+   Compiling actix-http v3.11.0
+   Compiling url v2.5.4
+   Compiling hyper-util v0.1.16
+   Compiling actix-web v4.11.0
+   Compiling kube-runtime v0.88.1
+   Compiling hyper-tls v0.6.0
+   Compiling hyper-rustls v0.27.7
+   Compiling reqwest v0.12.22
+   Compiling metrics-exporter-prometheus v0.17.2
+   Compiling kube v0.88.1
+   Compiling sglang_router_rs v0.0.0 (/nas/ganluo/sglang_CUSTOM/sgl-router)
+    Finished `release` profile [optimized] target(s) in 2m 34s
+🖨  Copied external shared libraries to package sglang_router_rs.libs directory:
+    /usr/local/conda/envs/lg/lib/libssl.so.3
+    /usr/local/conda/envs/lg/lib/libcrypto.so.3
+📦 Built wheel for CPython 3.10 to /nas/ganluo/sglang_CUSTOM/sgl-router/target/wheels/sglang_router-0.1.6-cp310-cp310-manylinux_2_34_x86_64.whl

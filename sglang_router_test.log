@@ -199,3 +199,44 @@ Capturing batches (bs=1 avail_mem=8.53 GB): 100%|██████████�
 (lg) root:/nas/ganluo/sglang_CUSTOM# python -m sglang_router_rs --help
 /usr/local/conda/envs/lg/bin/python: No module named sglang_router_rs.__main__; 'sglang_router_rs' is a package and cannot be directly executed
 (lg) root:/nas/ganluo/sglang_CUSTOM# 
+
+
+
+### 完成了重新编译之后：
+
+(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# python /nas/ganluo/sglang_CUSTOM/test_request_tracking.py
+=== SGLang Router 请求追踪测试 ===
+
+✅ 路由器健康检查通过
+
+发送测试请求...
+✅ 请求 1 发送成功: test-req-1753672653412-0
+✅ 请求 2 发送成功: test-req-1753672653634-1
+✅ 请求 3 发送成功: test-req-1753672653846-2
+✅ 请求 4 发送成功: test-req-1753672654020-3
+✅ 请求 5 发送成功: test-req-1753672654195-4
+
+等待请求处理...
+
+查询请求追踪信息...
+❌ 无法获取请求追踪: 404
+
+批量查询结果: 找到 0 个请求
+
+最近的请求: 5 个
+(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# curl http://localhost:30009/v1/traces/stats
+{"error":"Request not found","request_id":"stats"}(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# 
+(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# curl http://localhost:30009/v1/traces?limit=10
+[{"request_id":"req_1abfdc5a-3a09-4fa5-babe-f0d8e63eef6d","worker_url":"http://localhost:30005","node_id":"gpu_4","timestamp":"2025-07-28T03:17:34.195873012Z","routing_policy":"cache_aware","status":"completed","route":"/generate","cache_hit":null,"input_tokens":7,"completion_time":"2025-07-28T03:17:34.268551921Z","error_message":null},{"request_id":"req_7db6020d-3014-441f-8f4a-e81c37bf7ca9","worker_url":"http://localhost:30006","node_id":"gpu_5","timestamp":"2025-07-28T03:17:34.020721004Z","routing_policy":"cache_aware","status":"completed","route":"/generate","cache_hit":null,"input_tokens":7,"completion_time":"2025-07-28T03:17:34.095191974Z","error_message":null},{"request_id":"req_2fcd533b-d5a1-49fc-8779-a3880c684193","worker_url":"http://localhost:30005","node_id":"gpu_4","timestamp":"2025-07-28T03:17:33.846508695Z","routing_policy":"cache_aware","status":"completed","route":"/generate","cache_hit":null,"input_tokens":7,"completion_time":"2025-07-28T03:17:33.920134348Z","error_message":null},{"request_id":"req_2cd42203-50b8-4b4c-820d-487ba7512faf","worker_url":"http://localhost:30006","node_id":"gpu_5","timestamp":"2025-07-28T03:17:33.635332106Z","routing_policy":"cache_aware","status":"completed","route":"/generate","cache_hit":null,"input_tokens":7,"completion_time":"2025-07-28T03:17:33.745890854Z","error_message":null},{"request_id":"req_f43f0982-88ec-4452-aa26-166e9ef3ec3e","worker_url":"http://localhost:30005","node_id":"gpu_4","timestamp":"2025-07-28T03:17:33.413259586Z","routing_policy":"cache_aware","status":"completed","route":"/generate","cache_hit":null,"input_tokens":7,"completion_time":"2025-07-28T03:17:33.534459428Z","error_message":null}](lg) root:/nas/ganluo/sglang_CUSTOM/(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# # 发送测试请求
+curl -X POST http://localhost:30009/generate \
+  -H "Content-Type: application/json" \
+  -H "X-Request-Id: test-manual-123" \
+  -d '{
+    "text": "Hello world",
+    "sampling_params": {
+      "max_new_tokens": 10,
+      "temperature": 0.7
+    }
+  }'
+{"text":"! I'm a simple bot that can help you","meta_info":{"id":"b53ff5aacb394bba94511b23a1701a00","finish_reason":{"type":"length","length":10},"prompt_tokens":3,"completion_tokens":10,"cached_tokens":1,"e2e_latency":0.07783317565917969}}(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# curl hcurl http://localhost:30009/v1/traces/test-manual-123
+{"error":"Request not found","request_id":"test-manual-123"}(lg) root:/nas/ganluo/sglang_CUSTOM/sgl-router# 
