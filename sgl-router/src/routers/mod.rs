@@ -4,6 +4,7 @@ use actix_web::{HttpRequest, HttpResponse};
 use async_trait::async_trait;
 use reqwest::Client;
 use std::fmt::Debug;
+use std::sync::Arc;
 
 pub mod factory;
 pub mod pd_router;
