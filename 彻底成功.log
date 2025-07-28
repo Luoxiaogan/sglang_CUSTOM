@@ -1,0 +1,118 @@
+# GPU 2 (终端 1)
+python -m sglang.launch_server \
+--model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
+--host "0.0.0.0" \
+--port 40005 \
+--base-gpu-id 2
+
+# GPU 3 (终端 2)
+python -m sglang.launch_server \
+--model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
+--host "0.0.0.0" \
+--port 40006 \
+--base-gpu-id 3
+
+之后:
+python /nas/ganluo/sglang/start_test_router.py
+端口-GPU映射已保存到: /tmp/sglang_port_gpu_mapping.json
+映射关系:
+  端口 40005 -> cuda:2
+  端口 40006 -> cuda:3
+
+启动路由器（启用请求追踪）...
+2025-07-28 14:26:30  INFO sglang_router_rs::server: src/server.rs:331: 🚧 Initializing Prometheus metrics on 127.0.0.1:29000
+2025-07-28 14:26:30  INFO sglang_router_rs::server: src/server.rs:340: 🚧 Initializing router on 127.0.0.1:40009
+2025-07-28 14:26:30  INFO sglang_router_rs::server: src/server.rs:341: 🚧 Router mode: Regular { worker_urls: ["http://localhost:40005", "http://localhost:40006"] }
+2025-07-28 14:26:30  INFO sglang_router_rs::server: src/server.rs:342: 🚧 Policy: CacheAware { cache_threshold: 0.5, balance_abs_threshold: 32, balance_rel_threshold: 1.0001, eviction_interval_secs: 60, max_tree_size: 16777216 }
+2025-07-28 14:26:30  INFO sglang_router_rs::server: src/server.rs:343: 🚧 Max payload size: 256 MB
+2025-07-28 14:26:30  INFO sglang_router_rs::server: src/server.rs:353: 🚧 Service discovery disabled
+2025-07-28 14:26:30  INFO sglang_router_rs::routers::router: src/routers/router.rs:181: All workers are healthy
+2025-07-28 14:26:30  INFO sglang_router_rs::request_tracker: src/request_tracker.rs:65: Initializing request tracker with max_entries=100000, ttl=3600s
+2025-07-28 14:26:30  INFO sglang_router_rs::server: src/server.rs:390: ✅ Serving router on 127.0.0.1:40009
+2025-07-28 14:26:30  INFO sglang_router_rs::server: src/server.rs:391: ✅ Serving workers on ["http://localhost:40005", "http://localhost:40006"]
+2025-07-28 14:27:30  INFO sglang_router_rs::tree: src/tree.rs:430: Before eviction - Used size per tenant:
+2025-07-28 14:27:30  INFO sglang_router_rs::tree: src/tree.rs:432: Tenant: http://localhost:40006, Size: 60
+2025-07-28 14:27:30  INFO sglang_router_rs::tree: src/tree.rs:432: Tenant: http://localhost:40005, Size: 44
+2025-07-28 14:27:30  INFO sglang_router_rs::tree: src/tree.rs:481: After eviction - Used size per tenant:
+2025-07-28 14:27:30  INFO sglang_router_rs::tree: src/tree.rs:483: Tenant: http://localhost:40006, Size: 60
+2025-07-28 14:27:30  INFO sglang_router_rs::tree: src/tree.rs:483: Tenant: http://localhost:40005, Size: 44
+2025-07-28 14:28:30  INFO sglang_router_rs::tree: src/tree.rs:430: Before eviction - Used size per tenant:
+2025-07-28 14:28:30  INFO sglang_router_rs::tree: src/tree.rs:432: Tenant: http://localhost:40006, Size: 60
+2025-07-28 14:28:30  INFO sglang_router_rs::tree: src/tree.rs:432: Tenant: http://localhost:40005, Size: 44
+2025-07-28 14:28:30  INFO sglang_router_rs::tree: src/tree.rs:481: After eviction - Used size per tenant:
+2025-07-28 14:28:30  INFO sglang_router_rs::tree: src/tree.rs:483: Tenant: http://localhost:40006, Size: 60
+2025-07-28 14:28:30  INFO sglang_router_rs::tree: src/tree.rs:483: Tenant: http://localhost:40005, Size: 44
+
+
+
+再之后:
+(lg) root:/nas/ganluo# python /nas/ganluo/sglang/test_request_tracking_fixed.py
+=== SGLang Router 请求追踪测试 ===
+
+✅ 路由器健康检查通过
+
+发送测试请求...
+❌ 请求 1 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:40009/generate'
+❌ 请求 2 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:40009/generate'
+❌ 请求 3 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:40009/generate'
+❌ 请求 4 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:40009/generate'
+❌ 请求 5 出错: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:40009/generate'
+
+等待请求处理...
+
+查询请求追踪信息...
+
+找到 5 个最近的请求
+
+请求 1:
+  请求ID: req_dbe23d5d-b225-47e7-81cf-92b189be9a22
+  节点: gpu_1 (http://localhost:40006)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T14:27:24.564889659Z
+
+请求 2:
+  请求ID: req_5c6df5e5-b1ad-47e9-9a12-693ca23c491b
+  节点: gpu_0 (http://localhost:40005)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T14:27:24.392079771Z
+
+请求 3:
+  请求ID: req_a279b425-6496-49e4-9b39-75952f63755d
+  节点: gpu_1 (http://localhost:40006)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T14:27:24.217739911Z
+
+请求 4:
+  请求ID: req_e0934740-200f-4fcb-9167-791cae13b9bc
+  节点: gpu_0 (http://localhost:40005)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T14:27:24.041865139Z
+
+请求 5:
+  请求ID: req_4c292676-47f6-4321-b03a-77c4ddbc981d
+  节点: gpu_1 (http://localhost:40006)
+  路由策略: cache_aware
+  状态: completed
+  输入tokens: 7
+  完成时间: 2025-07-28T14:27:23.722377702Z
+
+追踪统计信息:
+Traceback (most recent call last):
+  File "/nas/ganluo/sglang/test_request_tracking_fixed.py", line 118, in <module>
+    asyncio.run(test_request_tracking())
+  File "/usr/local/conda/envs/lg/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/local/conda/envs/lg/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/nas/ganluo/sglang/test_request_tracking_fixed.py", line 103, in test_request_tracking
+    print(f"  总请求数: {stats['total_requests']}")
+KeyError: 'total_requests'
+(lg) root:/nas/ganluo# 
