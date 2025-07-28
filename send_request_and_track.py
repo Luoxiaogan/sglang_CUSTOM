@@ -251,16 +251,18 @@ class RequestTracker:
                         traces_text = await resp.text()
                         traces = json.loads(traces_text)
                         
-                        # Create a map of request_id to trace info
-                        trace_map = {}
-                        for trace in traces:
-                            trace_map[trace["request_id"]] = trace
+                        # Since router tracks requests on arrival (not completion),
+                        # and we send requests sequentially, traces should be in the same order
+                        # Get the most recent traces (equal to number of requests sent)
+                        recent_traces = traces[:len(results)]
                         
-                        # Update results with tracking info
-                        for result in results:
-                            req_id = result["request_id"]
-                            if req_id in trace_map:
-                                trace = trace_map[req_id]
+                        # Reverse to get chronological order (oldest first)
+                        recent_traces.reverse()
+                        
+                        # Match by order - the nth request corresponds to the nth trace
+                        for i, result in enumerate(results):
+                            if i < len(recent_traces):
+                                trace = recent_traces[i]
                                 result["host"] = trace["worker_url"]
                                 result["node_id"] = trace.get("node_id", "")
                                 result["routing_policy"] = trace.get("routing_policy", "")
@@ -268,22 +270,13 @@ class RequestTracker:
                                 result["input_tokens"] = trace.get("input_tokens", 0)
                                 result["output_tokens"] = trace.get("output_tokens", 0)
                             else:
-                                # Try to find by matching timing
-                                for trace in traces:
-                                    # Match requests that started within 1 second
-                                    if abs(result["send_time"] - time.time()) < 3600:  # Within last hour
-                                        result["host"] = trace["worker_url"]
-                                        result["node_id"] = trace.get("node_id", "")
-                                        result["routing_policy"] = trace.get("routing_policy", "")
-                                        result["trace_status"] = trace.get("status", "")
-                                        result["input_tokens"] = trace.get("input_tokens", 0)
-                                        result["output_tokens"] = trace.get("output_tokens", 0)
-                                        break
-                                else:
-                                    result["host"] = "unknown"
-                                    result["node_id"] = "unknown"
-                                    result["routing_policy"] = "unknown"
-                                    result["trace_status"] = "not_found"
+                                # Not enough traces found
+                                result["host"] = "unknown"
+                                result["node_id"] = "unknown"
+                                result["routing_policy"] = "unknown"
+                                result["trace_status"] = "not_found"
+                                result["input_tokens"] = 0
+                                result["output_tokens"] = 0
                                     
                         print(f"✅ Found tracking info for {sum(1 for r in results if r.get('host') != 'unknown')} requests")
                     else:
