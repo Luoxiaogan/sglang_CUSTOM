@@ -8,8 +8,8 @@ async def test_request_tracking():
     """测试请求追踪功能"""
     
     # 配置
-    ROUTER_URL = "http://localhost:30001"
-    MODEL_PATH = "meta-llama/Llama-2-7b-hf"
+    ROUTER_URL = "http://localhost:30009"
+    MODEL_PATH = "/nas/models/Meta-Llama-3-8B-Instruct"
     
     print("=== SGLang Router 请求追踪测试 ===\n")
     

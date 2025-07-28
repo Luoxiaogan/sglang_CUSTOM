@@ -231,18 +231,36 @@ except KeyboardInterrupt:
 ```bash
 # GPU 0 (终端 1)
 python -m sglang.launch_server \
-    --model-path meta-llama/Llama-2-7b-hf \
-    --port 30002 \
-    --gpu-id 0 \
+    --model-path /nas/models/Meta-Llama-3-8B-Instruct \
+    --port 30005 \
+    --gpu-id 2 \
     --model-alias gpu_0
 
 # GPU 1 (终端 2)  
 python -m sglang.launch_server \
-    --model-path meta-llama/Llama-2-7b-hf \
-    --port 30003 \
-    --gpu-id 1 \
+    --model-path /nas/models/Meta-Llama-3-8B-Instruct \
+    --port 30006 \
+    --gpu-id 3 \
     --model-alias gpu_1
 ```
+
+**这里的启动方法有问题, 你对于sglang_api的理解出错了, 正确的方法是:**
+````bash
+# GPU 2 (终端 1)
+python -m sglang.launch_server \
+--model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
+--host "0.0.0.0" \
+--port 30005 \
+--base-gpu-id 2
+
+# GPU 3 (终端 2)
+python -m sglang.launch_server \
+--model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
+--host "0.0.0.0" \
+--port 30006 \
+--base-gpu-id 3
+```
+
 
 ### 4. 运行测试
 

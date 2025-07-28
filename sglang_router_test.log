@@ -1,0 +1,160 @@
+I first start two server.
+# GPU 2 (终端 1)
+python -m sglang.launch_server \
+--model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
+--host "0.0.0.0" \
+--port 30005 \
+--base-gpu-id 2
+
+# GPU 3 (终端 2)
+python -m sglang.launch_server \
+--model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
+--host "0.0.0.0" \
+--port 30006 \
+--base-gpu-id 3
+
+and then:
+
+(lg) root:/nas/ganluo/sglang_CUSTOM# python /nas/ganluo/sglang_CUSTOM/start_test_router.py
+启动路由器（启用请求追踪）...
+2025-07-28 02:25:21  INFO sglang_router_rs::server: src/server.rs:367: 🚧 Initializing Prometheus metrics on 127.0.0.1:29000
+2025-07-28 02:25:21  INFO sglang_router_rs::server: src/server.rs:376: 🚧 Initializing router on 127.0.0.1:30009
+2025-07-28 02:25:21  INFO sglang_router_rs::server: src/server.rs:377: 🚧 Router mode: Regular { worker_urls: ["http://localhost:30005", "http://localhost:30006"] }
+2025-07-28 02:25:21  INFO sglang_router_rs::server: src/server.rs:378: 🚧 Policy: CacheAware { cache_threshold: 0.5, balance_abs_threshold: 32, balance_rel_threshold: 1.0001, eviction_interval_secs: 60, max_tree_size: 16777216 }
+2025-07-28 02:25:21  INFO sglang_router_rs::server: src/server.rs:379: 🚧 Max payload size: 256 MB
+2025-07-28 02:25:21  INFO sglang_router_rs::server: src/server.rs:389: 🚧 Service discovery disabled
+2025-07-28 02:25:21  INFO sglang_router_rs::routers::router: src/routers/router.rs:181: All workers are healthy
+2025-07-28 02:25:21  INFO sglang_router_rs::request_tracker: src/request_tracker.rs:65: Initializing request tracker with max_entries=100000, ttl=3600s
+2025-07-28 02:25:21  INFO sglang_router_rs::server: src/server.rs:426: ✅ Serving router on 127.0.0.1:30009
+2025-07-28 02:25:21  INFO sglang_router_rs::server: src/server.rs:427: ✅ Serving workers on ["http://localhost:30005", "http://localhost:30006"]
+
+and then:
+
+# GPU 2 (终端 1):
+Capturing batches (bs=1 avail_mem=8.41 GB): 100%|██████████████████████████████████████████| 23/23 [00:08<00:00,  2.72it/s]
+[2025-07-28 10:23:29] Capture cuda graph end. Time elapsed: 9.22 s. mem usage=1.07 GB. avail mem=8.40 GB.
+[2025-07-28 10:23:29] max_total_num_tokens=439737, chunked_prefill_size=8192, max_prefill_tokens=16384, max_running_requests=4096, context_len=8192, available_gpu_mem=8.40 GB
+[2025-07-28 10:23:30] INFO:     Started server process [83578]
+[2025-07-28 10:23:30] INFO:     Waiting for application startup.
+[2025-07-28 10:23:30] INFO:     Application startup complete.
+[2025-07-28 10:23:30] INFO:     Uvicorn running on http://0.0.0.0:30005 (Press CTRL+C to quit)
+[2025-07-28 10:23:31] INFO:     127.0.0.1:50340 - "GET /get_model_info HTTP/1.1" 200 OK
+[2025-07-28 10:23:31] Prefill batch. #new-seq: 1, #new-token: 7, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:23:33] INFO:     127.0.0.1:50350 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:23:33] The server is fired up and ready to roll!
+[2025-07-28 10:25:21] INFO:     127.0.0.1:49580 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:25:21] INFO:     127.0.0.1:49594 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:25:31] INFO:     127.0.0.1:59712 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:25:41] INFO:     127.0.0.1:37952 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:25:51] INFO:     127.0.0.1:41048 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:01] INFO:     127.0.0.1:49274 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:11] INFO:     127.0.0.1:45156 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:21] INFO:     127.0.0.1:42054 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:31] INFO:     127.0.0.1:49248 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:31] Prefill batch. #new-seq: 1, #new-token: 9, #cached-token: 1, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:26:31] INFO:     127.0.0.1:49256 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:26:31] Prefill batch. #new-seq: 1, #new-token: 6, #cached-token: 4, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:26:31] INFO:     127.0.0.1:49256 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:26:41] INFO:     127.0.0.1:47676 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:51] INFO:     127.0.0.1:35594 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:01] INFO:     127.0.0.1:41722 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:11] INFO:     127.0.0.1:38248 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:21] INFO:     127.0.0.1:52072 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:24] Prefill batch. #new-seq: 1, #new-token: 1, #cached-token: 9, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:27:24] INFO:     127.0.0.1:46928 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:27:25] Prefill batch. #new-seq: 1, #new-token: 1, #cached-token: 9, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:27:25] Decode batch. #running-req: 1, #token: 13, token usage: 0.00, cuda graph: True, gen throughput (token/s): 0.17, #queue-req: 0, 
+[2025-07-28 10:27:25] INFO:     127.0.0.1:46928 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:27:31] INFO:     127.0.0.1:46934 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:41] INFO:     127.0.0.1:42930 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:51] INFO:     127.0.0.1:54568 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:28:01] INFO:     127.0.0.1:57696 - "GET /health HTTP/1.1" 200 OK
+
+# GPU 3 (终端 2):
+Capturing batches (bs=1 avail_mem=8.53 GB): 100%|██████████████████████████████████████████| 23/23 [00:04<00:00,  5.31it/s]
+[2025-07-28 10:23:39] Capture cuda graph end. Time elapsed: 4.55 s. mem usage=1.07 GB. avail mem=8.53 GB.
+[2025-07-28 10:23:39] max_total_num_tokens=439212, chunked_prefill_size=8192, max_prefill_tokens=16384, max_running_requests=4096, context_len=8192, available_gpu_mem=8.53 GB
+[2025-07-28 10:23:39] INFO:     Started server process [84355]
+[2025-07-28 10:23:39] INFO:     Waiting for application startup.
+[2025-07-28 10:23:39] INFO:     Application startup complete.
+[2025-07-28 10:23:39] INFO:     Uvicorn running on http://0.0.0.0:30006 (Press CTRL+C to quit)
+[2025-07-28 10:23:40] INFO:     127.0.0.1:51940 - "GET /get_model_info HTTP/1.1" 200 OK
+[2025-07-28 10:23:40] Prefill batch. #new-seq: 1, #new-token: 7, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:23:42] INFO:     127.0.0.1:51952 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:23:42] The server is fired up and ready to roll!
+[2025-07-28 10:25:21] INFO:     127.0.0.1:39346 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:25:21] INFO:     127.0.0.1:39356 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:25:31] INFO:     127.0.0.1:59676 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:25:41] INFO:     127.0.0.1:34780 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:25:51] INFO:     127.0.0.1:40930 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:01] INFO:     127.0.0.1:53038 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:11] INFO:     127.0.0.1:54580 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:21] INFO:     127.0.0.1:37234 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:31] Prefill batch. #new-seq: 1, #new-token: 9, #cached-token: 1, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:26:31] INFO:     127.0.0.1:60562 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:26:31] INFO:     127.0.0.1:60576 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:31] Prefill batch. #new-seq: 1, #new-token: 6, #cached-token: 4, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:26:31] INFO:     127.0.0.1:60562 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:26:31] Prefill batch. #new-seq: 1, #new-token: 6, #cached-token: 4, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:26:32] INFO:     127.0.0.1:60562 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:26:41] INFO:     127.0.0.1:41900 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:26:51] INFO:     127.0.0.1:51138 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:01] INFO:     127.0.0.1:48622 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:11] INFO:     127.0.0.1:45076 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:21] INFO:     127.0.0.1:44468 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:24] Prefill batch. #new-seq: 1, #new-token: 1, #cached-token: 9, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:27:24] Decode batch. #running-req: 1, #token: 13, token usage: 0.00, cuda graph: True, gen throughput (token/s): 0.18, #queue-req: 0, 
+[2025-07-28 10:27:24] INFO:     127.0.0.1:44470 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:27:24] Prefill batch. #new-seq: 1, #new-token: 1, #cached-token: 9, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:27:25] INFO:     127.0.0.1:44470 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:27:25] Prefill batch. #new-seq: 1, #new-token: 1, #cached-token: 9, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-28 10:27:25] INFO:     127.0.0.1:44470 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-28 10:27:31] INFO:     127.0.0.1:51098 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:41] INFO:     127.0.0.1:57940 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:27:51] INFO:     127.0.0.1:34956 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:28:01] INFO:     127.0.0.1:44296 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:28:11] INFO:     127.0.0.1:45394 - "GET /health HTTP/1.1" 200 OK
+[2025-07-28 10:28:21] INFO:     127.0.0.1:46520 - "GET /health HTTP/1.1" 200 OK
+
+
+(lg) root:/nas/ganluo/sglang_CUSTOM# python /nas/ganluo/sglang_CUSTOM/test_request_tracking.py
+=== SGLang Router 请求追踪测试 ===
+
+✅ 路由器健康检查通过
+
+发送测试请求...
+✅ 请求 1 发送成功: test-req-1753669591082-0
+✅ 请求 2 发送成功: test-req-1753669591389-1
+✅ 请求 3 发送成功: test-req-1753669591594-2
+✅ 请求 4 发送成功: test-req-1753669591770-3
+✅ 请求 5 发送成功: test-req-1753669591944-4
+
+等待请求处理...
+
+查询请求追踪信息...
+❌ 无法获取请求追踪: 404
+
+批量查询结果: 找到 0 个请求
+
+最近的请求: 5 个
+(lg) root:/nas/ganluo/sglang_CUSTOM# python /nas/ganluo/sglang_CUSTOM/test_request_tracking.py
+=== SGLang Router 请求追踪测试 ===
+
+✅ 路由器健康检查通过
+
+发送测试请求...
+✅ 请求 1 发送成功: test-req-1753669644572-0
+✅ 请求 2 发送成功: test-req-1753669644752-1
+✅ 请求 3 发送成功: test-req-1753669644931-2
+✅ 请求 4 发送成功: test-req-1753669645104-3
+✅ 请求 5 发送成功: test-req-1753669645277-4
+
+等待请求处理...
+
+查询请求追踪信息...
+❌ 无法获取请求追踪: 404
+
+批量查询结果: 找到 0 个请求
+
+最近的请求: 10 个
+(lg) root:/nas/ganluo/sglang_CUSTOM# 
