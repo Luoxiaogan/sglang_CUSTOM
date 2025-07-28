@@ -5,14 +5,14 @@
 python -m sglang.launch_server \
 --model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
 --host "0.0.0.0" \
---port 30005 \
+--port 40005 \
 --base-gpu-id 2
 
 # 终端 2 - GPU 3
 python -m sglang.launch_server \
 --model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
 --host "0.0.0.0" \
---port 30006 \
+--port 40006 \
 --base-gpu-id 3
 ```
 2. 之后在另一个终端里面启动`start_test_router.py`

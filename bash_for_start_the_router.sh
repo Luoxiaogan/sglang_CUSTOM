@@ -1,0 +1,1 @@
+python /nas/ganluo/sglang/start_a_router_general.py --policy random --workers http://localhost:40005 http://localhost:40006 --port 40009

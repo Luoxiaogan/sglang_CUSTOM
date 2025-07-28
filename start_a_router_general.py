@@ -50,8 +50,8 @@ def main():
     parser.add_argument(
         "--host",
         type=str,
-        default="127.0.0.1",
-        help="Router host (default: 127.0.0.1)"
+        default="0.0.0.0",
+        help="Router host (default: 0.0.0.0)"
     )
     
     # Request tracking configuration
