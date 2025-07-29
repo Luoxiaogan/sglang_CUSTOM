@@ -1,0 +1,41 @@
+Queue时间戳调试测试
+================================================================================
+[23:22:09] 发送测试请求到服务器...
+服务器地址: http://localhost:60005/generate
+================================================================================
+
+✅ 请求成功 (耗时 0.050s)
+
+完整响应:
+{
+  "text": " message. I'm just",
+  "meta_info": {
+    "id": "d2a8fa169bf94cb69a568053343cb326",
+    "finish_reason": {
+      "type": "length",
+      "length": 5
+    },
+    "prompt_tokens": 8,
+    "completion_tokens": 5,
+    "cached_tokens": 2,
+    "server_created_time": 1753802529.1388812,
+    "server_first_token_time": null,
+    "queue_time_start": null,
+    "queue_time_end": null,
+    "hidden_states": [],
+    "e2e_latency": 0.0469512939453125
+  }
+}
+
+📊 Meta Info 分析:
+  ✅ server_created_time: 1753802529.1388812
+  ❌ server_first_token_time: null
+  ❌ queue_time_start: null
+  ❌ queue_time_end: null
+  ✅ e2e_latency: 0.0469512939453125
+
+  ❌ 无法计算纯队列时间（缺少必要字段）
+
+================================================================================
+请检查服务器日志中的 [QueueTime] 调试信息
+如果服务器不是以 --log-level debug 运行，请重启服务器并添加该参数
