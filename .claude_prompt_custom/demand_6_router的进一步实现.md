@@ -844,3 +844,35 @@ python send_request_and_track.py \
    - 已废弃的函数，应该删除
 
 这次实现显著提升了性能分析的精度，为后续优化提供了数据支撑。
+
+### 修复：Queue时间戳未记录问题（2025-07-29 追加）
+
+#### 问题描述
+用户反馈在上传代码到服务器并重新安装后，queue_time_start和queue_time_end仍然为空。
+
+#### 原因分析
+1. **spec_verify_ct条件append问题**：spec_verify_ct只在特定条件下append值，导致列表长度不一致
+2. **属性存在性检查缺失**：直接访问可能不存在的属性
+
+#### 修复内容
+**文件**: `/Users/luogan/Code/sglang/python/sglang/srt/managers/scheduler_output_processor_mixin.py`
+
+1. 添加属性存在性检查：
+```python
+queue_time_start.append(req.queue_time_start if hasattr(req, 'queue_time_start') else None)
+queue_time_end.append(req.queue_time_end if hasattr(req, 'queue_time_end') else None)
+```
+
+2. 修复spec_verify_ct条件append：
+```python
+if not self.spec_algorithm.is_none():
+    spec_verify_ct.append(req.spec_verify_ct)
+else:
+    spec_verify_ct.append(0)  # 确保列表长度一致
+```
+
+#### 验证工具
+- **debug_queue_timestamps.py**: 调试时间戳问题的脚本
+- **verify_queue_fix.py**: 验证修复效果的脚本
+
+这个修复确保了所有列表长度一致，避免了参数不匹配的问题。

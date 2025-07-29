@@ -588,11 +588,13 @@ class SchedulerOutputProcessorMixin:
                 cached_tokens.append(req.cached_tokens)
                 
                 # Collect queue time information
-                queue_time_start.append(req.queue_time_start)
-                queue_time_end.append(req.queue_time_end)
+                queue_time_start.append(req.queue_time_start if hasattr(req, 'queue_time_start') else None)
+                queue_time_end.append(req.queue_time_end if hasattr(req, 'queue_time_end') else None)
 
                 if not self.spec_algorithm.is_none():
                     spec_verify_ct.append(req.spec_verify_ct)
+                else:
+                    spec_verify_ct.append(0)
 
                 if return_logprob:
                     if (
