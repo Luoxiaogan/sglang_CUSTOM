@@ -1409,12 +1409,26 @@ class TokenizerManager:
                 # Debug logging for queue timestamps
                 if logger.isEnabledFor(logging.DEBUG):
                     logger.debug(f"[QueueTime] Processing request {rid}, index {i}")
+                    logger.debug(f"[QueueTime] recv_obj type: {type(recv_obj).__name__}")
+                    logger.debug(f"[QueueTime] recv_obj attributes: {[attr for attr in dir(recv_obj) if not attr.startswith('_') and attr not in ['decoded_texts', 'output_strs']]}")
+                    
                     if hasattr(recv_obj, 'queue_time_start'):
                         logger.debug(f"[QueueTime] queue_time_start exists: {recv_obj.queue_time_start is not None}")
                         if recv_obj.queue_time_start is not None:
                             logger.debug(f"[QueueTime] queue_time_start length: {len(recv_obj.queue_time_start)}")
                             if i < len(recv_obj.queue_time_start):
                                 logger.debug(f"[QueueTime] queue_time_start[{i}] = {recv_obj.queue_time_start[i]}")
+                    else:
+                        logger.debug(f"[QueueTime] queue_time_start attribute NOT FOUND in recv_obj")
+                    
+                    if hasattr(recv_obj, 'queue_time_end'):
+                        logger.debug(f"[QueueTime] queue_time_end exists: {recv_obj.queue_time_end is not None}")
+                        if recv_obj.queue_time_end is not None:
+                            logger.debug(f"[QueueTime] queue_time_end length: {len(recv_obj.queue_time_end)}")
+                            if i < len(recv_obj.queue_time_end):
+                                logger.debug(f"[QueueTime] queue_time_end[{i}] = {recv_obj.queue_time_end[i]}")
+                    else:
+                        logger.debug(f"[QueueTime] queue_time_end attribute NOT FOUND in recv_obj")
                 
                 meta_info.update(
                     {

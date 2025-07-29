@@ -493,7 +493,7 @@ class SchedulerOutputProcessorMixin:
         completion_tokens = []
         cached_tokens = []
         spec_verify_ct = []
-        output_hidden_states = None
+        output_hidden_states = []
         
         # Queue time tracking
         queue_time_start = []
@@ -672,9 +672,9 @@ class SchedulerOutputProcessorMixin:
                         output_token_ids_logprobs_idx.append([])
 
                 if req.return_hidden_states:
-                    if output_hidden_states is None:
-                        output_hidden_states = []
                     output_hidden_states.append(req.hidden_states)
+                else:
+                    output_hidden_states.append([])
 
             if (
                 req.finished()
