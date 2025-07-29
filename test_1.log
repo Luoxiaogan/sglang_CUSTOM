@@ -1,0 +1,41 @@
+(lg) root:/nas/ganluo# bash /nas/ganluo/sglang/bash_for_start_the_router.sh
+==========================================
+SGLang Router 启动配置
+==========================================
+路由策略: random
+Worker节点: http://localhost:40005 http://localhost:40006
+路由器地址: 0.0.0.0:40009
+请求追踪: true
+日志级别: INFO
+==========================================
+
+执行命令:
+python /nas/ganluo/sglang/start_a_router_general.py --policy random --host 0.0.0.0 --port 40009 --log-level INFO --workers http://localhost:40005 http://localhost:40006 --enable-tracking --max-trace-entries 100000 --trace-ttl 3600
+
+Port-GPU mapping saved to: /tmp/sglang_port_gpu_mapping.json
+Mapping:
+  Port 40005 -> cuda:0
+  Port 40006 -> cuda:1
+
+Starting router with configuration:
+  Policy: random
+  Workers: ['http://localhost:40005', 'http://localhost:40006']
+  Host: 0.0.0.0:40009
+  Request tracking: Enabled
+  Max trace entries: 100000
+  Trace TTL: 3600s
+  Log level: INFO
+
+Router started successfully! Press Ctrl+C to stop.
+2025-07-29 09:06:38  INFO sglang_router_rs::server: src/server.rs:331: 🚧 Initializing Prometheus metrics on 127.0.0.1:29000
+
+thread '<unnamed>' panicked at src/metrics.rs:153:10:
+failed to install Prometheus metrics exporter: FailedToCreateHTTPListener("Address already in use (os error 98)")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Traceback (most recent call last):
+  File "/nas/ganluo/sglang/start_a_router_general.py", line 193, in <module>
+    main()
+  File "/nas/ganluo/sglang/start_a_router_general.py", line 184, in main
+    router.start()
+pyo3_runtime.PanicException: failed to install Prometheus metrics exporter: FailedToCreateHTTPListener("Address already in use (os error 98)")
+(lg) root:/nas/ganluo# 

@@ -86,7 +86,7 @@ CMD="$CMD --log-level $LOG_LEVEL"
 #     CMD="$CMD --workers $worker"
 # done
 # 需要一次性添加所有worker
-CMD = "$CMD --workers ${WORKERS[@]}"
+CMD="$CMD --workers ${WORKERS[@]}"
 
 # 添加追踪配置
 if [ "$ENABLE_TRACKING" = true ]; then
