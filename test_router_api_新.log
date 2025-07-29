@@ -1,0 +1,67 @@
+🚀 Testing Router API Formats
+
+✅ Router health check passed
+
+Testing Format 1: text + sampling_params...
+Payload: {
+  "text": "Hello, how are you?",
+  "sampling_params": {
+    "max_new_tokens": 10,
+    "temperature": 0.1
+  }
+}
+❌ Exception: ContentTypeError: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:60009/generate'
+--------------------------------------------------
+
+Testing Format 2: prompt + max_tokens...
+Payload: {
+  "prompt": "Hello, how are you?",
+  "max_tokens": 10,
+  "temperature": 0.1
+}
+❌ Exception: ContentTypeError: 400, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:60009/generate'
+--------------------------------------------------
+
+Testing Format 3: text only...
+Payload: {
+  "text": "Hello, how are you?",
+  "max_new_tokens": 10,
+  "temperature": 0.1
+}
+❌ Exception: ContentTypeError: 200, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:60009/generate'
+--------------------------------------------------
+
+Testing Format 4: messages (chat format)...
+Payload: {
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello, how are you?"
+    }
+  ],
+  "max_tokens": 10,
+  "temperature": 0.1
+}
+❌ Exception: ContentTypeError: 400, message='Attempt to decode JSON with unexpected mimetype: ', url='http://localhost:60009/generate'
+--------------------------------------------------
+
+
+============================================================
+
+Testing different endpoints...
+
+Testing /generate...
+❌ ContentTypeError
+
+Testing /v1/completions...
+❌ Status 400
+
+Testing /v1/chat/completions...
+❌ Status 400
+
+Testing /completions...
+❌ Status 404
+
+Testing /chat/completions...
+❌ Status 404
+
