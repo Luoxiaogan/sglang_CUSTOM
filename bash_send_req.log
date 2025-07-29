@@ -1,0 +1,449 @@
+==========================================
+SGLang Router 测试配置
+==========================================
+请求数量: 200
+请求速率: 50.0 req/s
+数据集: random
+输入长度: 512 ±256%
+输出长度: 128 ±64%
+路由器地址: http://localhost:60009
+==========================================
+
+执行命令:
+python /nas/ganluo/sglang/send_req.py --num-requests 200 --request-rate 50.0 --dataset random --router-url http://localhost:60009 --input-len 512 --output-len 128 --range-ratio 0.5
+
+预计测试时间: 4.0秒（不含处理时间）
+
+Generating 200 random requests...
+✅ Router health check passed
+
+Sending 200 requests at 50.0 req/s...
+📤 Request 1/200 sent at 0.00s
+📤 Request 2/200 sent at 0.05s
+📤 Request 3/200 sent at 0.05s
+📤 Request 4/200 sent at 0.05s
+📤 Request 5/200 sent at 0.06s
+📤 Request 6/200 sent at 0.10s
+📤 Request 7/200 sent at 0.11s
+📤 Request 8/200 sent at 0.12s
+📤 Request 9/200 sent at 0.14s
+📤 Request 10/200 sent at 0.14s
+📤 Request 11/200 sent at 0.15s
+📤 Request 12/200 sent at 0.16s
+📤 Request 13/200 sent at 0.22s
+📤 Request 14/200 sent at 0.22s
+📤 Request 15/200 sent at 0.25s
+📤 Request 16/200 sent at 0.28s
+📤 Request 17/200 sent at 0.34s
+📤 Request 18/200 sent at 0.38s
+📤 Request 19/200 sent at 0.38s
+📤 Request 20/200 sent at 0.46s
+📤 Request 21/200 sent at 0.46s
+📤 Request 22/200 sent at 0.47s
+📤 Request 23/200 sent at 0.51s
+📤 Request 24/200 sent at 0.52s
+📤 Request 25/200 sent at 0.54s
+📤 Request 26/200 sent at 0.55s
+📤 Request 27/200 sent at 0.59s
+📤 Request 28/200 sent at 0.60s
+📤 Request 29/200 sent at 0.62s
+📤 Request 30/200 sent at 0.63s
+📤 Request 31/200 sent at 0.66s
+📤 Request 32/200 sent at 0.66s
+📤 Request 33/200 sent at 0.69s
+📤 Request 34/200 sent at 0.70s
+📤 Request 35/200 sent at 0.70s
+📤 Request 36/200 sent at 0.71s
+📤 Request 37/200 sent at 0.72s
+📤 Request 38/200 sent at 0.78s
+📤 Request 39/200 sent at 0.79s
+📤 Request 40/200 sent at 0.79s
+📤 Request 41/200 sent at 0.83s
+📤 Request 42/200 sent at 0.83s
+📤 Request 43/200 sent at 0.83s
+📤 Request 44/200 sent at 0.83s
+📤 Request 45/200 sent at 0.86s
+✅ Request 10/200 completed
+📤 Request 46/200 sent at 0.87s
+📤 Request 47/200 sent at 0.89s
+📤 Request 48/200 sent at 0.89s
+📤 Request 49/200 sent at 0.89s
+📤 Request 50/200 sent at 0.92s
+📤 Request 51/200 sent at 0.94s
+📤 Request 52/200 sent at 0.96s
+📤 Request 53/200 sent at 0.98s
+📤 Request 54/200 sent at 0.99s
+📤 Request 55/200 sent at 1.02s
+📤 Request 56/200 sent at 1.03s
+📤 Request 57/200 sent at 1.03s
+📤 Request 58/200 sent at 1.04s
+✅ Request 12/200 completed
+✅ Request 19/200 completed
+📤 Request 59/200 sent at 1.08s
+📤 Request 60/200 sent at 1.09s
+📤 Request 61/200 sent at 1.10s
+📤 Request 62/200 sent at 1.11s
+📤 Request 63/200 sent at 1.12s
+✅ Request 22/200 completed
+📤 Request 64/200 sent at 1.22s
+✅ Request 11/200 completed
+📤 Request 65/200 sent at 1.25s
+📤 Request 66/200 sent at 1.27s
+📤 Request 67/200 sent at 1.27s
+✅ Request 9/200 completed
+📤 Request 68/200 sent at 1.31s
+📤 Request 69/200 sent at 1.32s
+📤 Request 70/200 sent at 1.35s
+📤 Request 71/200 sent at 1.35s
+✅ Request 2/200 completed
+📤 Request 72/200 sent at 1.38s
+✅ Request 16/200 completed
+✅ Request 13/200 completed
+📤 Request 73/200 sent at 1.40s
+📤 Request 74/200 sent at 1.41s
+✅ Request 20/200 completed
+📤 Request 75/200 sent at 1.41s
+📤 Request 76/200 sent at 1.42s
+📤 Request 77/200 sent at 1.43s
+✅ Request 6/200 completed
+✅ Request 14/200 completed
+📤 Request 78/200 sent at 1.48s
+📤 Request 79/200 sent at 1.49s
+📤 Request 80/200 sent at 1.49s
+📤 Request 81/200 sent at 1.51s
+📤 Request 82/200 sent at 1.52s
+📤 Request 83/200 sent at 1.53s
+✅ Request 1/200 completed
+✅ Request 25/200 completed
+📤 Request 84/200 sent at 1.57s
+✅ Request 23/200 completed
+📤 Request 85/200 sent at 1.59s
+📤 Request 86/200 sent at 1.60s
+📤 Request 87/200 sent at 1.60s
+📤 Request 88/200 sent at 1.61s
+✅ Request 36/200 completed
+📤 Request 89/200 sent at 1.63s
+✅ Request 8/200 completed
+📤 Request 90/200 sent at 1.64s
+📤 Request 91/200 sent at 1.65s
+📤 Request 92/200 sent at 1.65s
+📤 Request 93/200 sent at 1.67s
+📤 Request 94/200 sent at 1.72s
+📤 Request 95/200 sent at 1.74s
+✅ Request 4/200 completed
+📤 Request 96/200 sent at 1.80s
+✅ Request 18/200 completed
+✅ Request 49/200 completed
+✅ Request 35/200 completed
+📤 Request 97/200 sent at 1.85s
+📤 Request 98/200 sent at 1.85s
+✅ Request 60/200 completed
+📤 Request 99/200 sent at 1.86s
+✅ Request 3/200 completed
+📤 Request 100/200 sent at 1.88s
+📤 Request 101/200 sent at 1.88s
+✅ Request 32/200 completed
+✅ Request 29/200 completed
+📤 Request 102/200 sent at 1.91s
+📤 Request 103/200 sent at 1.93s
+✅ Request 39/200 completed
+📤 Request 104/200 sent at 1.95s
+✅ Request 61/200 completed
+📤 Request 105/200 sent at 1.95s
+📤 Request 106/200 sent at 1.97s
+✅ Request 30/200 completed
+✅ Request 59/200 completed
+✅ Request 57/200 completed
+📤 Request 107/200 sent at 2.02s
+✅ Request 26/200 completed
+✅ Request 34/200 completed
+📤 Request 108/200 sent at 2.09s
+✅ Request 5/200 completed
+📤 Request 109/200 sent at 2.09s
+✅ Request 62/200 completed
+📤 Request 110/200 sent at 2.13s
+✅ Request 48/200 completed
+✅ Request 51/200 completed
+✅ Request 7/200 completed
+✅ Request 43/200 completed
+✅ Request 47/200 completed
+✅ Request 33/200 completed
+📤 Request 111/200 sent at 2.16s
+📤 Request 112/200 sent at 2.17s
+📤 Request 113/200 sent at 2.17s
+📤 Request 114/200 sent at 2.19s
+📤 Request 115/200 sent at 2.20s
+📤 Request 116/200 sent at 2.20s
+✅ Request 44/200 completed
+✅ Request 77/200 completed
+📤 Request 117/200 sent at 2.21s
+📤 Request 118/200 sent at 2.25s
+✅ Request 76/200 completed
+📤 Request 119/200 sent at 2.26s
+✅ Request 79/200 completed
+✅ Request 63/200 completed
+✅ Request 27/200 completed
+✅ Request 28/200 completed
+📤 Request 120/200 sent at 2.32s
+✅ Request 37/200 completed
+📤 Request 121/200 sent at 2.32s
+✅ Request 87/200 completed
+✅ Request 15/200 completed
+📤 Request 122/200 sent at 2.33s
+📤 Request 123/200 sent at 2.34s
+📤 Request 124/200 sent at 2.35s
+✅ Request 50/200 completed
+📤 Request 125/200 sent at 2.36s
+✅ Request 70/200 completed
+✅ Request 46/200 completed
+📤 Request 126/200 sent at 2.37s
+📤 Request 127/200 sent at 2.38s
+✅ Request 93/200 completed
+✅ Request 71/200 completed
+📤 Request 128/200 sent at 2.40s
+✅ Request 21/200 completed
+📤 Request 129/200 sent at 2.42s
+✅ Request 52/200 completed
+📤 Request 130/200 sent at 2.42s
+📤 Request 131/200 sent at 2.43s
+✅ Request 17/200 completed
+📤 Request 132/200 sent at 2.46s
+✅ Request 58/200 completed
+📤 Request 133/200 sent at 2.47s
+📤 Request 134/200 sent at 2.49s
+✅ Request 24/200 completed
+📤 Request 135/200 sent at 2.53s
+📤 Request 136/200 sent at 2.55s
+📤 Request 137/200 sent at 2.55s
+📤 Request 138/200 sent at 2.56s
+✅ Request 84/200 completed
+✅ Request 78/200 completed
+✅ Request 92/200 completed
+✅ Request 41/200 completed
+📤 Request 139/200 sent at 2.57s
+📤 Request 140/200 sent at 2.58s
+📤 Request 141/200 sent at 2.60s
+📤 Request 142/200 sent at 2.61s
+✅ Request 95/200 completed
+✅ Request 86/200 completed
+📤 Request 143/200 sent at 2.67s
+✅ Request 66/200 completed
+📤 Request 144/200 sent at 2.67s
+✅ Request 69/200 completed
+📤 Request 145/200 sent at 2.70s
+✅ Request 73/200 completed
+📤 Request 146/200 sent at 2.71s
+✅ Request 31/200 completed
+📤 Request 147/200 sent at 2.74s
+✅ Request 107/200 completed
+✅ Request 55/200 completed
+✅ Request 97/200 completed
+📤 Request 148/200 sent at 2.77s
+✅ Request 45/200 completed
+✅ Request 38/200 completed
+📤 Request 149/200 sent at 2.78s
+📤 Request 150/200 sent at 2.80s
+📤 Request 151/200 sent at 2.81s
+✅ Request 90/200 completed
+📤 Request 152/200 sent at 2.82s
+✅ Request 65/200 completed
+✅ Request 53/200 completed
+✅ Request 85/200 completed
+✅ Request 67/200 completed
+✅ Request 102/200 completed
+✅ Request 88/200 completed
+✅ Request 101/200 completed
+✅ Request 83/200 completed
+✅ Request 106/200 completed
+✅ Request 91/200 completed
+✅ Request 40/200 completed
+✅ Request 96/200 completed
+📤 Request 153/200 sent at 2.93s
+✅ Request 100/200 completed
+✅ Request 114/200 completed
+✅ Request 42/200 completed
+✅ Request 56/200 completed
+✅ Request 94/200 completed
+✅ Request 110/200 completed
+✅ Request 112/200 completed
+✅ Request 68/200 completed
+📤 Request 154/200 sent at 3.01s
+📤 Request 155/200 sent at 3.01s
+📤 Request 156/200 sent at 3.02s
+📤 Request 157/200 sent at 3.03s
+✅ Request 54/200 completed
+✅ Request 127/200 completed
+✅ Request 118/200 completed
+✅ Request 64/200 completed
+📤 Request 158/200 sent at 3.09s
+✅ Request 121/200 completed
+📤 Request 159/200 sent at 3.11s
+📤 Request 160/200 sent at 3.12s
+📤 Request 161/200 sent at 3.13s
+📤 Request 162/200 sent at 3.14s
+📤 Request 163/200 sent at 3.14s
+📤 Request 164/200 sent at 3.15s
+📤 Request 165/200 sent at 3.17s
+✅ Request 115/200 completed
+✅ Request 99/200 completed
+📤 Request 166/200 sent at 3.18s
+✅ Request 80/200 completed
+✅ Request 135/200 completed
+📤 Request 167/200 sent at 3.23s
+✅ Request 72/200 completed
+📤 Request 168/200 sent at 3.25s
+📤 Request 169/200 sent at 3.26s
+✅ Request 75/200 completed
+✅ Request 132/200 completed
+📤 Request 170/200 sent at 3.29s
+✅ Request 82/200 completed
+📤 Request 171/200 sent at 3.29s
+✅ Request 89/200 completed
+✅ Request 113/200 completed
+📤 Request 172/200 sent at 3.30s
+✅ Request 98/200 completed
+📤 Request 173/200 sent at 3.32s
+✅ Request 74/200 completed
+✅ Request 134/200 completed
+📤 Request 174/200 sent at 3.34s
+📤 Request 175/200 sent at 3.35s
+✅ Request 123/200 completed
+✅ Request 81/200 completed
+📤 Request 176/200 sent at 3.42s
+📤 Request 177/200 sent at 3.44s
+✅ Request 136/200 completed
+✅ Request 133/200 completed
+✅ Request 108/200 completed
+📤 Request 178/200 sent at 3.51s
+✅ Request 152/200 completed
+✅ Request 150/200 completed
+📤 Request 179/200 sent at 3.56s
+✅ Request 105/200 completed
+✅ Request 142/200 completed
+📤 Request 180/200 sent at 3.57s
+✅ Request 126/200 completed
+✅ Request 122/200 completed
+📤 Request 181/200 sent at 3.62s
+📤 Request 182/200 sent at 3.64s
+✅ Request 109/200 completed
+✅ Request 131/200 completed
+📤 Request 183/200 sent at 3.65s
+✅ Request 159/200 completed
+✅ Request 140/200 completed
+✅ Request 104/200 completed
+✅ Request 147/200 completed
+📤 Request 184/200 sent at 3.67s
+✅ Request 124/200 completed
+📤 Request 185/200 sent at 3.68s
+✅ Request 119/200 completed
+📤 Request 186/200 sent at 3.68s
+📤 Request 187/200 sent at 3.70s
+📤 Request 188/200 sent at 3.72s
+📤 Request 189/200 sent at 3.73s
+✅ Request 148/200 completed
+📤 Request 190/200 sent at 3.75s
+✅ Request 116/200 completed
+📤 Request 191/200 sent at 3.80s
+✅ Request 120/200 completed
+✅ Request 139/200 completed
+✅ Request 145/200 completed
+📤 Request 192/200 sent at 3.83s
+✅ Request 103/200 completed
+📤 Request 193/200 sent at 3.86s
+✅ Request 137/200 completed
+✅ Request 151/200 completed
+📤 Request 194/200 sent at 3.89s
+📤 Request 195/200 sent at 3.90s
+📤 Request 196/200 sent at 3.91s
+📤 Request 197/200 sent at 3.91s
+📤 Request 198/200 sent at 3.91s
+📤 Request 199/200 sent at 3.91s
+📤 Request 200/200 sent at 3.94s
+
+Waiting for all requests to complete...
+✅ Request 138/200 completed
+✅ Request 111/200 completed
+✅ Request 125/200 completed
+✅ Request 167/200 completed
+✅ Request 168/200 completed
+✅ Request 130/200 completed
+✅ Request 141/200 completed
+✅ Request 117/200 completed
+✅ Request 162/200 completed
+✅ Request 169/200 completed
+✅ Request 149/200 completed
+✅ Request 143/200 completed
+✅ Request 128/200 completed
+✅ Request 154/200 completed
+✅ Request 164/200 completed
+✅ Request 177/200 completed
+✅ Request 153/200 completed
+✅ Request 129/200 completed
+✅ Request 144/200 completed
+✅ Request 170/200 completed
+✅ Request 180/200 completed
+✅ Request 163/200 completed
+✅ Request 176/200 completed
+✅ Request 166/200 completed
+✅ Request 171/200 completed
+✅ Request 146/200 completed
+✅ Request 183/200 completed
+✅ Request 191/200 completed
+✅ Request 175/200 completed
+✅ Request 196/200 completed
+✅ Request 186/200 completed
+✅ Request 198/200 completed
+✅ Request 189/200 completed
+✅ Request 160/200 completed
+✅ Request 158/200 completed
+✅ Request 155/200 completed
+✅ Request 156/200 completed
+✅ Request 172/200 completed
+✅ Request 181/200 completed
+✅ Request 187/200 completed
+✅ Request 174/200 completed
+✅ Request 194/200 completed
+✅ Request 161/200 completed
+✅ Request 190/200 completed
+✅ Request 165/200 completed
+✅ Request 157/200 completed
+✅ Request 173/200 completed
+✅ Request 182/200 completed
+✅ Request 200/200 completed
+✅ Request 179/200 completed
+✅ Request 193/200 completed
+✅ Request 178/200 completed
+✅ Request 184/200 completed
+✅ Request 199/200 completed
+✅ Request 192/200 completed
+✅ Request 185/200 completed
+✅ Request 188/200 completed
+✅ Request 197/200 completed
+✅ Request 195/200 completed
+
+✅ All requests sent in 5.22s
+
+Querying request tracking information...
+✅ Found tracking info for 200 requests
+
+✅ Results exported to: router_test_20250729_203221.csv
+
+📊 Summary Statistics:
+Total requests: 200
+Successful requests: 200
+Failed requests: 0
+
+Latency Statistics (successful requests):
+  Server latency: mean=1.278s, p50=1.257s, p99=2.110s
+  Total latency: mean=1.278s, p50=1.257s, p99=2.110s
+  Queue time: mean=0.000s, p50=0.000s, p99=0.000s
+  Server queue time (total): mean=0.536s, p50=0.528s, p99=0.732s
+
+Host Distribution:
+  http://localhost:60005: 106 requests (53.0%)
+  http://localhost:60006: 94 requests (47.0%)
+
+==========================================
+测试完成！
+结果已保存到: router_test_*.csv
+==========================================

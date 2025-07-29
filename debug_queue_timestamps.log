@@ -1,0 +1,61 @@
+
+
+============================================================
+Checking Metrics Status
+============================================================
+
+✅ http://localhost:60005: Metrics enabled
+✅ http://localhost:60006: Metrics enabled
+
+============================================================
+Debugging Queue Timestamps - 2025-07-29 20:31:00.654515
+Router URL: http://localhost:60009
+============================================================
+
+📤 Sending test request...
+
+📋 Full Response:
+{
+  "text": " message. I am testing the messaging system to make sure it is working properly. If you receive this",
+  "meta_info": {
+    "id": "e28ecca10afc4600999dadf613bfa04c",
+    "finish_reason": {
+      "type": "length",
+      "length": 20
+    },
+    "prompt_tokens": 7,
+    "completion_tokens": 20,
+    "cached_tokens": 1,
+    "server_created_time": 1753792260.6563783,
+    "server_first_token_time": null,
+    "queue_time_start": null,
+    "queue_time_end": null,
+    "e2e_latency": 0.14353013038635254
+  }
+}
+
+📊 Meta Info Fields:
+  id: e28ecca10afc4600999dadf613bfa04c
+  finish_reason: {'type': 'length', 'length': 20}
+  prompt_tokens: 7
+  completion_tokens: 20
+  cached_tokens: 1
+  server_created_time: 1753792260.6563783
+  server_first_token_time: None
+  queue_time_start: None
+  queue_time_end: None
+  e2e_latency: 0.14353013038635254
+
+🔍 Timestamp Analysis:
+  ✅ server_created_time: 1753792260.6563783
+  ❌ server_first_token_time: Missing!
+  ❌ queue_time_start: Missing!
+  ❌ queue_time_end: Missing!
+
+  ❌ Cannot calculate pure queue time
+
+💡 Troubleshooting Tips:
+1. Ensure servers were started with --enable-metrics
+2. Check if queue_time_start/end are being set in scheduler
+3. Verify BatchTokenIDOut is passing the timestamps correctly
+4. Check if tokenizer_manager is receiving the timestamps

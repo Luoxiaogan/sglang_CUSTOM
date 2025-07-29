@@ -102,7 +102,7 @@ async def check_metrics_endpoint(server_urls: list):
 
 
 async def main():
-    router_url = "http://localhost:40009"
+    router_url = "http://localhost:60009"
     server_urls = ["http://localhost:60005", "http://localhost:60006"]
     
     # Check metrics on servers

@@ -13,7 +13,7 @@ from datetime import datetime
 async def test_queue_timestamps():
     """Test queue timestamp functionality."""
     
-    router_url = "http://localhost:40009"
+    router_url = "http://localhost:60009"
     
     print(f"\n{'='*60}")
     print(f"Verifying Queue Timestamp Fix - {datetime.now()}")
