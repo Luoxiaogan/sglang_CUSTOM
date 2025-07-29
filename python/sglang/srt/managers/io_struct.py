@@ -692,6 +692,10 @@ class BatchTokenIDOut:
     # Hidden states
     output_hidden_states: List[List[float]]
 
+    # Timing information for accurate queue time measurement
+    queue_time_start: Optional[List[float]] = None
+    queue_time_end: Optional[List[float]] = None
+
 
 @dataclass
 class BatchMultimodalDecodeReq:

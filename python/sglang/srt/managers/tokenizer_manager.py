@@ -1413,6 +1413,9 @@ class TokenizerManager:
                         # Add server-side timestamps for accurate queue time measurement
                         "server_created_time": state.created_time,
                         "server_first_token_time": state.first_token_time if state.first_token_time > 0 else None,
+                        # Add queue time tracking from scheduler
+                        "queue_time_start": recv_obj.queue_time_start[i] if hasattr(recv_obj, 'queue_time_start') and recv_obj.queue_time_start else None,
+                        "queue_time_end": recv_obj.queue_time_end[i] if hasattr(recv_obj, 'queue_time_end') and recv_obj.queue_time_end else None,
                     }
                 )
 

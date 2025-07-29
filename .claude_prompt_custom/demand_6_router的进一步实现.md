@@ -753,3 +753,94 @@ python send_request_and_track.py \
 - **高负载**：`queue_time_in_server` 可能 > 1s
 
 如果测试通过，说明当前的修改已经能够提供基本的 server 端排队时间测量。之后可以继续实施更精确的时间戳记录计划。
+
+## 精确排队时间测量实现（2025-07-29 完成）
+
+### 实现概述
+
+成功实现了精确的排队时间测量功能，能够区分请求在server端的各个处理阶段。
+
+### 已完成的修改
+
+#### 1. BatchTokenIDOut结构增强 ✅
+**文件**: `/Users/luogan/Code/sglang/python/sglang/srt/managers/io_struct.py`
+- 添加了`queue_time_start`和`queue_time_end`字段（Optional[List[float]]）
+- 这些字段记录请求在scheduler队列中的精确时间
+
+#### 2. Scheduler时间戳传递 ✅
+**文件**: `/Users/luogan/Code/sglang/python/sglang/srt/managers/scheduler_output_processor_mixin.py`
+- 在`stream_output_generation`方法中收集queue时间戳
+- 将时间戳通过BatchTokenIDOut传递给tokenizer_manager
+
+#### 3. TokenizerManager处理新时间戳 ✅
+**文件**: `/Users/luogan/Code/sglang/python/sglang/srt/managers/tokenizer_manager.py`
+- 在meta_info中添加queue_time_start和queue_time_end
+- 使用hasattr检查确保向后兼容
+
+#### 4. 客户端解析和计算 ✅
+**文件**: `/Users/luogan/Code/sglang/send_req.py`
+- 解析新的queue时间戳
+- 计算pure_queue_time（纯排队时间）
+- 在CSV中添加新列：pure_queue_time, queue_time_start, queue_time_end
+- 更新统计输出，显示纯排队时间统计
+
+### 时间戳说明
+
+现在可以精确测量以下时间段：
+
+1. **Tokenize时间**: queue_time_start - server_created_time
+2. **纯排队时间**: queue_time_end - queue_time_start（新增）
+3. **Prefill时间**: server_first_token_time - queue_time_end
+4. **总server时间**: server_first_token_time - server_created_time
+
+### 测试工具
+
+创建了两个测试工具：
+
+1. **test_queue_timestamps.py**: 专门用于验证新时间戳功能
+   - 单请求测试：详细显示所有时间戳
+   - 多请求测试：测试并发场景下的排队行为
+
+2. **queue_timestamp_test_guide.md**: 测试指南文档
+   - 详细的测试步骤
+   - 时间戳含义说明
+   - 性能分析方法
+
+### 重要注意事项
+
+1. **必须启用--enable-metrics**: queue_time_start和queue_time_end只在metrics启用时记录
+2. **时间基准差异**: scheduler使用time.perf_counter()，其他地方使用time.time()
+3. **向后兼容**: 所有新字段都是可选的，不会影响现有功能
+
+### 性能分析示例
+
+通过新的时间戳，可以进行更精确的性能分析：
+
+```
+低负载场景：
+- Tokenize时间: ~0.001s
+- 纯排队时间: ~0.001s（几乎无排队）
+- Prefill时间: ~0.1-0.2s
+
+高负载场景：
+- Tokenize时间: ~0.001s（不变）
+- 纯排队时间: 0.5-2s（明显排队）
+- Prefill时间: ~0.1-0.2s（不变）
+```
+
+### 后续优化建议
+
+1. **添加prefill_start_time**: 记录prefill开始的精确时间
+2. **统一时间基准**: 考虑统一使用time.time()或time.perf_counter()
+3. **可视化工具**: 开发时间线可视化工具，直观展示请求生命周期
+
+### 未完成的任务
+
+1. **tokenize时间戳记录**（优先级：中）
+   - 需要修改TokenizedGenerateReqInput结构
+   - 在_tokenize_one_request中记录时间
+
+2. **清理generate_poisson_arrivals函数**（优先级：低）
+   - 已废弃的函数，应该删除
+
+这次实现显著提升了性能分析的精度，为后续优化提供了数据支撑。

@@ -494,6 +494,10 @@ class SchedulerOutputProcessorMixin:
         cached_tokens = []
         spec_verify_ct = []
         output_hidden_states = None
+        
+        # Queue time tracking
+        queue_time_start = []
+        queue_time_end = []
 
         if return_logprob:
             input_token_logprobs_val = []
@@ -582,6 +586,10 @@ class SchedulerOutputProcessorMixin:
                 prompt_tokens.append(len(req.origin_input_ids))
                 completion_tokens.append(len(req.output_ids))
                 cached_tokens.append(req.cached_tokens)
+                
+                # Collect queue time information
+                queue_time_start.append(req.queue_time_start)
+                queue_time_end.append(req.queue_time_end)
 
                 if not self.spec_algorithm.is_none():
                     spec_verify_ct.append(req.spec_verify_ct)
@@ -699,6 +707,8 @@ class SchedulerOutputProcessorMixin:
                     output_token_ids_logprobs_val,
                     output_token_ids_logprobs_idx,
                     output_hidden_states,
+                    queue_time_start,
+                    queue_time_end,
                 )
             )
 

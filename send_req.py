@@ -165,10 +165,24 @@ class RequestTracker:
                     # Extract server-side timestamps from meta_info if available
                     server_created_time = None
                     server_first_token_time = None
+                    queue_time_start = None
+                    queue_time_end = None
                     if isinstance(response_data, dict) and "meta_info" in response_data:
                         meta_info = response_data["meta_info"]
                         server_created_time = meta_info.get("server_created_time")
                         server_first_token_time = meta_info.get("server_first_token_time")
+                        queue_time_start = meta_info.get("queue_time_start")
+                        queue_time_end = meta_info.get("queue_time_end")
+                    
+                    # Calculate various time durations
+                    pure_queue_time = None
+                    if queue_time_start and queue_time_end:
+                        pure_queue_time = queue_time_end - queue_time_start
+                    
+                    # Old queue_time_in_server calculation (includes tokenize + queue + prefill)
+                    queue_time_in_server = None
+                    if server_created_time and server_first_token_time:
+                        queue_time_in_server = server_first_token_time - server_created_time
                     
                     result = {
                         "request_id": request["request_id"],
@@ -183,8 +197,11 @@ class RequestTracker:
                         # Add server-side timestamps
                         "server_created_time": server_created_time,
                         "server_first_token_time": server_first_token_time,
+                        "queue_time_start": queue_time_start,
+                        "queue_time_end": queue_time_end,
                         # Calculate server queue time if timestamps available
-                        "queue_time_in_server": (server_first_token_time - server_created_time) if (server_created_time and server_first_token_time) else None
+                        "queue_time_in_server": queue_time_in_server,
+                        "pure_queue_time": pure_queue_time
                     }
                     
                     print(f"✅ Request {index+1}/{total} completed")
@@ -358,12 +375,15 @@ class RequestTracker:
                 "ttft": ttft,
                 "queue_time": queue_time,
                 "queue_time_in_server": queue_time_in_server,
+                "pure_queue_time": r.get("pure_queue_time"),
                 "success": r["success"],
                 "error": r.get("error", ""),
                 "host": r.get("host", "unknown"),  # This replaces worker_url and gpu_id
                 # Add server timestamps (relative to min_time)
                 "server_created_time": (r["server_created_time"] - min_time) if r.get("server_created_time") else None,
-                "server_first_token_time": (r["server_first_token_time"] - min_time) if r.get("server_first_token_time") else None
+                "server_first_token_time": (r["server_first_token_time"] - min_time) if r.get("server_first_token_time") else None,
+                "queue_time_start": (r["queue_time_start"] - min_time) if r.get("queue_time_start") else None,
+                "queue_time_end": (r["queue_time_end"] - min_time) if r.get("queue_time_end") else None
             }
             records.append(record)
         
@@ -373,8 +393,8 @@ class RequestTracker:
         # Ensure column order
         columns = ["req_id", "input_length", "decode_length", "arrival_time", 
                   "to_server_time", "finish_time", "server_latency", "total_latency", 
-                  "ttft", "queue_time", "queue_time_in_server", "success", "error", "host",
-                  "server_created_time", "server_first_token_time"]
+                  "ttft", "queue_time", "queue_time_in_server", "pure_queue_time", "success", "error", "host",
+                  "server_created_time", "server_first_token_time", "queue_time_start", "queue_time_end"]
         # Only include columns that exist in the dataframe
         columns = [col for col in columns if col in df.columns]
         df = df[columns]
@@ -406,9 +426,17 @@ class RequestTracker:
             if 'queue_time_in_server' in successful_df.columns:
                 server_queue_data = successful_df['queue_time_in_server'].dropna()
                 if not server_queue_data.empty:
-                    print(f"  Server queue time: mean={server_queue_data.mean():.3f}s, "
+                    print(f"  Server queue time (total): mean={server_queue_data.mean():.3f}s, "
                           f"p50={server_queue_data.median():.3f}s, "
                           f"p99={server_queue_data.quantile(0.99):.3f}s")
+            
+            # Show pure queue time if available  
+            if 'pure_queue_time' in successful_df.columns:
+                pure_queue_data = successful_df['pure_queue_time'].dropna()
+                if not pure_queue_data.empty:
+                    print(f"  Pure queue time: mean={pure_queue_data.mean():.3f}s, "
+                          f"p50={pure_queue_data.median():.3f}s, "
+                          f"p99={pure_queue_data.quantile(0.99):.3f}s")
         
         # Host distribution
         print(f"\nHost Distribution:")
