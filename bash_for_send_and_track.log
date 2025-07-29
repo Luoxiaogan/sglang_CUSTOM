@@ -1,0 +1,248 @@
+==========================================
+SGLang Router 测试配置
+==========================================
+请求数量: 100
+请求速率: 50.0 req/s
+数据集: random
+输入长度: 512 ±256%
+输出长度: 128 ±64%
+路由器地址: http://localhost:40009
+==========================================
+
+执行命令:
+python /nas/ganluo/sglang/send_request_and_track.py --num-requests 100 --request-rate 50.0 --dataset random --router-url http://localhost:40009 --input-len 512 --output-len 128 --range-ratio 0.5
+
+预计测试时间: 2.0秒（不含处理时间）
+
+Generating 100 random requests...
+✅ Router health check passed
+
+Sending 100 requests at 50.0 req/s...
+📤 Request 1/100 sent at 0.00s
+📤 Request 2/100 sent at 0.05s
+📤 Request 3/100 sent at 0.06s
+📤 Request 4/100 sent at 0.07s
+📤 Request 5/100 sent at 0.08s
+📤 Request 6/100 sent at 0.12s
+📤 Request 7/100 sent at 0.13s
+📤 Request 8/100 sent at 0.15s
+📤 Request 9/100 sent at 0.21s
+📤 Request 10/100 sent at 0.21s
+📤 Request 11/100 sent at 0.22s
+📤 Request 12/100 sent at 0.26s
+📤 Request 13/100 sent at 0.28s
+📤 Request 14/100 sent at 0.28s
+📤 Request 15/100 sent at 0.31s
+📤 Request 16/100 sent at 0.31s
+📤 Request 17/100 sent at 0.32s
+📤 Request 18/100 sent at 0.33s
+📤 Request 19/100 sent at 0.33s
+📤 Request 20/100 sent at 0.34s
+📤 Request 21/100 sent at 0.34s
+📤 Request 22/100 sent at 0.44s
+📤 Request 23/100 sent at 0.46s
+📤 Request 24/100 sent at 0.47s
+📤 Request 25/100 sent at 0.48s
+📤 Request 26/100 sent at 0.51s
+📤 Request 27/100 sent at 0.53s
+📤 Request 28/100 sent at 0.53s
+📤 Request 29/100 sent at 0.58s
+📤 Request 30/100 sent at 0.60s
+📤 Request 31/100 sent at 0.61s
+📤 Request 32/100 sent at 0.63s
+📤 Request 33/100 sent at 0.64s
+📤 Request 34/100 sent at 0.64s
+📤 Request 35/100 sent at 0.66s
+📤 Request 36/100 sent at 0.68s
+📤 Request 37/100 sent at 0.71s
+📤 Request 38/100 sent at 0.72s
+✅ Request 6/100 completed
+📤 Request 39/100 sent at 0.79s
+📤 Request 40/100 sent at 0.79s
+📤 Request 41/100 sent at 0.80s
+📤 Request 42/100 sent at 0.80s
+📤 Request 43/100 sent at 0.83s
+✅ Request 5/100 completed
+📤 Request 44/100 sent at 0.84s
+📤 Request 45/100 sent at 0.88s
+✅ Request 1/100 completed
+📤 Request 46/100 sent at 0.91s
+✅ Request 12/100 completed
+✅ Request 21/100 completed
+📤 Request 47/100 sent at 0.97s
+📤 Request 48/100 sent at 0.97s
+📤 Request 49/100 sent at 0.99s
+📤 Request 50/100 sent at 1.00s
+📤 Request 51/100 sent at 1.01s
+✅ Request 4/100 completed
+✅ Request 3/100 completed
+📤 Request 52/100 sent at 1.09s
+📤 Request 53/100 sent at 1.10s
+📤 Request 54/100 sent at 1.14s
+✅ Request 23/100 completed
+📤 Request 55/100 sent at 1.18s
+✅ Request 20/100 completed
+✅ Request 2/100 completed
+📤 Request 56/100 sent at 1.22s
+✅ Request 30/100 completed
+✅ Request 19/100 completed
+📤 Request 57/100 sent at 1.25s
+📤 Request 58/100 sent at 1.28s
+📤 Request 59/100 sent at 1.29s
+📤 Request 60/100 sent at 1.29s
+📤 Request 61/100 sent at 1.31s
+📤 Request 62/100 sent at 1.31s
+📤 Request 63/100 sent at 1.33s
+✅ Request 31/100 completed
+📤 Request 64/100 sent at 1.37s
+✅ Request 25/100 completed
+✅ Request 16/100 completed
+✅ Request 17/100 completed
+📤 Request 65/100 sent at 1.40s
+📤 Request 66/100 sent at 1.40s
+📤 Request 67/100 sent at 1.42s
+📤 Request 68/100 sent at 1.45s
+✅ Request 8/100 completed
+📤 Request 69/100 sent at 1.47s
+📤 Request 70/100 sent at 1.47s
+📤 Request 71/100 sent at 1.49s
+📤 Request 72/100 sent at 1.53s
+✅ Request 26/100 completed
+✅ Request 18/100 completed
+✅ Request 36/100 completed
+✅ Request 24/100 completed
+✅ Request 10/100 completed
+✅ Request 14/100 completed
+✅ Request 41/100 completed
+📤 Request 73/100 sent at 1.62s
+✅ Request 9/100 completed
+✅ Request 11/100 completed
+📤 Request 74/100 sent at 1.62s
+📤 Request 75/100 sent at 1.65s
+✅ Request 38/100 completed
+📤 Request 76/100 sent at 1.67s
+📤 Request 77/100 sent at 1.69s
+📤 Request 78/100 sent at 1.71s
+📤 Request 79/100 sent at 1.72s
+📤 Request 80/100 sent at 1.73s
+📤 Request 81/100 sent at 1.77s
+📤 Request 82/100 sent at 1.78s
+📤 Request 83/100 sent at 1.79s
+✅ Request 13/100 completed
+📤 Request 84/100 sent at 1.82s
+✅ Request 52/100 completed
+📤 Request 85/100 sent at 1.83s
+📤 Request 86/100 sent at 1.85s
+✅ Request 29/100 completed
+📤 Request 87/100 sent at 1.86s
+📤 Request 88/100 sent at 1.87s
+✅ Request 34/100 completed
+📤 Request 89/100 sent at 1.88s
+✅ Request 7/100 completed
+📤 Request 90/100 sent at 1.91s
+✅ Request 54/100 completed
+📤 Request 91/100 sent at 1.93s
+✅ Request 22/100 completed
+✅ Request 45/100 completed
+📤 Request 92/100 sent at 1.98s
+✅ Request 33/100 completed
+✅ Request 58/100 completed
+✅ Request 50/100 completed
+📤 Request 93/100 sent at 2.03s
+📤 Request 94/100 sent at 2.04s
+📤 Request 95/100 sent at 2.05s
+📤 Request 96/100 sent at 2.07s
+✅ Request 15/100 completed
+✅ Request 27/100 completed
+✅ Request 53/100 completed
+✅ Request 46/100 completed
+✅ Request 59/100 completed
+✅ Request 28/100 completed
+📤 Request 97/100 sent at 2.13s
+✅ Request 44/100 completed
+📤 Request 98/100 sent at 2.15s
+📤 Request 99/100 sent at 2.16s
+✅ Request 35/100 completed
+✅ Request 32/100 completed
+📤 Request 100/100 sent at 2.22s
+
+Waiting for all requests to complete...
+✅ Request 66/100 completed
+✅ Request 61/100 completed
+✅ Request 74/100 completed
+✅ Request 39/100 completed
+✅ Request 37/100 completed
+✅ Request 47/100 completed
+✅ Request 60/100 completed
+✅ Request 55/100 completed
+✅ Request 51/100 completed
+✅ Request 43/100 completed
+✅ Request 56/100 completed
+✅ Request 42/100 completed
+✅ Request 40/100 completed
+✅ Request 62/100 completed
+✅ Request 83/100 completed
+✅ Request 68/100 completed
+✅ Request 49/100 completed
+✅ Request 48/100 completed
+✅ Request 64/100 completed
+✅ Request 95/100 completed
+✅ Request 80/100 completed
+✅ Request 71/100 completed
+✅ Request 78/100 completed
+✅ Request 84/100 completed
+✅ Request 73/100 completed
+✅ Request 76/100 completed
+✅ Request 90/100 completed
+✅ Request 67/100 completed
+✅ Request 57/100 completed
+✅ Request 88/100 completed
+✅ Request 69/100 completed
+✅ Request 89/100 completed
+✅ Request 63/100 completed
+✅ Request 94/100 completed
+✅ Request 70/100 completed
+✅ Request 65/100 completed
+✅ Request 72/100 completed
+✅ Request 85/100 completed
+✅ Request 86/100 completed
+✅ Request 96/100 completed
+✅ Request 87/100 completed
+✅ Request 77/100 completed
+✅ Request 93/100 completed
+✅ Request 92/100 completed
+✅ Request 75/100 completed
+✅ Request 99/100 completed
+✅ Request 82/100 completed
+✅ Request 79/100 completed
+✅ Request 81/100 completed
+✅ Request 91/100 completed
+✅ Request 100/100 completed
+✅ Request 97/100 completed
+✅ Request 98/100 completed
+
+✅ All requests sent in 3.45s
+
+Querying request tracking information...
+✅ Found tracking info for 100 requests
+
+✅ Results exported to: router_test_20250729_154540.csv
+
+📊 Summary Statistics:
+Total requests: 100
+Successful requests: 100
+Failed requests: 0
+
+Latency Statistics (successful requests):
+  Server latency: mean=1.162s, p50=1.166s, p99=1.757s
+  Total latency: mean=1.162s, p50=1.166s, p99=1.757s
+  Queue time: mean=0.000s, p50=0.000s, p99=0.000s
+
+Host Distribution:
+  http://localhost:40005: 52 requests (52.0%)
+  http://localhost:40006: 48 requests (48.0%)
+
+==========================================
+测试完成！
+结果已保存到: router_test_*.csv
+==========================================
