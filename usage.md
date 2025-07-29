@@ -6,7 +6,7 @@
   python test_simple_timestamp.py
 
   # 或指定服务器地址
-  python test_simple_timestamp.py http://localhost:40009 http://localhost:40005 http://localhost:40006
+  python test_simple_timestamp.py http://localhost:60009 http://localhost:60005 http://localhost:60006
   用途：快速检查服务器响应中是否包含时间戳字段。
 
   2. test_timestamp_tracking.py - 全面测试

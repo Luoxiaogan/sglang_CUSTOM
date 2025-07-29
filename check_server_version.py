@@ -59,9 +59,9 @@ def check_server_version(server_url):
 
 def main():
     servers = [
-        "http://localhost:40005",
-        "http://localhost:40006",
-        "http://localhost:40009"  # 路由器
+        "http://localhost:60005",
+        "http://localhost:60006",
+        "http://localhost:60009"  # 路由器
     ]
     
     if len(sys.argv) > 1:

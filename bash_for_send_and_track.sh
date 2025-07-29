@@ -18,7 +18,7 @@ OUTPUT_LEN=128                 # 平均输出长度（tokens）
 RANGE_RATIO=0.5                # 长度变化范围（±50%）
 
 # 路由器配置
-ROUTER_URL="http://localhost:40009"    # 路由器地址
+ROUTER_URL="http://localhost:60009"    # 路由器地址
 
 # 输出配置
 # OUTPUT_FILE="router_test_$(date +%Y%m%d_%H%M%S).csv"  # 自动生成时间戳

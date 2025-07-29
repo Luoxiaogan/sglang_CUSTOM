@@ -14,13 +14,13 @@ POLICY="random"
 # Worker节点配置
 # 修改为你的实际worker地址和端口
 WORKERS=(
-    "http://localhost:40005"    # GPU 2
-    "http://localhost:40006"    # GPU 3
+    "http://localhost:60005"    # GPU 2
+    "http://localhost:60006"    # GPU 3
     # "http://localhost:40007"  # 如需更多worker，取消注释并添加
 )
 
 # 路由器配置
-ROUTER_PORT=40009              # 路由器监听端口
+ROUTER_PORT=60009              # 路由器监听端口
 ROUTER_HOST="0.0.0.0"          # 路由器监听地址
 
 # 请求追踪配置

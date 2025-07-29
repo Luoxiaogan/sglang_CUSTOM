@@ -5,8 +5,8 @@ import json
 # ====== 端口到GPU映射配置 ======
 # 请根据您的实际部署情况修改此映射
 PORT_GPU_MAPPING = {
-    40005: "cuda:2",  # 端口 30005 对应 GPU 2
-    40006: "cuda:3",  # 端口 30006 对应 GPU 3
+    60005: "cuda:2",  # 端口 30005 对应 GPU 2
+    60006: "cuda:3",  # 端口 30006 对应 GPU 3
     # 添加更多映射...
 }
 
@@ -22,11 +22,11 @@ print()
 # 创建启用请求追踪的路由器
 router = Router(
     worker_urls=[
-        "http://localhost:40005",
-        "http://localhost:40006"
+        "http://localhost:60005",
+        "http://localhost:60006"
     ],
     policy=PolicyType.CacheAware,
-    port=40009,
+    port=60009,
     enable_request_tracking=True,  # 启用请求追踪
     max_trace_entries=100000,       # 最多保存10万条记录
     trace_ttl_seconds=3600,         # 记录保存1小时

@@ -1,0 +1,74 @@
+============================================================
+检查 SGLang 服务器版本
+============================================================
+
+检查服务器: http://localhost:60005
+--------------------------------------------------
+❌ 服务器没有使用调试版本（没有 _debug_version 字段）
+✅ 找到 server_created_time: 1753783717.3940437
+✅ 找到 server_first_token_time: None
+
+meta_info 完整内容:
+{
+  "id": "5361573d80b04564810a7545e62e2540",
+  "finish_reason": {
+    "type": "length",
+    "length": 5
+  },
+  "prompt_tokens": 3,
+  "completion_tokens": 5,
+  "cached_tokens": 1,
+  "server_created_time": 1753783717.3940437,
+  "server_first_token_time": null,
+  "e2e_latency": 0.04420018196105957
+}
+
+检查服务器: http://localhost:60006
+--------------------------------------------------
+❌ 服务器没有使用调试版本（没有 _debug_version 字段）
+✅ 找到 server_created_time: 1753783717.4406683
+✅ 找到 server_first_token_time: None
+
+meta_info 完整内容:
+{
+  "id": "4ab08c40f6d14620b180a21fd7914d9d",
+  "finish_reason": {
+    "type": "length",
+    "length": 5
+  },
+  "prompt_tokens": 3,
+  "completion_tokens": 5,
+  "cached_tokens": 1,
+  "server_created_time": 1753783717.4406683,
+  "server_first_token_time": null,
+  "e2e_latency": 0.04389214515686035
+}
+
+检查服务器: http://localhost:60009
+--------------------------------------------------
+❌ 服务器没有使用调试版本（没有 _debug_version 字段）
+✅ 找到 server_created_time: 1753783717.487301
+✅ 找到 server_first_token_time: None
+
+meta_info 完整内容:
+{
+  "id": "ff20f948c2e94ed19ded8c0bf5f86977",
+  "finish_reason": {
+    "type": "length",
+    "length": 5
+  },
+  "prompt_tokens": 3,
+  "completion_tokens": 5,
+  "cached_tokens": 2,
+  "server_created_time": 1753783717.487301,
+  "server_first_token_time": null,
+  "e2e_latency": 0.037107229232788086
+}
+
+============================================================
+如果看到调试版本标记，说明代码修改已生效
+如果没有看到，需要：
+1. 确保服务器端的 tokenizer_manager.py 已更新
+2. 删除所有 .pyc 文件
+3. 完全重启服务器
+============================================================
