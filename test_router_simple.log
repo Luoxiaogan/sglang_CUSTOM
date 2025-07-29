@@ -1,0 +1,35 @@
+Testing router at http://localhost:60009/generate
+Request data: {'text': 'Hello, how are you?', 'sampling_params': {'max_new_tokens': 10, 'temperature': 0.1}, 'stream': False}
+------------------------------------------------------------
+Status: 200
+Content-Type: Not specified
+Headers: {'Content-Length': '358', 'x-sglang-worker': 'http://localhost:60006', 'Date': 'Tue, 29 Jul 2025 14:12:50 GMT'}
+------------------------------------------------------------
+Response text (first 500 chars):
+{"text":" I hope you're having a great day! I","meta_info":{"id":"9d05490575424632b9575ca95fd9f9d0","finish_reason":{"type":"length","length":10},"prompt_tokens":7,"completion_tokens":10,"cached_tokens":6,"server_created_time":1753798370.7112043,"server_first_token_time":null,"queue_time_start":null,"queue_time_end":null,"e2e_latency":0.07667279243469238}}
+------------------------------------------------------------
+Successfully parsed as JSON!
+JSON keys: ['text', 'meta_info']
+meta_info keys: ['id', 'finish_reason', 'prompt_tokens', 'completion_tokens', 'cached_tokens', 'server_created_time', 'server_first_token_time', 'queue_time_start', 'queue_time_end', 'e2e_latency']
+  queue_time_start: None
+  queue_time_end: None
+  server_created_time: 1753798370.7112043
+  server_first_token_time: None
+
+一个server的log：
+[2025-07-29 22:12:00] INFO:     127.0.0.1:41944 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:12:10] INFO:     127.0.0.1:33804 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:12:20] INFO:     127.0.0.1:33850 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:12:30] INFO:     127.0.0.1:41928 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:12:40] INFO:     127.0.0.1:41500 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:12:50] INFO:     127.0.0.1:55486 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:12:50] [Queue] Set queue_time_start for req 9d05490575424632b9575ca95fd9f9d0: 1753798370.7119787
+[2025-07-29 22:12:50] [Queue] Set queue_time_end for req 9d05490575424632b9575ca95fd9f9d0: 1753798370.7126198, duration: 0.001s
+[2025-07-29 22:12:50] Prefill batch. #new-seq: 1, #new-token: 1, #cached-token: 6, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-29 22:12:50] [QueueTime] Collecting for req 9d05490575424632b9575ca95fd9f9d0: start=1753798370.7119787, end=1753798370.7126198
+[2025-07-29 22:12:50] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 22:12:50] [QueueTime] queue_time_start values: [1753798370.7119787]...
+[2025-07-29 22:12:50] [QueueTime] queue_time_end values: [1753798370.7126198]...
+[2025-07-29 22:12:50] [QueueTime] Processing request 9d05490575424632b9575ca95fd9f9d0, index 0
+[2025-07-29 22:12:50] INFO:     127.0.0.1:55492 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 22:13:00] INFO:     127.0.0.1:52090 - "GET /health HTTP/1.1" 200 OK
