@@ -1,0 +1,270 @@
+============================================================
+测试不同的 API 端点和请求格式
+============================================================
+
+
+### 测试用例 1 - 服务器 http://localhost:40005 ###
+
+测试: http://localhost:40005/generate
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.044s
+响应头: {'date': 'Tue, 29 Jul 2025 09:48:32 GMT', 'server': 'uvicorn', 'content-length': '212', 'content-type': 'application/json'}
+响应类型: JSON
+顶层键: ['text', 'meta_info']
+
+在 meta_info 找到时间字段: ['e2e_latency']
+  e2e_latency: 0.040524959564208984
+
+完整响应（前800字符）:
+{
+  "text": ", I am a ",
+  "meta_info": {
+    "id": "2ef89b4eda724d9593e26225c6befb12",
+    "finish_reason": {
+      "type": "length",
+      "length": 5
+    },
+    "prompt_tokens": 2,
+    "completion_tokens": 5,
+    "cached_tokens": 1,
+    "e2e_latency": 0.040524959564208984
+  }
+}
+
+
+### 测试用例 2 - 服务器 http://localhost:40005 ###
+
+测试: http://localhost:40005/generate
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.835s
+响应头: {'date': 'Tue, 29 Jul 2025 09:48:32 GMT', 'server': 'uvicorn', 'content-length': '915', 'content-type': 'application/json'}
+响应类型: JSON
+顶层键: ['text', 'meta_info']
+
+在 meta_info 找到时间字段: ['e2e_latency']
+  e2e_latency: 0.8331613540649414
+
+完整响应（前800字符）:
+{
+  "text": " there, and welcome to our homepage! We are Ryan and Jeremy, and we are two graphic designers teaming up to showcase our passion for design and creativity.\nWe met while studying graphic design at the local college and quickly discovered that we shared a passion for creating innovative and visually stunning designs. We started working together and collaborating on projects, and that eventually grew into our own design studio.\n\nWe provide a range of services including branding, logo design, business card design, brochure design, and more. Our goal is to understand each client's unique needs and deliver a design that not only looks great but also effectively communicates their message. We work closely",
+  "meta_info": {
+    "id": "2c8656ac21954283abfa37978233fa0f",
+    "finish
+
+
+### 测试用例 3 - 服务器 http://localhost:40005 ###
+
+测试: http://localhost:40005/v1/completions
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.041s
+响应头: {'date': 'Tue, 29 Jul 2025 09:48:33 GMT', 'server': 'uvicorn', 'content-length': '307', 'content-type': 'application/json'}
+响应类型: JSON
+顶层键: ['id', 'object', 'created', 'model', 'choices', 'usage']
+
+完整响应（前800字符）:
+{
+  "id": "2ff8c156f2304233ba1b0305f3c064f9",
+  "object": "text_completion",
+  "created": 1753782514,
+  "model": "default",
+  "choices": [
+    {
+      "index": 0,
+      "text": ", I am a ",
+      "logprobs": null,
+      "finish_reason": "length",
+      "matched_stop": null
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 2,
+    "total_tokens": 7,
+    "completion_tokens": 5,
+    "prompt_tokens_details": null
+  }
+}
+
+
+### 测试用例 4 - 服务器 http://localhost:40005 ###
+
+测试: http://localhost:40005/generate
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.042s
+响应头: {'date': 'Tue, 29 Jul 2025 09:48:34 GMT', 'server': 'uvicorn', 'content-length': '211', 'content-type': 'application/json'}
+响应类型: JSON
+顶层键: ['text', 'meta_info']
+
+在 meta_info 找到时间字段: ['e2e_latency']
+  e2e_latency: 0.03907370567321777
+
+完整响应（前800字符）:
+{
+  "text": ", I am a ",
+  "meta_info": {
+    "id": "b20dcf17e55f4426b83b802356cd9c76",
+    "finish_reason": {
+      "type": "length",
+      "length": 5
+    },
+    "prompt_tokens": 2,
+    "completion_tokens": 5,
+    "cached_tokens": 1,
+    "e2e_latency": 0.03907370567321777
+  }
+}
+
+
+### 测试用例 1 - 服务器 http://localhost:40006 ###
+
+测试: http://localhost:40006/generate
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.047s
+响应头: {'date': 'Tue, 29 Jul 2025 09:48:34 GMT', 'server': 'uvicorn', 'content-length': '212', 'content-type': 'application/json'}
+响应类型: JSON
+顶层键: ['text', 'meta_info']
+
+在 meta_info 找到时间字段: ['e2e_latency']
+  e2e_latency: 0.043747901916503906
+
+完整响应（前800字符）:
+{
+  "text": ", I am a ",
+  "meta_info": {
+    "id": "c84c81d654514ae6abdfc6d1046551ef",
+    "finish_reason": {
+      "type": "length",
+      "length": 5
+    },
+    "prompt_tokens": 2,
+    "completion_tokens": 5,
+    "cached_tokens": 1,
+    "e2e_latency": 0.043747901916503906
+  }
+}
+
+
+### 测试用例 2 - 服务器 http://localhost:40006 ###
+
+测试: http://localhost:40006/generate
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.846s
+响应头: {'date': 'Tue, 29 Jul 2025 09:48:35 GMT', 'server': 'uvicorn', 'content-length': '765', 'content-type': 'application/json'}
+响应类型: JSON
+顶层键: ['text', 'meta_info']
+
+在 meta_info 找到时间字段: ['e2e_latency']
+  e2e_latency: 0.8435482978820801
+
+完整响应（前800字符）:
+{
+  "text": ", I'm Jinger!\nI am a 4th-generation Texan, born and raised in the heart of the Lone Star State. Growing up, I was always fascinated by the world around me, and I loved to explore and learn about the things that made our world tick. As I grew older, my curiosity only deepened, and I found myself drawn to the mysteries of the universe, the intricacies of human psychology, and the power of storytelling. I spent years honing my skills as a writer, soaking up knowledge, and practicing my craft until I was ready to share it with the world. And that's how this",
+  "meta_info": {
+    "id": "6c2711ee46f54031be877fee5d5cbea9",
+    "finish_reason": {
+      "type": "length",
+      "length": 128
+    },
+    "prompt_tokens": 2,
+    "completion_tokens": 128,
+    "cached_tokens": 1,
+    "e2e_
+
+
+### 测试用例 3 - 服务器 http://localhost:40006 ###
+
+测试: http://localhost:40006/v1/completions
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.041s
+响应头: {'date': 'Tue, 29 Jul 2025 09:48:36 GMT', 'server': 'uvicorn', 'content-length': '307', 'content-type': 'application/json'}
+响应类型: JSON
+顶层键: ['id', 'object', 'created', 'model', 'choices', 'usage']
+
+完整响应（前800字符）:
+{
+  "id": "b6c7cb56149c460083be4007a6a244c3",
+  "object": "text_completion",
+  "created": 1753782516,
+  "model": "default",
+  "choices": [
+    {
+      "index": 0,
+      "text": ", I am a ",
+      "logprobs": null,
+      "finish_reason": "length",
+      "matched_stop": null
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 2,
+    "total_tokens": 7,
+    "completion_tokens": 5,
+    "prompt_tokens_details": null
+  }
+}
+
+
+### 测试用例 4 - 服务器 http://localhost:40006 ###
+
+测试: http://localhost:40006/generate
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.047s
+响应头: {'date': 'Tue, 29 Jul 2025 09:48:37 GMT', 'server': 'uvicorn', 'content-length': '210', 'content-type': 'application/json'}
+响应类型: JSON
+顶层键: ['text', 'meta_info']
+
+在 meta_info 找到时间字段: ['e2e_latency']
+  e2e_latency: 0.0442354679107666
+
+完整响应（前800字符）:
+{
+  "text": ", I am a ",
+  "meta_info": {
+    "id": "4e391f5555884da78692fc9c08d187e1",
+    "finish_reason": {
+      "type": "length",
+      "length": 5
+    },
+    "prompt_tokens": 2,
+    "completion_tokens": 5,
+    "cached_tokens": 1,
+    "e2e_latency": 0.0442354679107666
+  }
+}
+
+
+### 测试路由器 ###
+
+测试: http://localhost:40009/generate
+------------------------------------------------------------
+状态码: 200
+响应时间: 0.042s
+响应头: {'content-length': '212', 'x-sglang-worker': 'http://localhost:40006', 'date': 'Tue, 29 Jul 2025 09:48:37 GMT'}
+响应类型: JSON
+顶层键: ['text', 'meta_info']
+
+在 meta_info 找到时间字段: ['e2e_latency']
+  e2e_latency: 0.038841962814331055
+
+完整响应（前800字符）:
+{
+  "text": ", I am a ",
+  "meta_info": {
+    "id": "7e31902c67c242f9b27d47a544ef8ce7",
+    "finish_reason": {
+      "type": "length",
+      "length": 5
+    },
+    "prompt_tokens": 2,
+    "completion_tokens": 5,
+    "cached_tokens": 1,
+    "e2e_latency": 0.038841962814331055
+  }
+}

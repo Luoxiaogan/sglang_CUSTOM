@@ -1,0 +1,68 @@
+============================================================
+检查 SGLang 服务器版本
+============================================================
+
+检查服务器: http://localhost:40005
+--------------------------------------------------
+❌ 服务器没有使用调试版本（没有 _debug_version 字段）
+❌ 未找到 server_created_time
+❌ 未找到 server_first_token_time
+
+meta_info 完整内容:
+{
+  "id": "be6f0d9dd66b4aa881427564a1189362",
+  "finish_reason": {
+    "type": "length",
+    "length": 5
+  },
+  "prompt_tokens": 3,
+  "completion_tokens": 5,
+  "cached_tokens": 1,
+  "e2e_latency": 0.041098833084106445
+}
+
+检查服务器: http://localhost:40006
+--------------------------------------------------
+❌ 服务器没有使用调试版本（没有 _debug_version 字段）
+❌ 未找到 server_created_time
+❌ 未找到 server_first_token_time
+
+meta_info 完整内容:
+{
+  "id": "6aa7e5a48f1d4e3eae685318ef5bd626",
+  "finish_reason": {
+    "type": "length",
+    "length": 5
+  },
+  "prompt_tokens": 3,
+  "completion_tokens": 5,
+  "cached_tokens": 1,
+  "e2e_latency": 0.04416489601135254
+}
+
+检查服务器: http://localhost:40009
+--------------------------------------------------
+❌ 服务器没有使用调试版本（没有 _debug_version 字段）
+❌ 未找到 server_created_time
+❌ 未找到 server_first_token_time
+
+meta_info 完整内容:
+{
+  "id": "73e1d90b4a2b49d5b866d4e244b0fd8f",
+  "finish_reason": {
+    "type": "length",
+    "length": 5
+  },
+  "prompt_tokens": 3,
+  "completion_tokens": 5,
+  "cached_tokens": 2,
+  "e2e_latency": 0.03753256797790527
+}
+
+============================================================
+如果看到调试版本标记，说明代码修改已生效
+如果没有看到，需要：
+1. 确保服务器端的 tokenizer_manager.py 已更新
+2. 删除所有 .pyc 文件
+3. 完全重启服务器
+============================================================

@@ -1,0 +1,139 @@
+============================================================
+SGLang 时间戳测试工具（简化版）
+============================================================
+
+测试服务器: http://localhost:40005
+--------------------------------------------------
+状态码: 200
+响应头 Content-Type: application/json
+响应长度: 239 字符
+
+响应的顶层键: ['text', 'meta_info']
+text 字段内容: ! I'm a new blogger and I'm excited...
+
+✅ 找到 meta_info!
+meta_info 的键: ['id', 'finish_reason', 'prompt_tokens', 'completion_tokens', 'cached_tokens', 'e2e_latency']
+
+完整的 meta_info 内容:
+{
+  "id": "e0dc864205164f11a2f9b3ee62e89315",
+  "finish_reason": {
+    "type": "length",
+    "length": 10
+  },
+  "prompt_tokens": 3,
+  "completion_tokens": 10,
+  "cached_tokens": 2,
+  "e2e_latency": 0.07590484619140625
+}
+
+时间戳字段检查:
+  ❌ server_created_time: 不存在
+  ❌ server_first_token_time: 不存在
+  ❌ created_time: 不存在
+  ❌ first_token_time: 不存在
+  ❌ time_cost: 不存在
+
+完整响应内容（前1000字符）:
+{
+  "text": "! I'm a new blogger and I'm excited",
+  "meta_info": {
+    "id": "e0dc864205164f11a2f9b3ee62e89315",
+    "finish_reason": {
+      "type": "length",
+      "length": 10
+    },
+    "prompt_tokens": 3,
+    "completion_tokens": 10,
+    "cached_tokens": 2,
+    "e2e_latency": 0.07590484619140625
+  }
+}
+
+测试服务器: http://localhost:40006
+--------------------------------------------------
+状态码: 200
+响应头 Content-Type: application/json
+响应长度: 239 字符
+
+响应的顶层键: ['text', 'meta_info']
+text 字段内容: ! I'm a new blogger and I'm excited...
+
+✅ 找到 meta_info!
+meta_info 的键: ['id', 'finish_reason', 'prompt_tokens', 'completion_tokens', 'cached_tokens', 'e2e_latency']
+
+完整的 meta_info 内容:
+{
+  "id": "4bb3e145ab7b4eeb8ded544b1c4cd636",
+  "finish_reason": {
+    "type": "length",
+    "length": 10
+  },
+  "prompt_tokens": 3,
+  "completion_tokens": 10,
+  "cached_tokens": 2,
+  "e2e_latency": 0.07631349563598633
+}
+
+时间戳字段检查:
+  ❌ server_created_time: 不存在
+  ❌ server_first_token_time: 不存在
+  ❌ created_time: 不存在
+  ❌ first_token_time: 不存在
+  ❌ time_cost: 不存在
+
+完整响应内容（前1000字符）:
+{
+  "text": "! I'm a new blogger and I'm excited",
+  "meta_info": {
+    "id": "4bb3e145ab7b4eeb8ded544b1c4cd636",
+    "finish_reason": {
+      "type": "length",
+      "length": 10
+    },
+    "prompt_tokens": 3,
+    "completion_tokens": 10,
+    "cached_tokens": 2,
+    "e2e_latency": 0.07631349563598633
+  }
+}
+
+测试路由器: http://localhost:40009
+--------------------------------------------------
+状态码: 200
+
+响应的顶层键: ['text', 'meta_info']
+
+✅ 路由器响应包含 meta_info
+meta_info 内容:
+{
+  "id": "6b77405c628541f2b73bc6788ec38989",
+  "finish_reason": {
+    "type": "length",
+    "length": 10
+  },
+  "prompt_tokens": 4,
+  "completion_tokens": 10,
+  "cached_tokens": 3,
+  "e2e_latency": 0.0692906379699707
+}
+
+响应内容（前500字符）:
+{
+  "text": "! I'm a router, and I'm here",
+  "meta_info": {
+    "id": "6b77405c628541f2b73bc6788ec38989",
+    "finish_reason": {
+      "type": "length",
+      "length": 10
+    },
+    "prompt_tokens": 4,
+    "completion_tokens": 10,
+    "cached_tokens": 3,
+    "e2e_latency": 0.0692906379699707
+  }
+}
+
+============================================================
+测试完成
+============================================================
