@@ -82,9 +82,11 @@ CMD="$CMD --port $ROUTER_PORT"
 CMD="$CMD --log-level $LOG_LEVEL"
 
 # 添加所有worker
-for worker in "${WORKERS[@]}"; do
-    CMD="$CMD --workers $worker"
-done
+# for worker in "${WORKERS[@]}"; do
+#     CMD="$CMD --workers $worker"
+# done
+# 需要一次性添加所有worker
+CMD = "$CMD --workers ${WORKERS[@]}"
 
 # 添加追踪配置
 if [ "$ENABLE_TRACKING" = true ]; then
