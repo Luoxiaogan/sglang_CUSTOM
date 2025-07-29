@@ -215,7 +215,7 @@ async def test_multiple_requests(router_url: str = "http://localhost:40009", num
 
 async def main():
     # Check command line arguments
-    router_url = "http://localhost:40009"
+    router_url = "http://localhost:60009"
     if len(sys.argv) > 1:
         router_url = sys.argv[1]
     

@@ -1,0 +1,1292 @@
+[2025-07-29 21:48:04] PROMETHEUS_MULTIPROC_DIR: /tmp/tmpqg6b383f
+[2025-07-29 21:48:04] server_args=ServerArgs(model_path='/nas/models/Meta-Llama-3-8B-Instruct', tokenizer_path='/nas/models/Meta-Llama-3-8B-Instruct', tokenizer_mode='auto', skip_tokenizer_init=False, load_format='auto', model_loader_extra_config='{}', trust_remote_code=False, context_length=None, is_embedding=False, enable_multimodal=None, revision=None, model_impl='auto', host='0.0.0.0', port=60006, skip_server_warmup=False, warmups=None, nccl_port=None, dtype='auto', quantization=None, quantization_param_path=None, kv_cache_dtype='auto', mem_fraction_static=0.874, max_running_requests=None, max_total_tokens=None, chunked_prefill_size=8192, max_prefill_tokens=16384, schedule_policy='fcfs', schedule_conservativeness=1.0, cpu_offload_gb=0, page_size=1, hybrid_kvcache_ratio=None, swa_full_tokens_ratio=0.8, disable_hybrid_swa_memory=False, device='cuda', tp_size=1, pp_size=1, max_micro_batch_size=None, stream_interval=1, stream_output=False, random_seed=80404372, constrained_json_whitespace_pattern=None, watchdog_timeout=300, dist_timeout=None, download_dir=None, base_gpu_id=3, gpu_id_step=1, sleep_on_idle=False, log_level='debug', log_level_http=None, log_requests=False, log_requests_level=0, crash_dump_folder=None, show_time_cost=False, enable_metrics=True, enable_metrics_for_all_schedulers=False, bucket_time_to_first_token=None, bucket_inter_token_latency=None, bucket_e2e_request_latency=None, collect_tokens_histogram=False, decode_log_interval=40, enable_request_time_stats_logging=False, kv_events_config=None, api_key=None, served_model_name='/nas/models/Meta-Llama-3-8B-Instruct', chat_template=None, completion_template=None, file_storage_path='sglang_storage', enable_cache_report=False, reasoning_parser=None, tool_call_parser=None, dp_size=1, load_balance_method='round_robin', dist_init_addr=None, nnodes=1, node_rank=0, json_model_override_args='{}', preferred_sampling_params=None, enable_lora=None, max_lora_rank=None, lora_target_modules=None, lora_paths=None, max_loras_per_batch=8, lora_backend='triton', attention_backend=None, sampling_backend='flashinfer', grammar_backend='xgrammar', mm_attention_backend=None, speculative_algorithm=None, speculative_draft_model_path=None, speculative_num_steps=None, speculative_eagle_topk=None, speculative_num_draft_tokens=None, speculative_accept_threshold_single=1.0, speculative_accept_threshold_acc=1.0, speculative_token_map=None, ep_size=1, enable_ep_moe=False, enable_deepep_moe=False, enable_flashinfer_moe=False, enable_flashinfer_allreduce_fusion=False, deepep_mode='auto', ep_num_redundant_experts=0, ep_dispatch_algorithm='static', init_expert_location='trivial', enable_eplb=False, eplb_algorithm='auto', eplb_rebalance_num_iterations=1000, eplb_rebalance_layers_per_chunk=None, expert_distribution_recorder_mode=None, expert_distribution_recorder_buffer_size=1000, enable_expert_distribution_metrics=False, deepep_config=None, moe_dense_tp_size=None, enable_hierarchical_cache=False, hicache_ratio=2.0, hicache_size=0, hicache_write_policy='write_through_selective', hicache_io_backend='', hicache_storage_backend=None, enable_double_sparsity=False, ds_channel_config_path=None, ds_heavy_channel_num=32, ds_heavy_token_num=256, ds_heavy_channel_type='qk', ds_sparse_decode_threshold=4096, disable_radix_cache=False, cuda_graph_max_bs=None, cuda_graph_bs=None, disable_cuda_graph=False, disable_cuda_graph_padding=False, enable_profile_cuda_graph=False, enable_nccl_nvls=False, enable_tokenizer_batch_encode=False, disable_outlines_disk_cache=False, disable_custom_all_reduce=False, enable_mscclpp=False, disable_overlap_schedule=False, enable_mixed_chunk=False, enable_dp_attention=False, enable_dp_lm_head=False, enable_two_batch_overlap=False, enable_torch_compile=False, torch_compile_max_bs=32, torchao_config='', enable_nan_detection=False, enable_p2p_check=False, triton_attention_reduce_in_fp32=False, triton_attention_num_kv_splits=8, num_continuous_decode_steps=1, delete_ckpt_after_loading=False, enable_memory_saver=False, allow_auto_truncate=False, enable_custom_logit_processor=False, flashinfer_mla_disable_ragged=False, disable_shared_experts_fusion=False, disable_chunked_prefix_cache=False, disable_fast_image_processor=False, enable_return_hidden_states=False, enable_triton_kernel_moe=False, debug_tensor_dump_output_folder=None, debug_tensor_dump_input_file=None, debug_tensor_dump_inject=False, debug_tensor_dump_prefill_only=False, disaggregation_mode='null', disaggregation_transfer_backend='mooncake', disaggregation_bootstrap_port=8998, disaggregation_decode_tp=None, disaggregation_decode_dp=None, disaggregation_prefill_pp=1, disaggregation_ib_device=None, num_reserved_decode_tokens=512, pdlb_url=None, custom_weight_loader=[], weight_loader_disable_mmap=False, enable_pdmux=False, sm_group_num=3)
+[2025-07-29 21:48:11] Scheduler initialized with enable_metrics=True
+[2025-07-29 21:48:12] Attention backend not explicitly specified. Use fa3 backend by default.
+[2025-07-29 21:48:12] Init torch distributed begin.
+[2025-07-29 21:48:12] world_size=1 rank=0 local_rank=3 distributed_init_method=tcp://127.0.0.1:60469 backend=nccl
+[2025-07-29 21:48:12] Init torch distributed ends. mem usage=0.00 GB
+[2025-07-29 21:48:13] Load weight begin. avail mem=78.49 GB
+Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:02,  1.24it/s]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:01<00:01,  1.19it/s]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:02<00:00,  1.18it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:02<00:00,  1.59it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:02<00:00,  1.42it/s]
+
+[2025-07-29 21:48:17] Load weight end. type=LlamaForCausalLM, dtype=torch.bfloat16, avail mem=63.52 GB, mem usage=14.98 GB.
+[2025-07-29 21:48:17] KV Cache is allocated. #tokens: 439212, K size: 26.81 GB, V size: 26.81 GB
+[2025-07-29 21:48:17] Memory pool end. avail mem=9.70 GB
+[2025-07-29 21:48:17] Capture cuda graph begin. This can take up to several minutes. avail mem=9.60 GB
+[2025-07-29 21:48:17] Capture cuda graph bs [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160]
+  0%|          | 0/23 [00:00<?, ?it/s]Capturing batches (bs=160 avail_mem=9.58 GB):   0%|          | 0/23 [00:00<?, ?it/s]Capturing batches (bs=160 avail_mem=9.58 GB):   4%|▍         | 1/23 [00:00<00:15,  1.39it/s]Capturing batches (bs=152 avail_mem=9.35 GB):   4%|▍         | 1/23 [00:00<00:15,  1.39it/s]Capturing batches (bs=152 avail_mem=9.35 GB):   9%|▊         | 2/23 [00:01<00:09,  2.15it/s]Capturing batches (bs=144 avail_mem=9.27 GB):   9%|▊         | 2/23 [00:01<00:09,  2.15it/s]Capturing batches (bs=144 avail_mem=9.27 GB):  13%|█▎        | 3/23 [00:01<00:06,  2.86it/s]Capturing batches (bs=136 avail_mem=9.19 GB):  13%|█▎        | 3/23 [00:01<00:06,  2.86it/s]Capturing batches (bs=136 avail_mem=9.19 GB):  17%|█▋        | 4/23 [00:01<00:05,  3.24it/s]Capturing batches (bs=128 avail_mem=9.12 GB):  17%|█▋        | 4/23 [00:01<00:05,  3.24it/s]Capturing batches (bs=128 avail_mem=9.12 GB):  22%|██▏       | 5/23 [00:01<00:05,  3.35it/s]Capturing batches (bs=120 avail_mem=9.03 GB):  22%|██▏       | 5/23 [00:01<00:05,  3.35it/s]Capturing batches (bs=120 avail_mem=9.03 GB):  26%|██▌       | 6/23 [00:01<00:04,  3.86it/s]Capturing batches (bs=112 avail_mem=8.97 GB):  26%|██▌       | 6/23 [00:01<00:04,  3.86it/s]Capturing batches (bs=112 avail_mem=8.97 GB):  30%|███       | 7/23 [00:02<00:03,  4.21it/s]Capturing batches (bs=104 avail_mem=8.91 GB):  30%|███       | 7/23 [00:02<00:03,  4.21it/s]Capturing batches (bs=104 avail_mem=8.91 GB):  35%|███▍      | 8/23 [00:02<00:03,  4.37it/s]Capturing batches (bs=96 avail_mem=8.85 GB):  35%|███▍      | 8/23 [00:02<00:03,  4.37it/s] Capturing batches (bs=96 avail_mem=8.85 GB):  39%|███▉      | 9/23 [00:02<00:03,  4.61it/s]Capturing batches (bs=88 avail_mem=8.80 GB):  39%|███▉      | 9/23 [00:02<00:03,  4.61it/s]Capturing batches (bs=88 avail_mem=8.80 GB):  43%|████▎     | 10/23 [00:02<00:03,  3.67it/s]Capturing batches (bs=80 avail_mem=8.73 GB):  43%|████▎     | 10/23 [00:02<00:03,  3.67it/s]Capturing batches (bs=80 avail_mem=8.73 GB):  48%|████▊     | 11/23 [00:03<00:03,  3.31it/s]Capturing batches (bs=72 avail_mem=8.72 GB):  48%|████▊     | 11/23 [00:03<00:03,  3.31it/s]Capturing batches (bs=72 avail_mem=8.72 GB):  52%|█████▏    | 12/23 [00:03<00:03,  3.63it/s]Capturing batches (bs=64 avail_mem=8.72 GB):  52%|█████▏    | 12/23 [00:03<00:03,  3.63it/s]Capturing batches (bs=64 avail_mem=8.72 GB):  57%|█████▋    | 13/23 [00:03<00:02,  3.45it/s]Capturing batches (bs=56 avail_mem=8.68 GB):  57%|█████▋    | 13/23 [00:03<00:02,  3.45it/s]Capturing batches (bs=56 avail_mem=8.68 GB):  61%|██████    | 14/23 [00:04<00:03,  2.94it/s]Capturing batches (bs=48 avail_mem=8.65 GB):  61%|██████    | 14/23 [00:04<00:03,  2.94it/s]Capturing batches (bs=48 avail_mem=8.65 GB):  65%|██████▌   | 15/23 [00:04<00:02,  2.75it/s]Capturing batches (bs=40 avail_mem=8.62 GB):  65%|██████▌   | 15/23 [00:04<00:02,  2.75it/s]Capturing batches (bs=40 avail_mem=8.62 GB):  70%|██████▉   | 16/23 [00:05<00:02,  2.68it/s]Capturing batches (bs=32 avail_mem=8.60 GB):  70%|██████▉   | 16/23 [00:05<00:02,  2.68it/s]Capturing batches (bs=32 avail_mem=8.60 GB):  74%|███████▍  | 17/23 [00:05<00:02,  2.77it/s]Capturing batches (bs=24 avail_mem=8.58 GB):  74%|███████▍  | 17/23 [00:05<00:02,  2.77it/s]Capturing batches (bs=24 avail_mem=8.58 GB):  78%|███████▊  | 18/23 [00:05<00:01,  2.59it/s]Capturing batches (bs=16 avail_mem=8.57 GB):  78%|███████▊  | 18/23 [00:05<00:01,  2.59it/s]Capturing batches (bs=16 avail_mem=8.57 GB):  83%|████████▎ | 19/23 [00:06<00:01,  2.93it/s]Capturing batches (bs=8 avail_mem=8.55 GB):  83%|████████▎ | 19/23 [00:06<00:01,  2.93it/s] Capturing batches (bs=8 avail_mem=8.55 GB):  87%|████████▋ | 20/23 [00:06<00:00,  3.41it/s]Capturing batches (bs=4 avail_mem=8.54 GB):  87%|████████▋ | 20/23 [00:06<00:00,  3.41it/s]Capturing batches (bs=4 avail_mem=8.54 GB):  91%|█████████▏| 21/23 [00:06<00:00,  3.32it/s]Capturing batches (bs=2 avail_mem=8.54 GB):  91%|█████████▏| 21/23 [00:06<00:00,  3.32it/s]Capturing batches (bs=2 avail_mem=8.54 GB):  96%|█████████▌| 22/23 [00:06<00:00,  3.39it/s]Capturing batches (bs=1 avail_mem=8.53 GB):  96%|█████████▌| 22/23 [00:06<00:00,  3.39it/s]Capturing batches (bs=1 avail_mem=8.53 GB): 100%|██████████| 23/23 [00:07<00:00,  3.55it/s]Capturing batches (bs=1 avail_mem=8.53 GB): 100%|██████████| 23/23 [00:07<00:00,  3.22it/s]
+[2025-07-29 21:48:24] Capture cuda graph end. Time elapsed: 7.39 s. mem usage=1.07 GB. avail mem=8.53 GB.
+[2025-07-29 21:48:25] max_total_num_tokens=439212, chunked_prefill_size=8192, max_prefill_tokens=16384, max_running_requests=4096, context_len=8192, available_gpu_mem=8.53 GB
+[2025-07-29 21:48:25] INFO:     Started server process [90659]
+[2025-07-29 21:48:25] INFO:     Waiting for application startup.
+[2025-07-29 21:48:25] INFO:     Application startup complete.
+[2025-07-29 21:48:25] INFO:     Uvicorn running on http://0.0.0.0:60006 (Press CTRL+C to quit)
+[2025-07-29 21:48:26] Starting new HTTP connection (1): 0.0.0.0:60006
+[2025-07-29 21:48:26] INFO:     127.0.0.1:51234 - "GET /get_model_info HTTP/1.1" 200 OK
+[2025-07-29 21:48:26] http://0.0.0.0:60006 "GET /get_model_info HTTP/1.1" 200 163
+[2025-07-29 21:48:26] Starting new HTTP connection (1): 0.0.0.0:60006
+[2025-07-29 21:48:26] [Queue] Set queue_time_start for req 3829357638854e72bbb6144e184fe463: 1753796906.685659
+[2025-07-29 21:48:26] [Queue] Set queue_time_end for req 3829357638854e72bbb6144e184fe463: 1753796906.685932, duration: 0.000s
+[2025-07-29 21:48:26] Prefill batch. #new-seq: 1, #new-token: 7, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-29 21:48:27] [QueueTime] Collecting for req 3829357638854e72bbb6144e184fe463: start=1753796906.685659, end=1753796906.685932
+[2025-07-29 21:48:27] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:27] [QueueTime] queue_time_start values: [1753796906.685659]...
+[2025-07-29 21:48:27] [QueueTime] queue_time_end values: [1753796906.685932]...
+[2025-07-29 21:48:27] INFO:     127.0.0.1:51240 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:27] http://0.0.0.0:60006 "POST /generate HTTP/1.1" 200 356
+[2025-07-29 21:48:27] The server is fired up and ready to roll!
+[2025-07-29 21:48:28] INFO:     127.0.0.1:51246 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 21:48:34] INFO:     127.0.0.1:51260 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 21:48:34] INFO:     127.0.0.1:51262 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req d7dd423d89eb4ae28505cc4081722da6: 1753796919.043613
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req d7dd423d89eb4ae28505cc4081722da6: 1753796919.0447397, duration: 0.001s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 178, #cached-token: 1, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 1b450280a15a4447a9da5aeeae9acccb: 1753796919.135901
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 6bacf300bc5648a194c8b5b7d6fa44a3: 1753796919.136053
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 1b450280a15a4447a9da5aeeae9acccb: 1753796919.1362548, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 6bacf300bc5648a194c8b5b7d6fa44a3: 1753796919.136289, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 2, #new-token: 718, #cached-token: 6, token usage: 0.00, #running-req: 1, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 0546486c561144bf8d5ac5c68e7f6caf: 1753796919.3882463
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 48aaf64e41ab4371b11e2f946fc3b949: 1753796919.3883524
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req b49a7b1b6b38473084ba00f77a1f68da: 1753796919.3883953
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 4593d8505ea24bdfb7f877e5a44114d4: 1753796919.3884351
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 588ec024f1774e68b0a899b7ac37795e: 1753796919.3884618
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 0546486c561144bf8d5ac5c68e7f6caf: 1753796919.3887787, duration: 0.001s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 48aaf64e41ab4371b11e2f946fc3b949: 1753796919.3888123, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req b49a7b1b6b38473084ba00f77a1f68da: 1753796919.3888333, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 4593d8505ea24bdfb7f877e5a44114d4: 1753796919.3888507, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 588ec024f1774e68b0a899b7ac37795e: 1753796919.3888657, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 5, #new-token: 1406, #cached-token: 15, token usage: 0.00, #running-req: 3, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 76d83f54518a484695fa917bdbc5edae: 1753796919.4251814
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 76d83f54518a484695fa917bdbc5edae: 1753796919.4256265, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 346, #cached-token: 3, token usage: 0.01, #running-req: 8, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 0a863790687746f586f9e9e0c65b25a1: 1753796919.458334
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req b5827ff3c1c44aa8a58fd87424e5c781: 1753796919.458408
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 0a863790687746f586f9e9e0c65b25a1: 1753796919.4586496, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req b5827ff3c1c44aa8a58fd87424e5c781: 1753796919.4586809, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 2, #new-token: 574, #cached-token: 6, token usage: 0.01, #running-req: 9, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 4d73e5a3ad18435eb94fadbc5af219fb: 1753796919.4766583
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 4d73e5a3ad18435eb94fadbc5af219fb: 1753796919.476957, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 213, #cached-token: 3, token usage: 0.01, #running-req: 11, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 9cd6930c1f8c4eb6a9e22c1308ca7bfb: 1753796919.5638633
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 87bdd63a56fd4e5da7284cd23836086c: 1753796919.563946
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 741115bf0c794774b2762912e75f3eb4: 1753796919.563987
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 9cd6930c1f8c4eb6a9e22c1308ca7bfb: 1753796919.5641847, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 87bdd63a56fd4e5da7284cd23836086c: 1753796919.5642152, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 741115bf0c794774b2762912e75f3eb4: 1753796919.564235, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 3, #new-token: 778, #cached-token: 9, token usage: 0.01, #running-req: 12, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 908db34f70d447e39d3a1949f57b2688: 1753796919.5970833
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 908db34f70d447e39d3a1949f57b2688: 1753796919.5972397, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 172, #cached-token: 3, token usage: 0.01, #running-req: 15, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 961c250f65ce458ea1737064241df159: 1753796919.6192856
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 0b58bd350dcc46359eb990b7f13200af: 1753796919.619356
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 961c250f65ce458ea1737064241df159: 1753796919.6197324, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 0b58bd350dcc46359eb990b7f13200af: 1753796919.6197653, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 2, #new-token: 701, #cached-token: 6, token usage: 0.01, #running-req: 16, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 2accf29818b44ac6ba33d7551446de95: 1753796919.6982086
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 2accf29818b44ac6ba33d7551446de95: 1753796919.6983833, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 358, #cached-token: 3, token usage: 0.01, #running-req: 18, #queue-req: 0, 
+[2025-07-29 21:48:39] Decode batch. #running-req: 19, #token: 5951, token usage: 0.01, cuda graph: True, gen throughput (token/s): 33.68, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req df5478d183414eb29283946bf761289e: 1753796919.8507433
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req df5478d183414eb29283946bf761289e: 1753796919.85092, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 409, #cached-token: 3, token usage: 0.01, #running-req: 19, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req e117011ce8dd4e2793cf1731e822fe0f: 1753796919.8742821
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req e117011ce8dd4e2793cf1731e822fe0f: 1753796919.8746464, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 243, #cached-token: 3, token usage: 0.01, #running-req: 20, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 5f253da6a727483da94e3ba714f4df7b: 1753796919.8951042
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req acfaa5d9a5da42d79a089620e34ac924: 1753796919.895187
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 5f253da6a727483da94e3ba714f4df7b: 1753796919.8954802, duration: 0.000s
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req acfaa5d9a5da42d79a089620e34ac924: 1753796919.895514, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 2, #new-token: 428, #cached-token: 6, token usage: 0.02, #running-req: 21, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req dee94f31a2e942bbbf8fdd4872fa74f0: 1753796919.9166288
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req dee94f31a2e942bbbf8fdd4872fa74f0: 1753796919.9169233, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 210, #cached-token: 3, token usage: 0.02, #running-req: 23, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req 0b1f2795b1044e34a1e690350796c25f: 1753796919.9314692
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req 0b1f2795b1044e34a1e690350796c25f: 1753796919.9317217, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 444, #cached-token: 3, token usage: 0.02, #running-req: 24, #queue-req: 0, 
+[2025-07-29 21:48:39] [Queue] Set queue_time_start for req dfa1446568254409a51ab5a40b2b446c: 1753796919.9788003
+[2025-07-29 21:48:39] [Queue] Set queue_time_end for req dfa1446568254409a51ab5a40b2b446c: 1753796919.978968, duration: 0.000s
+[2025-07-29 21:48:39] Prefill batch. #new-seq: 1, #new-token: 370, #cached-token: 3, token usage: 0.02, #running-req: 25, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req d7dd423d89eb4ae28505cc4081722da6: start=1753796919.043613, end=1753796919.0447397
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.043613]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.0447397]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 1b450280a15a4447a9da5aeeae9acccb: start=1753796919.135901, end=1753796919.1362548
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 6bacf300bc5648a194c8b5b7d6fa44a3: start=1753796919.136053, end=1753796919.136289
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.135901, 1753796919.136053]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.1362548, 1753796919.136289]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0546486c561144bf8d5ac5c68e7f6caf: start=1753796919.3882463, end=1753796919.3887787
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 48aaf64e41ab4371b11e2f946fc3b949: start=1753796919.3883524, end=1753796919.3888123
+[2025-07-29 21:48:40] [QueueTime] Collecting for req b49a7b1b6b38473084ba00f77a1f68da: start=1753796919.3883953, end=1753796919.3888333
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 4593d8505ea24bdfb7f877e5a44114d4: start=1753796919.3884351, end=1753796919.3888507
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 588ec024f1774e68b0a899b7ac37795e: start=1753796919.3884618, end=1753796919.3888657
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 76d83f54518a484695fa917bdbc5edae: start=1753796919.4251814, end=1753796919.4256265
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0a863790687746f586f9e9e0c65b25a1: start=1753796919.458334, end=1753796919.4586496
+[2025-07-29 21:48:40] [QueueTime] Collecting for req b5827ff3c1c44aa8a58fd87424e5c781: start=1753796919.458408, end=1753796919.4586809
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 4d73e5a3ad18435eb94fadbc5af219fb: start=1753796919.4766583, end=1753796919.476957
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 9 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.3882463, 1753796919.3883524, 1753796919.3883953]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.3887787, 1753796919.3888123, 1753796919.3888333]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req f3fd9443248d414cb77fb2b323af475b: 1753796920.0346918
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req f3fd9443248d414cb77fb2b323af475b: 1753796920.034841, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 266, #cached-token: 3, token usage: 0.02, #running-req: 26, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 9cd6930c1f8c4eb6a9e22c1308ca7bfb: start=1753796919.5638633, end=1753796919.5641847
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 87bdd63a56fd4e5da7284cd23836086c: start=1753796919.563946, end=1753796919.5642152
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 741115bf0c794774b2762912e75f3eb4: start=1753796919.563987, end=1753796919.564235
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.5638633, 1753796919.563946, 1753796919.563987]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.5641847, 1753796919.5642152, 1753796919.564235]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 908db34f70d447e39d3a1949f57b2688: start=1753796919.5970833, end=1753796919.5972397
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 961c250f65ce458ea1737064241df159: start=1753796919.6192856, end=1753796919.6197324
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0b58bd350dcc46359eb990b7f13200af: start=1753796919.619356, end=1753796919.6197653
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.5970833, 1753796919.6192856, 1753796919.619356]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.5972397, 1753796919.6197324, 1753796919.6197653]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req ce836ab0c90d43278e11184ac61d9a9d: 1753796920.1516988
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req ce836ab0c90d43278e11184ac61d9a9d: 1753796920.1518643, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 351, #cached-token: 3, token usage: 0.02, #running-req: 27, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 32de4006112c4de79dfe32fa9f02b2fd: 1753796920.1648967
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 32de4006112c4de79dfe32fa9f02b2fd: 1753796920.1652057, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 141, #cached-token: 3, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 588ec024f1774e68b0a899b7ac37795e: start=1753796919.3884618, end=1753796919.3888657
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.3884618]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.3888657]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33412 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req bfdf73c02eff4aec9159a03cd410743d: 1753796920.2002506
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req bfdf73c02eff4aec9159a03cd410743d: 1753796920.2004516, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 308, #cached-token: 3, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 2accf29818b44ac6ba33d7551446de95: start=1753796919.6982086, end=1753796919.6983833
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.6982086]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.6983833]...
+[2025-07-29 21:48:40] Decode batch. #running-req: 29, #token: 9727, token usage: 0.02, cuda graph: True, gen throughput (token/s): 2196.54, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 8689d8c602b8455e84d7b20a37c0642c: 1753796920.239197
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 8689d8c602b8455e84d7b20a37c0642c: 1753796920.2393363, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 296, #cached-token: 3, token usage: 0.02, #running-req: 29, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req e50997c08d214f9c89a54ca290444059: 1753796920.2552893
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req e50997c08d214f9c89a54ca290444059: 1753796920.25564, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 220, #cached-token: 3, token usage: 0.02, #running-req: 30, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 2df6a85166dd443e947851ebaf06ab1a: 1753796920.2734864
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 2df6a85166dd443e947851ebaf06ab1a: 1753796920.2736492, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 346, #cached-token: 3, token usage: 0.02, #running-req: 31, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 4d73e5a3ad18435eb94fadbc5af219fb: start=1753796919.4766583, end=1753796919.476957
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.4766583]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.476957]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33454 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 8c9a92abb72048fbb4ad63f1571f5b43: 1753796920.3137002
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 8c9a92abb72048fbb4ad63f1571f5b43: 1753796920.3139586, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 441, #cached-token: 3, token usage: 0.02, #running-req: 31, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 0522768e87394678afd735c0df19c61a: 1753796920.3281062
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 0522768e87394678afd735c0df19c61a: 1753796920.328429, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 428, #cached-token: 3, token usage: 0.02, #running-req: 32, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req baa27c4f105a42998947c0bd8a525ed2: 1753796920.3985782
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req baa27c4f105a42998947c0bd8a525ed2: 1753796920.3987489, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 267, #cached-token: 3, token usage: 0.03, #running-req: 33, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 961c250f65ce458ea1737064241df159: start=1753796919.6192856, end=1753796919.6197324
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.6192856]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.6197324]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33498 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req f57abae18f0a46e2b729406249cc316d: 1753796920.4308472
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req f57abae18f0a46e2b729406249cc316d: 1753796920.4310014, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 384, #cached-token: 3, token usage: 0.03, #running-req: 33, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req dd1a2798db324120ae90585cbe544581: 1753796920.4571831
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req dd1a2798db324120ae90585cbe544581: 1753796920.4573462, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 237, #cached-token: 3, token usage: 0.03, #running-req: 34, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req df5478d183414eb29283946bf761289e: start=1753796919.8507433, end=1753796919.85092
+[2025-07-29 21:48:40] [QueueTime] Collecting for req e117011ce8dd4e2793cf1731e822fe0f: start=1753796919.8742821, end=1753796919.8746464
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 5f253da6a727483da94e3ba714f4df7b: start=1753796919.8951042, end=1753796919.8954802
+[2025-07-29 21:48:40] [QueueTime] Collecting for req acfaa5d9a5da42d79a089620e34ac924: start=1753796919.895187, end=1753796919.895514
+[2025-07-29 21:48:40] [QueueTime] Collecting for req dee94f31a2e942bbbf8fdd4872fa74f0: start=1753796919.9166288, end=1753796919.9169233
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0b1f2795b1044e34a1e690350796c25f: start=1753796919.9314692, end=1753796919.9317217
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 6 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.8507433, 1753796919.8742821, 1753796919.8951042]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.85092, 1753796919.8746464, 1753796919.8954802]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req dd064ccc032f4170a0cbb49d06179e32: 1753796920.4936872
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req dd064ccc032f4170a0cbb49d06179e32: 1753796920.4938512, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 330, #cached-token: 3, token usage: 0.03, #running-req: 35, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req c860adaec3de45eaaada8644f168b247: 1753796920.5066211
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req c860adaec3de45eaaada8644f168b247: 1753796920.5069926, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 423, #cached-token: 3, token usage: 0.03, #running-req: 36, #queue-req: 0, 
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req d86bb8900b1347c98ed44fa772ab218a: 1753796920.5203342
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req d86bb8900b1347c98ed44fa772ab218a: 1753796920.520621, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 299, #cached-token: 3, token usage: 0.03, #running-req: 37, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req dfa1446568254409a51ab5a40b2b446c: start=1753796919.9788003, end=1753796919.978968
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.9788003]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.978968]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req d7dd423d89eb4ae28505cc4081722da6: start=1753796919.043613, end=1753796919.0447397
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.043613]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.0447397]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 1b450280a15a4447a9da5aeeae9acccb: start=1753796919.135901, end=1753796919.1362548
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 6bacf300bc5648a194c8b5b7d6fa44a3: start=1753796919.136053, end=1753796919.136289
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.135901, 1753796919.136053]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.1362548, 1753796919.136289]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0546486c561144bf8d5ac5c68e7f6caf: start=1753796919.3882463, end=1753796919.3887787
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 48aaf64e41ab4371b11e2f946fc3b949: start=1753796919.3883524, end=1753796919.3888123
+[2025-07-29 21:48:40] [QueueTime] Collecting for req b49a7b1b6b38473084ba00f77a1f68da: start=1753796919.3883953, end=1753796919.3888333
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 4593d8505ea24bdfb7f877e5a44114d4: start=1753796919.3884351, end=1753796919.3888507
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 76d83f54518a484695fa917bdbc5edae: start=1753796919.4251814, end=1753796919.4256265
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0a863790687746f586f9e9e0c65b25a1: start=1753796919.458334, end=1753796919.4586496
+[2025-07-29 21:48:40] [QueueTime] Collecting for req b5827ff3c1c44aa8a58fd87424e5c781: start=1753796919.458408, end=1753796919.4586809
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 7 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.3882463, 1753796919.3883524, 1753796919.3883953]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.3887787, 1753796919.3888123, 1753796919.3888333]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req f3fd9443248d414cb77fb2b323af475b: start=1753796920.0346918, end=1753796920.034841
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796920.0346918]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796920.034841]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req d7d452de2d99445eabea449b14348011: 1753796920.6058161
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req d7d452de2d99445eabea449b14348011: 1753796920.6059685, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 256, #cached-token: 3, token usage: 0.03, #running-req: 38, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 87bdd63a56fd4e5da7284cd23836086c: start=1753796919.563946, end=1753796919.5642152
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.563946]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.5642152]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33466 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 7f33505d5b3b44848d45afe86da71291: 1753796920.6356616
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 7f33505d5b3b44848d45afe86da71291: 1753796920.635831, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 432, #cached-token: 3, token usage: 0.03, #running-req: 38, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req b49a7b1b6b38473084ba00f77a1f68da: start=1753796919.3883953, end=1753796919.3888333
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.3883953]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.3888333]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33394 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req ec9f80f111cf4fa285946a55ae9d6254: 1753796920.6857324
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req ec9f80f111cf4fa285946a55ae9d6254: 1753796920.6859038, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 292, #cached-token: 3, token usage: 0.03, #running-req: 38, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 9cd6930c1f8c4eb6a9e22c1308ca7bfb: start=1753796919.5638633, end=1753796919.5641847
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 741115bf0c794774b2762912e75f3eb4: start=1753796919.563987, end=1753796919.564235
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.5638633, 1753796919.563987]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.5641847, 1753796919.564235]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 000dd36f2ffd4f928d94130ef0069d0e: 1753796920.699599
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 000dd36f2ffd4f928d94130ef0069d0e: 1753796920.6998768, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 232, #cached-token: 3, token usage: 0.03, #running-req: 39, #queue-req: 0, 
+[2025-07-29 21:48:40] Decode batch. #running-req: 40, #token: 14392, token usage: 0.03, cuda graph: True, gen throughput (token/s): 2894.19, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 908db34f70d447e39d3a1949f57b2688: start=1753796919.5970833, end=1753796919.5972397
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0b58bd350dcc46359eb990b7f13200af: start=1753796919.619356, end=1753796919.6197653
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.5970833, 1753796919.619356]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.5972397, 1753796919.6197653]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 85b64f730621462b8c0a77e562993d5a: 1753796920.733468
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 85b64f730621462b8c0a77e562993d5a: 1753796920.7336078, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 363, #cached-token: 3, token usage: 0.03, #running-req: 40, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req df5478d183414eb29283946bf761289e: start=1753796919.8507433, end=1753796919.85092
+[2025-07-29 21:48:40] [QueueTime] Collecting for req dfa1446568254409a51ab5a40b2b446c: start=1753796919.9788003, end=1753796919.978968
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.8507433, 1753796919.9788003]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.85092, 1753796919.978968]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33532 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33580 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [QueueTime] Collecting for req ce836ab0c90d43278e11184ac61d9a9d: start=1753796920.1516988, end=1753796920.1518643
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 32de4006112c4de79dfe32fa9f02b2fd: start=1753796920.1648967, end=1753796920.1652057
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796920.1516988, 1753796920.1648967]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796920.1518643, 1753796920.1652057]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req e04025a2753149caa5ee4dfdd8504b6b: 1753796920.768047
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 89e4e22c07f245fba75e384229159e63: 1753796920.768089
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req e04025a2753149caa5ee4dfdd8504b6b: 1753796920.7682626, duration: 0.000s
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 89e4e22c07f245fba75e384229159e63: 1753796920.7682922, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 2, #new-token: 756, #cached-token: 6, token usage: 0.03, #running-req: 39, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0a863790687746f586f9e9e0c65b25a1: start=1753796919.458334, end=1753796919.4586496
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.458334]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.4586496]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33434 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [QueueTime] Collecting for req bfdf73c02eff4aec9159a03cd410743d: start=1753796920.2002506, end=1753796920.2004516
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796920.2002506]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796920.2004516]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 76d83f54518a484695fa917bdbc5edae: start=1753796919.4251814, end=1753796919.4256265
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.4251814]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.4256265]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33428 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 6bacf300bc5648a194c8b5b7d6fa44a3: start=1753796919.136053, end=1753796919.136289
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 2accf29818b44ac6ba33d7551446de95: start=1753796919.6982086, end=1753796919.6983833
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 8689d8c602b8455e84d7b20a37c0642c: start=1753796920.239197, end=1753796920.2393363
+[2025-07-29 21:48:40] [QueueTime] Collecting for req e50997c08d214f9c89a54ca290444059: start=1753796920.2552893, end=1753796920.25564
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 4 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.136053, 1753796919.6982086, 1753796920.239197]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.136289, 1753796919.6983833, 1753796920.2393363]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req cc22414c8f304db58cd274c1918d15f3: 1753796920.8354716
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req cc22414c8f304db58cd274c1918d15f3: 1753796920.8355956, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 246, #cached-token: 3, token usage: 0.03, #running-req: 39, #queue-req: 0, 
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33364 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 2df6a85166dd443e947851ebaf06ab1a: start=1753796920.2734864, end=1753796920.2736492
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796920.2734864]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796920.2736492]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 7b735aac33d14b798f40a1c3f663e722: 1753796920.8608756
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 7b735aac33d14b798f40a1c3f663e722: 1753796920.8610404, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 1, #new-token: 314, #cached-token: 3, token usage: 0.03, #running-req: 39, #queue-req: 0, 
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 8c9a92abb72048fbb4ad63f1571f5b43: start=1753796920.3137002, end=1753796920.3139586
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0522768e87394678afd735c0df19c61a: start=1753796920.3281062, end=1753796920.328429
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796920.3137002, 1753796920.3281062]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796920.3139586, 1753796920.328429]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req baa27c4f105a42998947c0bd8a525ed2: start=1753796920.3985782, end=1753796920.3987489
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796920.3985782]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796920.3987489]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req f57abae18f0a46e2b729406249cc316d: start=1753796920.4308472, end=1753796920.4310014
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796920.4308472]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796920.4310014]...
+[2025-07-29 21:48:40] [QueueTime] Collecting for req 0b58bd350dcc46359eb990b7f13200af: start=1753796919.619356, end=1753796919.6197653
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796919.619356]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796919.6197653]...
+[2025-07-29 21:48:40] INFO:     127.0.0.1:33502 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:40] [QueueTime] Collecting for req dd1a2798db324120ae90585cbe544581: start=1753796920.4571831, end=1753796920.4573462
+[2025-07-29 21:48:40] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:40] [QueueTime] queue_time_start values: [1753796920.4571831]...
+[2025-07-29 21:48:40] [QueueTime] queue_time_end values: [1753796920.4573462]...
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req aea052cd9cd2466aa34b735e6bdc98c3: 1753796920.995056
+[2025-07-29 21:48:40] [Queue] Set queue_time_start for req 1d8f27689ca14383b7f0875a2285996c: 1753796920.9951057
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req aea052cd9cd2466aa34b735e6bdc98c3: 1753796920.9952765, duration: 0.000s
+[2025-07-29 21:48:40] [Queue] Set queue_time_end for req 1d8f27689ca14383b7f0875a2285996c: 1753796920.995307, duration: 0.000s
+[2025-07-29 21:48:40] Prefill batch. #new-seq: 2, #new-token: 732, #cached-token: 6, token usage: 0.03, #running-req: 39, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 1b450280a15a4447a9da5aeeae9acccb: start=1753796919.135901, end=1753796919.1362548
+[2025-07-29 21:48:41] [QueueTime] Collecting for req e117011ce8dd4e2793cf1731e822fe0f: start=1753796919.8742821, end=1753796919.8746464
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 5f253da6a727483da94e3ba714f4df7b: start=1753796919.8951042, end=1753796919.8954802
+[2025-07-29 21:48:41] [QueueTime] Collecting for req acfaa5d9a5da42d79a089620e34ac924: start=1753796919.895187, end=1753796919.895514
+[2025-07-29 21:48:41] [QueueTime] Collecting for req dee94f31a2e942bbbf8fdd4872fa74f0: start=1753796919.9166288, end=1753796919.9169233
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 0b1f2795b1044e34a1e690350796c25f: start=1753796919.9314692, end=1753796919.9317217
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 6 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.135901, 1753796919.8742821, 1753796919.8951042]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.1362548, 1753796919.8746464, 1753796919.8954802]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33362 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 48d38f9f9e40441c8f16f1951849ee0e: 1753796921.0199573
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 48d38f9f9e40441c8f16f1951849ee0e: 1753796921.0201144, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 285, #cached-token: 3, token usage: 0.03, #running-req: 40, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req dd064ccc032f4170a0cbb49d06179e32: start=1753796920.4936872, end=1753796920.4938512
+[2025-07-29 21:48:41] [QueueTime] Collecting for req c860adaec3de45eaaada8644f168b247: start=1753796920.5066211, end=1753796920.5069926
+[2025-07-29 21:48:41] [QueueTime] Collecting for req d86bb8900b1347c98ed44fa772ab218a: start=1753796920.5203342, end=1753796920.520621
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.4936872, 1753796920.5066211, 1753796920.5203342]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.4938512, 1753796920.5069926, 1753796920.520621]...
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 5ced25dc680c4e46a172b87b414bddc1: 1753796921.0659933
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 5ced25dc680c4e46a172b87b414bddc1: 1753796921.066152, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 234, #cached-token: 3, token usage: 0.03, #running-req: 41, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 0522768e87394678afd735c0df19c61a: start=1753796920.3281062, end=1753796920.328429
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.3281062]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.328429]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33648 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req d7dd423d89eb4ae28505cc4081722da6: start=1753796919.043613, end=1753796919.0447397
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 908db34f70d447e39d3a1949f57b2688: start=1753796919.5970833, end=1753796919.5972397
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.043613, 1753796919.5970833]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.0447397, 1753796919.5972397]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33486 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 0546486c561144bf8d5ac5c68e7f6caf: start=1753796919.3882463, end=1753796919.3887787
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 48aaf64e41ab4371b11e2f946fc3b949: start=1753796919.3883524, end=1753796919.3888123
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 4593d8505ea24bdfb7f877e5a44114d4: start=1753796919.3884351, end=1753796919.3888507
+[2025-07-29 21:48:41] [QueueTime] Collecting for req b5827ff3c1c44aa8a58fd87424e5c781: start=1753796919.458408, end=1753796919.4586809
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 9cd6930c1f8c4eb6a9e22c1308ca7bfb: start=1753796919.5638633, end=1753796919.5641847
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 5 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.3882463, 1753796919.3883524, 1753796919.3884351]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.3887787, 1753796919.3888123, 1753796919.3888507]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33398 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33458 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req f3fd9443248d414cb77fb2b323af475b: start=1753796920.0346918, end=1753796920.034841
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.0346918]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.034841]...
+[2025-07-29 21:48:41] Decode batch. #running-req: 40, #token: 14080, token usage: 0.03, cuda graph: True, gen throughput (token/s): 3964.09, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req d7d452de2d99445eabea449b14348011: start=1753796920.6058161, end=1753796920.6059685
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.6058161]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.6059685]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 7f33505d5b3b44848d45afe86da71291: start=1753796920.6356616, end=1753796920.635831
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.6356616]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.635831]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 741115bf0c794774b2762912e75f3eb4: start=1753796919.563987, end=1753796919.564235
+[2025-07-29 21:48:41] [QueueTime] Collecting for req ec9f80f111cf4fa285946a55ae9d6254: start=1753796920.6857324, end=1753796920.6859038
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 000dd36f2ffd4f928d94130ef0069d0e: start=1753796920.699599, end=1753796920.6998768
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.563987, 1753796920.6857324, 1753796920.699599]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.564235, 1753796920.6859038, 1753796920.6998768]...
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 4d0019144de44b339040257b4b657c43: 1753796921.1922565
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 4d0019144de44b339040257b4b657c43: 1753796921.1923897, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 354, #cached-token: 3, token usage: 0.03, #running-req: 38, #queue-req: 0, 
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33470 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req acc5437be98b4fc7a374271233f4941b: 1753796921.2113595
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req acc5437be98b4fc7a374271233f4941b: 1753796921.2115242, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 196, #cached-token: 3, token usage: 0.03, #running-req: 38, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 2accf29818b44ac6ba33d7551446de95: start=1753796919.6982086, end=1753796919.6983833
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.6982086]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.6983833]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33516 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 8689d8c602b8455e84d7b20a37c0642c: start=1753796920.239197, end=1753796920.2393363
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 85b64f730621462b8c0a77e562993d5a: start=1753796920.733468, end=1753796920.7336078
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.239197, 1753796920.733468]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.2393363, 1753796920.7336078]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33626 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req bfdf73c02eff4aec9159a03cd410743d: start=1753796920.2002506, end=1753796920.2004516
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.2002506]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.2004516]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33412 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 32de4006112c4de79dfe32fa9f02b2fd: start=1753796920.1648967, end=1753796920.1652057
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.1648967]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.1652057]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33610 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req ce836ab0c90d43278e11184ac61d9a9d: start=1753796920.1516988, end=1753796920.1518643
+[2025-07-29 21:48:41] [QueueTime] Collecting for req e04025a2753149caa5ee4dfdd8504b6b: start=1753796920.768047, end=1753796920.7682626
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 89e4e22c07f245fba75e384229159e63: start=1753796920.768089, end=1753796920.7682922
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.1516988, 1753796920.768047, 1753796920.768089]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.1518643, 1753796920.7682626, 1753796920.7682922]...
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 6766ab227afe498194deaeb41954efec: 1753796921.264995
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 6766ab227afe498194deaeb41954efec: 1753796921.2651162, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 223, #cached-token: 3, token usage: 0.03, #running-req: 35, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 5f253da6a727483da94e3ba714f4df7b: start=1753796919.8951042, end=1753796919.8954802
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.8951042]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.8954802]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33550 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req dee94f31a2e942bbbf8fdd4872fa74f0: start=1753796919.9166288, end=1753796919.9169233
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.9166288]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.9169233]...
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req d8052e1c74a9458e9bdcc582418be744: 1753796921.2965705
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req d8052e1c74a9458e9bdcc582418be744: 1753796921.2966914, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 166, #cached-token: 3, token usage: 0.03, #running-req: 35, #queue-req: 0, 
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33572 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req e50997c08d214f9c89a54ca290444059: start=1753796920.2552893, end=1753796920.25564
+[2025-07-29 21:48:41] [QueueTime] Collecting for req cc22414c8f304db58cd274c1918d15f3: start=1753796920.8354716, end=1753796920.8355956
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.2552893, 1753796920.8354716]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.25564, 1753796920.8355956]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 2df6a85166dd443e947851ebaf06ab1a: start=1753796920.2734864, end=1753796920.2736492
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.2734864]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.2736492]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 7b735aac33d14b798f40a1c3f663e722: start=1753796920.8608756, end=1753796920.8610404
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.8608756]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.8610404]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 48aaf64e41ab4371b11e2f946fc3b949: start=1753796919.3883524, end=1753796919.3888123
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 8c9a92abb72048fbb4ad63f1571f5b43: start=1753796920.3137002, end=1753796920.3139586
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.3883524, 1753796920.3137002]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.3888123, 1753796920.3139586]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33386 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 0b1f2795b1044e34a1e690350796c25f: start=1753796919.9314692, end=1753796919.9317217
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.9314692]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.9317217]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33576 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 8121a6f8d0f24c68b9bf1773b61699b3: 1753796921.3958902
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 8121a6f8d0f24c68b9bf1773b61699b3: 1753796921.3960488, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 417, #cached-token: 3, token usage: 0.03, #running-req: 33, #queue-req: 0, 
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req bc69f8acf5b247a09ffd94e92c7aed80: 1753796921.4093118
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req bc69f8acf5b247a09ffd94e92c7aed80: 1753796921.4096296, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 345, #cached-token: 3, token usage: 0.03, #running-req: 34, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req b5827ff3c1c44aa8a58fd87424e5c781: start=1753796919.458408, end=1753796919.4586809
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.458408]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.4586809]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33448 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req d7dd423d89eb4ae28505cc4081722da6: start=1753796919.043613, end=1753796919.0447397
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 0546486c561144bf8d5ac5c68e7f6caf: start=1753796919.3882463, end=1753796919.3887787
+[2025-07-29 21:48:41] [QueueTime] Collecting for req baa27c4f105a42998947c0bd8a525ed2: start=1753796920.3985782, end=1753796920.3987489
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 7f33505d5b3b44848d45afe86da71291: start=1753796920.6356616, end=1753796920.635831
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 4 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.043613, 1753796919.3882463, 1753796920.3985782]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.0447397, 1753796919.3887787, 1753796920.3987489]...
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 83849c37cade44638f2065ade156ae2e: 1753796921.457308
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 83849c37cade44638f2065ade156ae2e: 1753796921.4574428, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 154, #cached-token: 3, token usage: 0.03, #running-req: 34, #queue-req: 0, 
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33360 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33378 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33466 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req baa27c4f105a42998947c0bd8a525ed2: start=1753796920.3985782, end=1753796920.3987489
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.3985782]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.3987489]...
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req eef10abe6c704bd5b11cb079e5deb4f5: 1753796921.470956
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req eef10abe6c704bd5b11cb079e5deb4f5: 1753796921.471194, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 370, #cached-token: 3, token usage: 0.03, #running-req: 35, #queue-req: 0, 
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33654 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req a3b489171e60438d88f8e12fdee11b9c: 1753796921.4814408
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req a3b489171e60438d88f8e12fdee11b9c: 1753796921.4817355, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 427, #cached-token: 3, token usage: 0.03, #running-req: 36, #queue-req: 0, 
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req d841347730e241578919e07e3192dc11: 1753796921.4949324
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req d841347730e241578919e07e3192dc11: 1753796921.4952474, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 389, #cached-token: 3, token usage: 0.03, #running-req: 37, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req c860adaec3de45eaaada8644f168b247: start=1753796920.5066211, end=1753796920.5069926
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.5066211]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.5069926]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33684 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req f57abae18f0a46e2b729406249cc316d: start=1753796920.4308472, end=1753796920.4310014
+[2025-07-29 21:48:41] [QueueTime] Collecting for req d7d452de2d99445eabea449b14348011: start=1753796920.6058161, end=1753796920.6059685
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.4308472, 1753796920.6058161]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.4310014, 1753796920.6059685]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33702 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req dd1a2798db324120ae90585cbe544581: start=1753796920.4571831, end=1753796920.4573462
+[2025-07-29 21:48:41] [QueueTime] Collecting for req d86bb8900b1347c98ed44fa772ab218a: start=1753796920.5203342, end=1753796920.520621
+[2025-07-29 21:48:41] [QueueTime] Collecting for req ec9f80f111cf4fa285946a55ae9d6254: start=1753796920.6857324, end=1753796920.6859038
+[2025-07-29 21:48:41] [QueueTime] Collecting for req aea052cd9cd2466aa34b735e6bdc98c3: start=1753796920.995056, end=1753796920.9952765
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 1d8f27689ca14383b7f0875a2285996c: start=1753796920.9951057, end=1753796920.995307
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 5 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.4571831, 1753796920.5203342, 1753796920.6857324]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.4573462, 1753796920.520621, 1753796920.6859038]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33690 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33394 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req e117011ce8dd4e2793cf1731e822fe0f: start=1753796919.8742821, end=1753796919.8746464
+[2025-07-29 21:48:41] [QueueTime] Collecting for req acfaa5d9a5da42d79a089620e34ac924: start=1753796919.895187, end=1753796919.895514
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 48d38f9f9e40441c8f16f1951849ee0e: start=1753796921.0199573, end=1753796921.0201144
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.8742821, 1753796919.895187, 1753796921.0199573]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.8746464, 1753796919.895514, 1753796921.0201144]...
+[2025-07-29 21:48:41] Decode batch. #running-req: 30, #token: 11293, token usage: 0.03, cuda graph: True, gen throughput (token/s): 3320.63, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req dd064ccc032f4170a0cbb49d06179e32: start=1753796920.4936872, end=1753796920.4938512
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.4936872]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.4938512]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 5ced25dc680c4e46a172b87b414bddc1: start=1753796921.0659933, end=1753796921.066152
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796921.0659933]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796921.066152]...
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 921d3775f0ff4304b1b46d4af59b9e16: 1753796921.5868065
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 98d6f00606ad4a73ba544696ca117eab: 1753796921.5868802
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 921d3775f0ff4304b1b46d4af59b9e16: 1753796921.5870724, duration: 0.000s
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 98d6f00606ad4a73ba544696ca117eab: 1753796921.5871031, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 2, #new-token: 434, #cached-token: 6, token usage: 0.03, #running-req: 30, #queue-req: 0, 
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 34faf46fecb44113b727cac87a3f9942: 1753796921.6039922
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 24200a2b802c4e189b4cf9c3e00ece01: 1753796921.604072
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req dff36e0f3d17452087c0508133ac9a1a: 1753796921.6041095
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 34faf46fecb44113b727cac87a3f9942: 1753796921.6045265, duration: 0.001s
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 24200a2b802c4e189b4cf9c3e00ece01: 1753796921.6045623, duration: 0.000s
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req dff36e0f3d17452087c0508133ac9a1a: 1753796921.604583, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 3, #new-token: 1019, #cached-token: 9, token usage: 0.03, #running-req: 32, #queue-req: 0, 
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req f86b710080b04ad1923d94449e4a1489: 1753796921.6574368
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req f86b710080b04ad1923d94449e4a1489: 1753796921.6576087, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 393, #cached-token: 3, token usage: 0.03, #running-req: 35, #queue-req: 0, 
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 5c538e49869745b282ecb49a0cb1b779: 1753796921.67192
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 5c538e49869745b282ecb49a0cb1b779: 1753796921.6722364, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 368, #cached-token: 3, token usage: 0.03, #running-req: 36, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req f3fd9443248d414cb77fb2b323af475b: start=1753796920.0346918, end=1753796920.034841
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 2df6a85166dd443e947851ebaf06ab1a: start=1753796920.2734864, end=1753796920.2736492
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.0346918, 1753796920.2734864]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.034841, 1753796920.2736492]...
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req c508ea1619d74998b35e6aede49fcae7: 1753796921.6958716
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req c508ea1619d74998b35e6aede49fcae7: 1753796921.6960018, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 213, #cached-token: 3, token usage: 0.03, #running-req: 37, #queue-req: 0, 
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33644 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 1e0a2cb42162432c8902e36de7f1d587: 1753796921.7198722
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 1e0a2cb42162432c8902e36de7f1d587: 1753796921.7200346, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 326, #cached-token: 3, token usage: 0.03, #running-req: 37, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 000dd36f2ffd4f928d94130ef0069d0e: start=1753796920.699599, end=1753796920.6998768
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 4d0019144de44b339040257b4b657c43: start=1753796921.1922565, end=1753796921.1923897
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.699599, 1753796921.1922565]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.6998768, 1753796921.1923897]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req acc5437be98b4fc7a374271233f4941b: start=1753796921.2113595, end=1753796921.2115242
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796921.2113595]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796921.2115242]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req e117011ce8dd4e2793cf1731e822fe0f: start=1753796919.8742821, end=1753796919.8746464
+[2025-07-29 21:48:41] [QueueTime] Collecting for req e50997c08d214f9c89a54ca290444059: start=1753796920.2552893, end=1753796920.25564
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 85b64f730621462b8c0a77e562993d5a: start=1753796920.733468, end=1753796920.7336078
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.8742821, 1753796920.2552893, 1753796920.733468]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.8746464, 1753796920.25564, 1753796920.7336078]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33534 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33636 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req ce836ab0c90d43278e11184ac61d9a9d: start=1753796920.1516988, end=1753796920.1518643
+[2025-07-29 21:48:41] [QueueTime] Collecting for req e04025a2753149caa5ee4dfdd8504b6b: start=1753796920.768047, end=1753796920.7682626
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 89e4e22c07f245fba75e384229159e63: start=1753796920.768089, end=1753796920.7682922
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 6766ab227afe498194deaeb41954efec: start=1753796921.264995, end=1753796921.2651162
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 4 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.1516988, 1753796920.768047, 1753796920.768089]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.1518643, 1753796920.7682626, 1753796920.7682922]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req f3fd9443248d414cb77fb2b323af475b: start=1753796920.0346918, end=1753796920.034841
+[2025-07-29 21:48:41] [QueueTime] Collecting for req d8052e1c74a9458e9bdcc582418be744: start=1753796921.2965705, end=1753796921.2966914
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.0346918, 1753796921.2965705]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.034841, 1753796921.2966914]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33582 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req cc22414c8f304db58cd274c1918d15f3: start=1753796920.8354716, end=1753796920.8355956
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.8354716]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.8355956]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 7b735aac33d14b798f40a1c3f663e722: start=1753796920.8608756, end=1753796920.8610404
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.8608756]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.8610404]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33364 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 4d0019144de44b339040257b4b657c43: start=1753796921.1922565, end=1753796921.1923897
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796921.1922565]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796921.1923897]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33458 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 8c9a92abb72048fbb4ad63f1571f5b43: start=1753796920.3137002, end=1753796920.3139586
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.3137002]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.3139586]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req dd064ccc032f4170a0cbb49d06179e32: start=1753796920.4936872, end=1753796920.4938512
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.4936872]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.4938512]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33680 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req acfaa5d9a5da42d79a089620e34ac924: start=1753796919.895187, end=1753796919.895514
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 8121a6f8d0f24c68b9bf1773b61699b3: start=1753796921.3958902, end=1753796921.3960488
+[2025-07-29 21:48:41] [QueueTime] Collecting for req bc69f8acf5b247a09ffd94e92c7aed80: start=1753796921.4093118, end=1753796921.4096296
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796919.895187, 1753796921.3958902, 1753796921.4093118]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796919.895514, 1753796921.3960488, 1753796921.4096296]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33566 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] Decode batch. #running-req: 31, #token: 12050, token usage: 0.03, cuda graph: True, gen throughput (token/s): 3623.12, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req dd1a2798db324120ae90585cbe544581: start=1753796920.4571831, end=1753796920.4573462
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.4571831]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.4573462]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33670 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [QueueTime] Collecting for req 83849c37cade44638f2065ade156ae2e: start=1753796921.457308, end=1753796921.4574428
+[2025-07-29 21:48:41] [QueueTime] Collecting for req eef10abe6c704bd5b11cb079e5deb4f5: start=1753796921.470956, end=1753796921.471194
+[2025-07-29 21:48:41] [QueueTime] Collecting for req a3b489171e60438d88f8e12fdee11b9c: start=1753796921.4814408, end=1753796921.4817355
+[2025-07-29 21:48:41] [QueueTime] Collecting for req d841347730e241578919e07e3192dc11: start=1753796921.4949324, end=1753796921.4952474
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 4 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796921.457308, 1753796921.470956, 1753796921.4814408]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796921.4574428, 1753796921.471194, 1753796921.4817355]...
+[2025-07-29 21:48:41] [QueueTime] Collecting for req aea052cd9cd2466aa34b735e6bdc98c3: start=1753796920.995056, end=1753796920.9952765
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.995056]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.9952765]...
+[2025-07-29 21:48:41] INFO:     127.0.0.1:33502 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:41] [Queue] Set queue_time_start for req 227d0a52530a412f82f03d6742f0a433: 1753796921.9808254
+[2025-07-29 21:48:41] [Queue] Set queue_time_end for req 227d0a52530a412f82f03d6742f0a433: 1753796921.980976, duration: 0.000s
+[2025-07-29 21:48:41] Prefill batch. #new-seq: 1, #new-token: 372, #cached-token: 3, token usage: 0.03, #running-req: 29, #queue-req: 0, 
+[2025-07-29 21:48:41] [QueueTime] Collecting for req f57abae18f0a46e2b729406249cc316d: start=1753796920.4308472, end=1753796920.4310014
+[2025-07-29 21:48:41] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:41] [QueueTime] queue_time_start values: [1753796920.4308472]...
+[2025-07-29 21:48:41] [QueueTime] queue_time_end values: [1753796920.4310014]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 1d8f27689ca14383b7f0875a2285996c: start=1753796920.9951057, end=1753796920.995307
+[2025-07-29 21:48:42] [QueueTime] Collecting for req acc5437be98b4fc7a374271233f4941b: start=1753796921.2113595, end=1753796921.2115242
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.9951057, 1753796921.2113595]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.995307, 1753796921.2115242]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33470 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 48d38f9f9e40441c8f16f1951849ee0e: start=1753796921.0199573, end=1753796921.0201144
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.0199573]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.0201144]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 8c9a92abb72048fbb4ad63f1571f5b43: start=1753796920.3137002, end=1753796920.3139586
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 5ced25dc680c4e46a172b87b414bddc1: start=1753796921.0659933, end=1753796921.066152
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.3137002, 1753796921.0659933]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.3139586, 1753796921.066152]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33454 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 921d3775f0ff4304b1b46d4af59b9e16: start=1753796921.5868065, end=1753796921.5870724
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 98d6f00606ad4a73ba544696ca117eab: start=1753796921.5868802, end=1753796921.5871031
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 34faf46fecb44113b727cac87a3f9942: start=1753796921.6039922, end=1753796921.6045265
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 24200a2b802c4e189b4cf9c3e00ece01: start=1753796921.604072, end=1753796921.6045623
+[2025-07-29 21:48:42] [QueueTime] Collecting for req dff36e0f3d17452087c0508133ac9a1a: start=1753796921.6041095, end=1753796921.604583
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 5 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.5868065, 1753796921.5868802, 1753796921.6039922]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.5870724, 1753796921.5871031, 1753796921.6045265]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req ce836ab0c90d43278e11184ac61d9a9d: start=1753796920.1516988, end=1753796920.1518643
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.1516988]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.1518643]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req f7b4388637474861a3c5573c0f27e1b1: 1753796922.073639
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req f7b4388637474861a3c5573c0f27e1b1: 1753796922.0738008, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 293, #cached-token: 3, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33594 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 89e4e22c07f245fba75e384229159e63: start=1753796920.768089, end=1753796920.7682922
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.768089]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.7682922]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33532 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req f86b710080b04ad1923d94449e4a1489: start=1753796921.6574368, end=1753796921.6576087
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 5c538e49869745b282ecb49a0cb1b779: start=1753796921.67192, end=1753796921.6722364
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.6574368, 1753796921.67192]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.6576087, 1753796921.6722364]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req f57abae18f0a46e2b729406249cc316d: start=1753796920.4308472, end=1753796920.4310014
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.4308472]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.4310014]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33498 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 1d8f27689ca14383b7f0875a2285996c: start=1753796920.9951057, end=1753796920.995307
+[2025-07-29 21:48:42] [QueueTime] Collecting for req c508ea1619d74998b35e6aede49fcae7: start=1753796921.6958716, end=1753796921.6960018
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.9951057, 1753796921.6958716]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.995307, 1753796921.6960018]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33434 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 1d84a6689f3343e2a6f9a4f636465eef: 1753796922.1199684
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 1d84a6689f3343e2a6f9a4f636465eef: 1753796922.1201148, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 434, #cached-token: 3, token usage: 0.02, #running-req: 25, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 1e0a2cb42162432c8902e36de7f1d587: start=1753796921.7198722, end=1753796921.7200346
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.7198722]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.7200346]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req a1769ae7a89b439e9bdf21dd2ce1eddf: 1753796922.1409316
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req a1769ae7a89b439e9bdf21dd2ce1eddf: 1753796922.1411078, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 444, #cached-token: 3, token usage: 0.02, #running-req: 26, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req a3d49cd9949a4229804e881161473267: 1753796922.1537137
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req a3d49cd9949a4229804e881161473267: 1753796922.1541069, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 273, #cached-token: 3, token usage: 0.02, #running-req: 27, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req d4a9990794564efaa23b0e72088362d3: 1753796922.1676013
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req d4a9990794564efaa23b0e72088362d3: 1753796922.167901, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 287, #cached-token: 3, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 364550d69b2f493189752d879c5184d0: 1753796922.1811793
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 364550d69b2f493189752d879c5184d0: 1753796922.1814873, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 353, #cached-token: 3, token usage: 0.03, #running-req: 29, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 857162fd97334028bd9808f66c76f9bf: 1753796922.2268836
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 857162fd97334028bd9808f66c76f9bf: 1753796922.227051, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 278, #cached-token: 3, token usage: 0.03, #running-req: 30, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 000dd36f2ffd4f928d94130ef0069d0e: start=1753796920.699599, end=1753796920.6998768
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.699599]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.6998768]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 85b64f730621462b8c0a77e562993d5a: start=1753796920.733468, end=1753796920.7336078
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.733468]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.7336078]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33714 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req e04025a2753149caa5ee4dfdd8504b6b: start=1753796920.768047, end=1753796920.7682626
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 6766ab227afe498194deaeb41954efec: start=1753796921.264995, end=1753796921.2651162
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.768047, 1753796921.264995]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.7682626, 1753796921.2651162]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 5ced25dc680c4e46a172b87b414bddc1: start=1753796921.0659933, end=1753796921.066152
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 6766ab227afe498194deaeb41954efec: start=1753796921.264995, end=1753796921.2651162
+[2025-07-29 21:48:42] [QueueTime] Collecting for req d8052e1c74a9458e9bdcc582418be744: start=1753796921.2965705, end=1753796921.2966914
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 24200a2b802c4e189b4cf9c3e00ece01: start=1753796921.604072, end=1753796921.6045623
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 4 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.0659933, 1753796921.264995, 1753796921.2965705]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.066152, 1753796921.2651162, 1753796921.2966914]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33716 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33412 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33684 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 000dd36f2ffd4f928d94130ef0069d0e: start=1753796920.699599, end=1753796920.6998768
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.699599]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.6998768]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33708 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req cc22414c8f304db58cd274c1918d15f3: start=1753796920.8354716, end=1753796920.8355956
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.8354716]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.8355956]...
+[2025-07-29 21:48:42] Decode batch. #running-req: 26, #token: 10131, token usage: 0.02, cuda graph: True, gen throughput (token/s): 2986.73, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 9a505c42b7234c98b4aa109d23d4e9bd: 1753796922.3338091
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 9a505c42b7234c98b4aa109d23d4e9bd: 1753796922.3339503, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 184, #cached-token: 3, token usage: 0.02, #running-req: 26, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req b9c33318a4c947df8c28630ddce2d29f: 1753796922.3471985
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req b9c33318a4c947df8c28630ddce2d29f: 1753796922.3475256, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 258, #cached-token: 3, token usage: 0.02, #running-req: 27, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 7d0a191359ca498a8d56ea96664819d9: 1753796922.3698077
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 7d0a191359ca498a8d56ea96664819d9: 1753796922.36997, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 387, #cached-token: 3, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 0b402bb3a77a4436b57639a3acfbfda3: 1753796922.3837223
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 0b402bb3a77a4436b57639a3acfbfda3: 1753796922.3840718, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 280, #cached-token: 3, token usage: 0.03, #running-req: 29, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 345a48df852441deb79f3ce901da5de7: 1753796922.4136226
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 345a48df852441deb79f3ce901da5de7: 1753796922.4137883, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 272, #cached-token: 3, token usage: 0.03, #running-req: 30, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req e04025a2753149caa5ee4dfdd8504b6b: start=1753796920.768047, end=1753796920.7682626
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 8121a6f8d0f24c68b9bf1773b61699b3: start=1753796921.3958902, end=1753796921.3960488
+[2025-07-29 21:48:42] [QueueTime] Collecting for req bc69f8acf5b247a09ffd94e92c7aed80: start=1753796921.4093118, end=1753796921.4096296
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.768047, 1753796921.3958902, 1753796921.4093118]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.7682626, 1753796921.3960488, 1753796921.4096296]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33580 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 34faf46fecb44113b727cac87a3f9942: start=1753796921.6039922, end=1753796921.6045265
+[2025-07-29 21:48:42] [QueueTime] Collecting for req dff36e0f3d17452087c0508133ac9a1a: start=1753796921.6041095, end=1753796921.604583
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.6039922, 1753796921.6041095]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.6045265, 1753796921.604583]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 2855e571dfe94a189f590fa1e6b6a658: 1753796922.4541059
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 2855e571dfe94a189f590fa1e6b6a658: 1753796922.4542267, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 415, #cached-token: 3, token usage: 0.02, #running-req: 30, #queue-req: 0, 
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33702 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33466 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 5c538e49869745b282ecb49a0cb1b779: start=1753796921.67192, end=1753796921.6722364
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.67192]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.6722364]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33610 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 3e8598190dcf4737bc3e1f1866d9705d: 1753796922.4801188
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 3e8598190dcf4737bc3e1f1866d9705d: 1753796922.4802754, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 374, #cached-token: 3, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 48d38f9f9e40441c8f16f1951849ee0e: start=1753796921.0199573, end=1753796921.0201144
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 83849c37cade44638f2065ade156ae2e: start=1753796921.457308, end=1753796921.4574428
+[2025-07-29 21:48:42] [QueueTime] Collecting for req eef10abe6c704bd5b11cb079e5deb4f5: start=1753796921.470956, end=1753796921.471194
+[2025-07-29 21:48:42] [QueueTime] Collecting for req a3b489171e60438d88f8e12fdee11b9c: start=1753796921.4814408, end=1753796921.4817355
+[2025-07-29 21:48:42] [QueueTime] Collecting for req d841347730e241578919e07e3192dc11: start=1753796921.4949324, end=1753796921.4952474
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 5 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.0199573, 1753796921.457308, 1753796921.470956]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.0201144, 1753796921.4574428, 1753796921.471194]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33362 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 227d0a52530a412f82f03d6742f0a433: start=1753796921.9808254, end=1753796921.980976
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.9808254]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.980976]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 1e0a2cb42162432c8902e36de7f1d587: start=1753796921.7198722, end=1753796921.7200346
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.7198722]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.7200346]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33644 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req bc69f8acf5b247a09ffd94e92c7aed80: start=1753796921.4093118, end=1753796921.4096296
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.4093118]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.4096296]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33386 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req a3b489171e60438d88f8e12fdee11b9c: start=1753796921.4814408, end=1753796921.4817355
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.4814408]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.4817355]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33654 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 921d3775f0ff4304b1b46d4af59b9e16: start=1753796921.5868065, end=1753796921.5870724
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 98d6f00606ad4a73ba544696ca117eab: start=1753796921.5868802, end=1753796921.5871031
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.5868065, 1753796921.5868802]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.5870724, 1753796921.5871031]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req c508ea1619d74998b35e6aede49fcae7: start=1753796921.6958716, end=1753796921.6960018
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.6958716]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.6960018]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33626 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req f7b4388637474861a3c5573c0f27e1b1: start=1753796922.073639, end=1753796922.0738008
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796922.073639]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796922.0738008]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req f86b710080b04ad1923d94449e4a1489: start=1753796921.6574368, end=1753796921.6576087
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.6574368]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.6576087]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req f4e13801373c4c699a844caaa66cc440: 1753796922.6251235
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req f4e13801373c4c699a844caaa66cc440: 1753796922.625276, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 161, #cached-token: 3, token usage: 0.02, #running-req: 24, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req cc22414c8f304db58cd274c1918d15f3: start=1753796920.8354716, end=1753796920.8355956
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796920.8354716]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796920.8355956]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 89fea75889814052b591bb75843a1b5e: 1753796922.639557
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 89fea75889814052b591bb75843a1b5e: 1753796922.6398137, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 413, #cached-token: 3, token usage: 0.02, #running-req: 25, #queue-req: 0, 
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33428 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 1d84a6689f3343e2a6f9a4f636465eef: start=1753796922.1199684, end=1753796922.1201148
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796922.1199684]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796922.1201148]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req d8052e1c74a9458e9bdcc582418be744: start=1753796921.2965705, end=1753796921.2966914
+[2025-07-29 21:48:42] [QueueTime] Collecting for req a1769ae7a89b439e9bdf21dd2ce1eddf: start=1753796922.1409316, end=1753796922.1411078
+[2025-07-29 21:48:42] [QueueTime] Collecting for req a3d49cd9949a4229804e881161473267: start=1753796922.1537137, end=1753796922.1541069
+[2025-07-29 21:48:42] [QueueTime] Collecting for req d4a9990794564efaa23b0e72088362d3: start=1753796922.1676013, end=1753796922.167901
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 364550d69b2f493189752d879c5184d0: start=1753796922.1811793, end=1753796922.1814873
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 5 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.2965705, 1753796922.1409316, 1753796922.1537137]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.2966914, 1753796922.1411078, 1753796922.1541069]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33550 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req fc5e9476dd4143229510eb8ca20e4f6c: 1753796922.6941276
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req fc5e9476dd4143229510eb8ca20e4f6c: 1753796922.6943254, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 398, #cached-token: 3, token usage: 0.02, #running-req: 24, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 8121a6f8d0f24c68b9bf1773b61699b3: start=1753796921.3958902, end=1753796921.3960488
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.3958902]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.3960488]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req d88c169dd9ee4b758a28de64efbef8a9: 1753796922.7088969
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req d88c169dd9ee4b758a28de64efbef8a9: 1753796922.7091706, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 371, #cached-token: 3, token usage: 0.02, #running-req: 25, #queue-req: 0, 
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33576 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req bf1864856845470d85461318d9553ba2: 1753796922.7217283
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req bf1864856845470d85461318d9553ba2: 1753796922.722039, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 430, #cached-token: 3, token usage: 0.02, #running-req: 26, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 857162fd97334028bd9808f66c76f9bf: start=1753796922.2268836, end=1753796922.227051
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796922.2268836]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796922.227051]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req a26667de82b048eeb8b74bd85527b64b: 1753796922.7469158
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req a26667de82b048eeb8b74bd85527b64b: 1753796922.747047, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 286, #cached-token: 3, token usage: 0.02, #running-req: 26, #queue-req: 0, 
+[2025-07-29 21:48:42] Decode batch. #running-req: 27, #token: 10205, token usage: 0.02, cuda graph: True, gen throughput (token/s): 2422.28, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req c25c489212ba44d9aab471b4e9558a00: 1753796922.7789059
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req c25c489212ba44d9aab471b4e9558a00: 1753796922.7790558, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 385, #cached-token: 3, token usage: 0.02, #running-req: 27, #queue-req: 0, 
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 755729167c2e4dd483dd86ab37048223: 1753796922.7932768
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 755729167c2e4dd483dd86ab37048223: 1753796922.7936053, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 201, #cached-token: 3, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 98d6f00606ad4a73ba544696ca117eab: start=1753796921.5868802, end=1753796921.5871031
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.5868802]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.5871031]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 9d0f3c2506164a668a385f4b1b67de54: 1753796922.8270338
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 9d0f3c2506164a668a385f4b1b67de54: 1753796922.8271692, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 344, #cached-token: 3, token usage: 0.02, #running-req: 29, #queue-req: 0, 
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33394 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 83849c37cade44638f2065ade156ae2e: start=1753796921.457308, end=1753796921.4574428
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796921.457308]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796921.4574428]...
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req 470a9d79400043dc8120880d417935ba: 1753796922.8403046
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req 470a9d79400043dc8120880d417935ba: 1753796922.840511, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 408, #cached-token: 3, token usage: 0.02, #running-req: 30, #queue-req: 0, 
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33448 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req c7160246869c4fdc8c39df736b894107: 1753796922.878276
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req c7160246869c4fdc8c39df736b894107: 1753796922.87846, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 286, #cached-token: 3, token usage: 0.03, #running-req: 29, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req d4a9990794564efaa23b0e72088362d3: start=1753796922.1676013, end=1753796922.167901
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 9a505c42b7234c98b4aa109d23d4e9bd: start=1753796922.3338091, end=1753796922.3339503
+[2025-07-29 21:48:42] [QueueTime] Collecting for req b9c33318a4c947df8c28630ddce2d29f: start=1753796922.3471985, end=1753796922.3475256
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796922.1676013, 1753796922.3338091, 1753796922.3471985]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796922.167901, 1753796922.3339503, 1753796922.3475256]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33594 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 857162fd97334028bd9808f66c76f9bf: start=1753796922.2268836, end=1753796922.227051
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 7d0a191359ca498a8d56ea96664819d9: start=1753796922.3698077, end=1753796922.36997
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 0b402bb3a77a4436b57639a3acfbfda3: start=1753796922.3837223, end=1753796922.3840718
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796922.2268836, 1753796922.3698077, 1753796922.3837223]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796922.227051, 1753796922.36997, 1753796922.3840718]...
+[2025-07-29 21:48:42] INFO:     127.0.0.1:33670 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:42] [Queue] Set queue_time_start for req d84625b4de6744378c30539b163a33d7: 1753796922.9401662
+[2025-07-29 21:48:42] [Queue] Set queue_time_end for req d84625b4de6744378c30539b163a33d7: 1753796922.9403222, duration: 0.000s
+[2025-07-29 21:48:42] Prefill batch. #new-seq: 1, #new-token: 387, #cached-token: 3, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 345a48df852441deb79f3ce901da5de7: start=1753796922.4136226, end=1753796922.4137883
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796922.4136226]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796922.4137883]...
+[2025-07-29 21:48:42] [QueueTime] Collecting for req 2855e571dfe94a189f590fa1e6b6a658: start=1753796922.4541059, end=1753796922.4542267
+[2025-07-29 21:48:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:42] [QueueTime] queue_time_start values: [1753796922.4541059]...
+[2025-07-29 21:48:42] [QueueTime] queue_time_end values: [1753796922.4542267]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req d841347730e241578919e07e3192dc11: start=1753796921.4949324, end=1753796921.4952474
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 3e8598190dcf4737bc3e1f1866d9705d: start=1753796922.4801188, end=1753796922.4802754
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796921.4949324, 1753796922.4801188]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796921.4952474, 1753796922.4802754]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33378 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req eef10abe6c704bd5b11cb079e5deb4f5: start=1753796921.470956, end=1753796921.471194
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796921.470956]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796921.471194]...
+[2025-07-29 21:48:43] [Queue] Set queue_time_start for req b671aa554581464a9164fa620a836cb8: 1753796923.0344567
+[2025-07-29 21:48:43] [Queue] Set queue_time_start for req 7f15c38c22b14f618e15277fb6f11f6f: 1753796923.0345256
+[2025-07-29 21:48:43] [Queue] Set queue_time_end for req b671aa554581464a9164fa620a836cb8: 1753796923.0346944, duration: 0.000s
+[2025-07-29 21:48:43] [Queue] Set queue_time_end for req 7f15c38c22b14f618e15277fb6f11f6f: 1753796923.0347242, duration: 0.000s
+[2025-07-29 21:48:43] Prefill batch. #new-seq: 2, #new-token: 541, #cached-token: 6, token usage: 0.03, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:43] [QueueTime] Collecting for req f86b710080b04ad1923d94449e4a1489: start=1753796921.6574368, end=1753796921.6576087
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 227d0a52530a412f82f03d6742f0a433: start=1753796921.9808254, end=1753796921.980976
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796921.6574368, 1753796921.9808254]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796921.6576087, 1753796921.980976]...
+[2025-07-29 21:48:43] [Queue] Set queue_time_start for req 21bb16fd403e415ca5daa91ef1550af1: 1753796923.054095
+[2025-07-29 21:48:43] [Queue] Set queue_time_end for req 21bb16fd403e415ca5daa91ef1550af1: 1753796923.0543673, duration: 0.000s
+[2025-07-29 21:48:43] Prefill batch. #new-seq: 1, #new-token: 346, #cached-token: 3, token usage: 0.03, #running-req: 30, #queue-req: 0, 
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33572 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 1d84a6689f3343e2a6f9a4f636465eef: start=1753796922.1199684, end=1753796922.1201148
+[2025-07-29 21:48:43] [QueueTime] Collecting for req a3d49cd9949a4229804e881161473267: start=1753796922.1537137, end=1753796922.1541069
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.1199684, 1753796922.1537137]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.1201148, 1753796922.1541069]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33434 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33532 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 921d3775f0ff4304b1b46d4af59b9e16: start=1753796921.5868065, end=1753796921.5870724
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796921.5868065]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796921.5870724]...
+[2025-07-29 21:48:43] [Queue] Set queue_time_start for req a91e927e34c849f497d323059b6890c8: 1753796923.1331794
+[2025-07-29 21:48:43] [Queue] Set queue_time_start for req 223a8f080d2944b4b1f71709dc7fb0be: 1753796923.1332238
+[2025-07-29 21:48:43] [Queue] Set queue_time_end for req a91e927e34c849f497d323059b6890c8: 1753796923.1333892, duration: 0.000s
+[2025-07-29 21:48:43] [Queue] Set queue_time_end for req 223a8f080d2944b4b1f71709dc7fb0be: 1753796923.1334183, duration: 0.000s
+[2025-07-29 21:48:43] Prefill batch. #new-seq: 2, #new-token: 871, #cached-token: 6, token usage: 0.02, #running-req: 28, #queue-req: 0, 
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33690 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req f7b4388637474861a3c5573c0f27e1b1: start=1753796922.073639, end=1753796922.0738008
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.073639]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.0738008]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req f4e13801373c4c699a844caaa66cc440: start=1753796922.6251235, end=1753796922.625276
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 89fea75889814052b591bb75843a1b5e: start=1753796922.639557, end=1753796922.6398137
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.6251235, 1753796922.639557]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.625276, 1753796922.6398137]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 2855e571dfe94a189f590fa1e6b6a658: start=1753796922.4541059, end=1753796922.4542267
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.4541059]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.4542267]...
+[2025-07-29 21:48:43] Decode batch. #running-req: 29, #token: 11018, token usage: 0.03, cuda graph: True, gen throughput (token/s): 2718.30, #queue-req: 0, 
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33580 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req a1769ae7a89b439e9bdf21dd2ce1eddf: start=1753796922.1409316, end=1753796922.1411078
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 364550d69b2f493189752d879c5184d0: start=1753796922.1811793, end=1753796922.1814873
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.1409316, 1753796922.1811793]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.1411078, 1753796922.1814873]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 0b402bb3a77a4436b57639a3acfbfda3: start=1753796922.3837223, end=1753796922.3840718
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.3837223]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.3840718]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33684 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req a1769ae7a89b439e9bdf21dd2ce1eddf: start=1753796922.1409316, end=1753796922.1411078
+[2025-07-29 21:48:43] [QueueTime] Collecting for req fc5e9476dd4143229510eb8ca20e4f6c: start=1753796922.6941276, end=1753796922.6943254
+[2025-07-29 21:48:43] [QueueTime] Collecting for req d88c169dd9ee4b758a28de64efbef8a9: start=1753796922.7088969, end=1753796922.7091706
+[2025-07-29 21:48:43] [QueueTime] Collecting for req bf1864856845470d85461318d9553ba2: start=1753796922.7217283, end=1753796922.722039
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 4 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.1409316, 1753796922.6941276, 1753796922.7088969]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.1411078, 1753796922.6943254, 1753796922.7091706]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33498 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 9a505c42b7234c98b4aa109d23d4e9bd: start=1753796922.3338091, end=1753796922.3339503
+[2025-07-29 21:48:43] [QueueTime] Collecting for req a26667de82b048eeb8b74bd85527b64b: start=1753796922.7469158, end=1753796922.747047
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.3338091, 1753796922.7469158]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.3339503, 1753796922.747047]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33708 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req c25c489212ba44d9aab471b4e9558a00: start=1753796922.7789059, end=1753796922.7790558
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 755729167c2e4dd483dd86ab37048223: start=1753796922.7932768, end=1753796922.7936053
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.7789059, 1753796922.7932768]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.7790558, 1753796922.7936053]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 9d0f3c2506164a668a385f4b1b67de54: start=1753796922.8270338, end=1753796922.8271692
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 470a9d79400043dc8120880d417935ba: start=1753796922.8403046, end=1753796922.840511
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.8270338, 1753796922.8403046]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.8271692, 1753796922.840511]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 89fea75889814052b591bb75843a1b5e: start=1753796922.639557, end=1753796922.6398137
+[2025-07-29 21:48:43] [QueueTime] Collecting for req c7160246869c4fdc8c39df736b894107: start=1753796922.878276, end=1753796922.87846
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.639557, 1753796922.878276]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.6398137, 1753796922.87846]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33654 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req eef10abe6c704bd5b11cb079e5deb4f5: start=1753796921.470956, end=1753796921.471194
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796921.470956]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796921.471194]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33360 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req b9c33318a4c947df8c28630ddce2d29f: start=1753796922.3471985, end=1753796922.3475256
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.3471985]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.3475256]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req b9c33318a4c947df8c28630ddce2d29f: start=1753796922.3471985, end=1753796922.3475256
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.3471985]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.3475256]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33716 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 7d0a191359ca498a8d56ea96664819d9: start=1753796922.3698077, end=1753796922.36997
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.3698077]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.36997]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req d84625b4de6744378c30539b163a33d7: start=1753796922.9401662, end=1753796922.9403222
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.9401662]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.9403222]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 345a48df852441deb79f3ce901da5de7: start=1753796922.4136226, end=1753796922.4137883
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.4136226]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.4137883]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 364550d69b2f493189752d879c5184d0: start=1753796922.1811793, end=1753796922.1814873
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.1811793]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.1814873]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33470 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 3e8598190dcf4737bc3e1f1866d9705d: start=1753796922.4801188, end=1753796922.4802754
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.4801188]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.4802754]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req f7b4388637474861a3c5573c0f27e1b1: start=1753796922.073639, end=1753796922.0738008
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.073639]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.0738008]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33454 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req b671aa554581464a9164fa620a836cb8: start=1753796923.0344567, end=1753796923.0346944
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 7f15c38c22b14f618e15277fb6f11f6f: start=1753796923.0345256, end=1753796923.0347242
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 21bb16fd403e415ca5daa91ef1550af1: start=1753796923.054095, end=1753796923.0543673
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796923.0344567, 1753796923.0345256, 1753796923.054095]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796923.0346944, 1753796923.0347242, 1753796923.0543673]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 227d0a52530a412f82f03d6742f0a433: start=1753796921.9808254, end=1753796921.980976
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796921.9808254]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796921.980976]...
+[2025-07-29 21:48:43] Decode batch. #running-req: 20, #token: 8466, token usage: 0.02, cuda graph: True, gen throughput (token/s): 3200.97, #queue-req: 0, 
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 7d0a191359ca498a8d56ea96664819d9: start=1753796922.3698077, end=1753796922.36997
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.3698077]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.36997]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33412 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req a91e927e34c849f497d323059b6890c8: start=1753796923.1331794, end=1753796923.1333892
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 223a8f080d2944b4b1f71709dc7fb0be: start=1753796923.1332238, end=1753796923.1334183
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796923.1331794, 1753796923.1332238]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796923.1333892, 1753796923.1334183]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 227d0a52530a412f82f03d6742f0a433: start=1753796921.9808254, end=1753796921.980976
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796921.9808254]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796921.980976]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33502 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req f4e13801373c4c699a844caaa66cc440: start=1753796922.6251235, end=1753796922.625276
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.6251235]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.625276]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req c7160246869c4fdc8c39df736b894107: start=1753796922.878276, end=1753796922.87846
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.878276]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.87846]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33448 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req fc5e9476dd4143229510eb8ca20e4f6c: start=1753796922.6941276, end=1753796922.6943254
+[2025-07-29 21:48:43] [QueueTime] Collecting for req d88c169dd9ee4b758a28de64efbef8a9: start=1753796922.7088969, end=1753796922.7091706
+[2025-07-29 21:48:43] [QueueTime] Collecting for req bf1864856845470d85461318d9553ba2: start=1753796922.7217283, end=1753796922.722039
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.6941276, 1753796922.7088969, 1753796922.7217283]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.6943254, 1753796922.7091706, 1753796922.722039]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req a26667de82b048eeb8b74bd85527b64b: start=1753796922.7469158, end=1753796922.747047
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.7469158]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.747047]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req c25c489212ba44d9aab471b4e9558a00: start=1753796922.7789059, end=1753796922.7790558
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 755729167c2e4dd483dd86ab37048223: start=1753796922.7932768, end=1753796922.7936053
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 223a8f080d2944b4b1f71709dc7fb0be: start=1753796923.1332238, end=1753796923.1334183
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.7789059, 1753796922.7932768, 1753796923.1332238]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.7790558, 1753796922.7936053, 1753796923.1334183]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33532 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 9d0f3c2506164a668a385f4b1b67de54: start=1753796922.8270338, end=1753796922.8271692
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 470a9d79400043dc8120880d417935ba: start=1753796922.8403046, end=1753796922.840511
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.8270338, 1753796922.8403046]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.8271692, 1753796922.840511]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 755729167c2e4dd483dd86ab37048223: start=1753796922.7932768, end=1753796922.7936053
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.7932768]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.7936053]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33362 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 3e8598190dcf4737bc3e1f1866d9705d: start=1753796922.4801188, end=1753796922.4802754
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.4801188]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.4802754]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33610 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req d84625b4de6744378c30539b163a33d7: start=1753796922.9401662, end=1753796922.9403222
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.9401662]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.9403222]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req bf1864856845470d85461318d9553ba2: start=1753796922.7217283, end=1753796922.722039
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.7217283]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.722039]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33576 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 345a48df852441deb79f3ce901da5de7: start=1753796922.4136226, end=1753796922.4137883
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.4136226]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.4137883]...
+[2025-07-29 21:48:43] Decode batch. #running-req: 13, #token: 5836, token usage: 0.01, cuda graph: True, gen throughput (token/s): 2300.28, #queue-req: 0, 
+[2025-07-29 21:48:43] [QueueTime] Collecting for req b671aa554581464a9164fa620a836cb8: start=1753796923.0344567, end=1753796923.0346944
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 7f15c38c22b14f618e15277fb6f11f6f: start=1753796923.0345256, end=1753796923.0347242
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 21bb16fd403e415ca5daa91ef1550af1: start=1753796923.054095, end=1753796923.0543673
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 3 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796923.0344567, 1753796923.0345256, 1753796923.054095]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796923.0346944, 1753796923.0347242, 1753796923.0543673]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req fc5e9476dd4143229510eb8ca20e4f6c: start=1753796922.6941276, end=1753796922.6943254
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.6941276]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.6943254]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33550 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req d88c169dd9ee4b758a28de64efbef8a9: start=1753796922.7088969, end=1753796922.7091706
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.7088969]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.7091706]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33428 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req 345a48df852441deb79f3ce901da5de7: start=1753796922.4136226, end=1753796922.4137883
+[2025-07-29 21:48:43] [QueueTime] Collecting for req a91e927e34c849f497d323059b6890c8: start=1753796923.1331794, end=1753796923.1333892
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.4136226, 1753796923.1331794]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.4137883, 1753796923.1333892]...
+[2025-07-29 21:48:43] INFO:     127.0.0.1:33714 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:43] [QueueTime] Collecting for req f4e13801373c4c699a844caaa66cc440: start=1753796922.6251235, end=1753796922.625276
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.6251235]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.625276]...
+[2025-07-29 21:48:43] [QueueTime] Collecting for req a26667de82b048eeb8b74bd85527b64b: start=1753796922.7469158, end=1753796922.747047
+[2025-07-29 21:48:43] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:43] [QueueTime] queue_time_start values: [1753796922.7469158]...
+[2025-07-29 21:48:43] [QueueTime] queue_time_end values: [1753796922.747047]...
+[2025-07-29 21:48:44] [QueueTime] Collecting for req c25c489212ba44d9aab471b4e9558a00: start=1753796922.7789059, end=1753796922.7790558
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.7789059]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.7790558]...
+[2025-07-29 21:48:44] [QueueTime] Collecting for req f4e13801373c4c699a844caaa66cc440: start=1753796922.6251235, end=1753796922.625276
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.6251235]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.625276]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33626 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] [QueueTime] Collecting for req 7f15c38c22b14f618e15277fb6f11f6f: start=1753796923.0345256, end=1753796923.0347242
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796923.0345256]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796923.0347242]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33670 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] [QueueTime] Collecting for req 9d0f3c2506164a668a385f4b1b67de54: start=1753796922.8270338, end=1753796922.8271692
+[2025-07-29 21:48:44] [QueueTime] Collecting for req 470a9d79400043dc8120880d417935ba: start=1753796922.8403046, end=1753796922.840511
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 2 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.8270338, 1753796922.8403046]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.8271692, 1753796922.840511]...
+[2025-07-29 21:48:44] [QueueTime] Collecting for req a91e927e34c849f497d323059b6890c8: start=1753796923.1331794, end=1753796923.1333892
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796923.1331794]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796923.1333892]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33434 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] Decode batch. #running-req: 7, #token: 3390, token usage: 0.01, cuda graph: True, gen throughput (token/s): 1472.85, #queue-req: 0, 
+[2025-07-29 21:48:44] [QueueTime] Collecting for req a26667de82b048eeb8b74bd85527b64b: start=1753796922.7469158, end=1753796922.747047
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.7469158]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.747047]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33386 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] [QueueTime] Collecting for req d84625b4de6744378c30539b163a33d7: start=1753796922.9401662, end=1753796922.9403222
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.9401662]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.9403222]...
+[2025-07-29 21:48:44] [QueueTime] Collecting for req 9d0f3c2506164a668a385f4b1b67de54: start=1753796922.8270338, end=1753796922.8271692
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.8270338]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.8271692]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33702 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] [QueueTime] Collecting for req c25c489212ba44d9aab471b4e9558a00: start=1753796922.7789059, end=1753796922.7790558
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.7789059]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.7790558]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33644 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] [QueueTime] Collecting for req d84625b4de6744378c30539b163a33d7: start=1753796922.9401662, end=1753796922.9403222
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.9401662]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.9403222]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33594 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] [QueueTime] Collecting for req 21bb16fd403e415ca5daa91ef1550af1: start=1753796923.054095, end=1753796923.0543673
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796923.054095]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796923.0543673]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33466 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] [QueueTime] Collecting for req b671aa554581464a9164fa620a836cb8: start=1753796923.0344567, end=1753796923.0346944
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796923.0344567]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796923.0346944]...
+[2025-07-29 21:48:44] [QueueTime] Collecting for req b671aa554581464a9164fa620a836cb8: start=1753796923.0344567, end=1753796923.0346944
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796923.0344567]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796923.0346944]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33378 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] [QueueTime] Collecting for req 470a9d79400043dc8120880d417935ba: start=1753796922.8403046, end=1753796922.840511
+[2025-07-29 21:48:44] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 21:48:44] [QueueTime] queue_time_start values: [1753796922.8403046]...
+[2025-07-29 21:48:44] [QueueTime] queue_time_end values: [1753796922.840511]...
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33394 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 21:48:44] INFO:     127.0.0.1:33720 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 21:48:54] INFO:     127.0.0.1:45580 - "GET /health HTTP/1.1" 200 OK
