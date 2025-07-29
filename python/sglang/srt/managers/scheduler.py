@@ -257,6 +257,9 @@ class Scheduler(
         )
         self.enable_kv_cache_events = server_args.kv_events_config is not None
         self.stream_interval = server_args.stream_interval
+        
+        # Log enable_metrics status for debugging queue timestamp issues
+        logger.info(f"Scheduler initialized with enable_metrics={self.enable_metrics}")
         self.spec_algorithm = SpeculativeAlgorithm.from_string(
             server_args.speculative_algorithm
         )
@@ -1242,12 +1245,16 @@ class Scheduler(
 
         if add_to_grammar_queue:
             req.queue_time_start = time.perf_counter()
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug(f"[Queue] Set queue_time_start for req {req.rid}: {req.queue_time_start}")
             self.grammar_queue.append(req)
         else:
             self._add_request_to_queue(req)
 
     def _add_request_to_queue(self, req: Req):
         req.queue_time_start = time.perf_counter()
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f"[Queue] Set queue_time_start for req {req.rid}: {req.queue_time_start}")
         if self.disaggregation_mode == DisaggregationMode.PREFILL:
             self.disagg_prefill_bootstrap_queue.add(
                 req, self.model_config.num_key_value_heads
@@ -1756,10 +1763,12 @@ class Scheduler(
         if len(can_run_list) == 0:
             return None
 
-        if self.enable_metrics:
-            # only record queue time when enable_metrics is True to avoid overhead
-            for req in can_run_list:
-                req.queue_time_end = time.perf_counter()
+        # Record queue time end for all requests to enable accurate timing analysis
+        for req in can_run_list:
+            req.queue_time_end = time.perf_counter()
+            if logger.isEnabledFor(logging.DEBUG):
+                queue_duration = req.queue_time_end - req.queue_time_start if hasattr(req, 'queue_time_start') and req.queue_time_start else 0
+                logger.debug(f"[Queue] Set queue_time_end for req {req.rid}: {req.queue_time_end}, duration: {queue_duration:.3f}s")
 
         self.waiting_queue = [
             x for x in self.waiting_queue if x not in set(can_run_list)

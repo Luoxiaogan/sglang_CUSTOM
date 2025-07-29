@@ -1,187 +1,172 @@
 #!/usr/bin/env python3
 """
-Verify that queue timestamps are now working correctly.
+验证queue时间戳修复的测试脚本
+- 测试queue_time_start和queue_time_end是否正确记录
+- 验证修复后的功能是否正常工作
 """
 
 import asyncio
-import aiohttp
 import json
-import pandas as pd
+import time
+import aiohttp
+import argparse
 from datetime import datetime
 
 
-async def test_queue_timestamps():
-    """Test queue timestamp functionality."""
-    
-    router_url = "http://localhost:60009"
-    
-    print(f"\n{'='*60}")
-    print(f"Verifying Queue Timestamp Fix - {datetime.now()}")
-    print(f"{'='*60}\n")
-    
-    # Test request
-    test_request = {
-        "text": "Test request for queue timestamps",
-        "sampling_params": {
-            "max_new_tokens": 30,
-            "temperature": 0.7
-        },
+async def send_test_request(session, url, prompt="Write a short story about a robot"):
+    """发送单个测试请求"""
+    payload = {
+        "prompt": prompt,
+        "max_tokens": 50,
+        "temperature": 0.1,
         "stream": False
     }
     
+    async with session.post(url + "/generate", json=payload) as response:
+        result = await response.json()
+        return result
+
+
+async def test_single_request(base_url):
+    """测试单个请求的时间戳"""
+    print("\n" + "="*60)
+    print("测试单个请求的Queue时间戳")
+    print("="*60 + "\n")
+    
     async with aiohttp.ClientSession() as session:
-        print("📤 Sending test request...")
+        result = await send_test_request(session, base_url)
         
-        try:
-            async with session.post(f"{router_url}/generate", json=test_request) as resp:
-                if resp.status == 200:
-                    response_text = await resp.text()
-                    response_data = json.loads(response_text)
-                    
-                    if "meta_info" in response_data:
-                        meta_info = response_data["meta_info"]
-                        
-                        print("\n✅ Response received successfully")
-                        print("\n📊 Timestamp Report:")
-                        print(f"{'─'*50}")
-                        
-                        # Check all timestamps
-                        timestamps = {
-                            "server_created_time": meta_info.get("server_created_time"),
-                            "queue_time_start": meta_info.get("queue_time_start"),
-                            "queue_time_end": meta_info.get("queue_time_end"),
-                            "server_first_token_time": meta_info.get("server_first_token_time")
-                        }
-                        
-                        all_present = True
-                        for name, value in timestamps.items():
-                            if value is None:
-                                print(f"  ❌ {name}: Missing")
-                                all_present = False
-                            else:
-                                print(f"  ✅ {name}: {value:.6f}")
-                        
-                        if all_present:
-                            print(f"\n🎉 All timestamps present!")
-                            
-                            # Calculate durations
-                            tokenize_time = timestamps["queue_time_start"] - timestamps["server_created_time"]
-                            pure_queue_time = timestamps["queue_time_end"] - timestamps["queue_time_start"]
-                            prefill_time = timestamps["server_first_token_time"] - timestamps["queue_time_end"]
-                            total_time = timestamps["server_first_token_time"] - timestamps["server_created_time"]
-                            
-                            print(f"\n⏱️  Calculated Durations:")
-                            print(f"{'─'*50}")
-                            print(f"  Tokenize time: {tokenize_time:.3f}s")
-                            print(f"  Pure queue time: {pure_queue_time:.3f}s")
-                            print(f"  Prefill time: {prefill_time:.3f}s")
-                            print(f"  Total server time: {total_time:.3f}s")
-                            
-                            # Verify time ordering
-                            if (timestamps["server_created_time"] <= timestamps["queue_time_start"] <= 
-                                timestamps["queue_time_end"] <= timestamps["server_first_token_time"]):
-                                print(f"\n✅ Timestamps are in correct order")
-                            else:
-                                print(f"\n❌ Timestamps are NOT in correct order!")
-                        else:
-                            print(f"\n❌ Some timestamps are missing. Fix not fully working.")
-                            
-                            # Additional debugging info
-                            print(f"\n🔍 Full meta_info:")
-                            print(json.dumps(meta_info, indent=2))
-                    else:
-                        print("❌ No meta_info in response")
-                else:
-                    print(f"❌ Request failed: HTTP {resp.status}")
-                    
-        except Exception as e:
-            print(f"❌ Error: {e}")
-            import traceback
-            traceback.print_exc()
-
-
-async def test_with_csv(num_requests: int = 5):
-    """Run a small test and check the CSV output."""
-    
-    print(f"\n\n{'='*60}")
-    print(f"Running CSV Test with {num_requests} requests")
-    print(f"{'='*60}\n")
-    
-    import subprocess
-    import os
-    from datetime import datetime
-    
-    # Generate unique filename
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    csv_file = f"queue_test_{timestamp}.csv"
-    
-    # Run send_req.py
-    cmd = [
-        "python", "send_req.py",
-        "--num-requests", str(num_requests),
-        "--request-rate", "5",
-        "--output", csv_file
-    ]
-    
-    print(f"🚀 Running: {' '.join(cmd)}")
-    
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        print("📋 响应内容:")
+        print(json.dumps(result, indent=2, ensure_ascii=False))
         
-        if result.returncode == 0:
-            print("✅ Test completed successfully")
+        if "meta_info" in result:
+            meta = result["meta_info"]
+            print("\n📊 时间戳分析:")
+            print("-"*40)
             
-            # Check CSV file
-            if os.path.exists(csv_file):
-                df = pd.read_csv(csv_file)
+            timestamps = {
+                "server_created_time": meta.get("server_created_time"),
+                "queue_time_start": meta.get("queue_time_start"),
+                "queue_time_end": meta.get("queue_time_end"),
+                "server_first_token_time": meta.get("server_first_token_time")
+            }
+            
+            for name, value in timestamps.items():
+                status = "✅" if value is not None else "❌"
+                print(f"  {status} {name}: {value}")
+            
+            # 计算时间间隔
+            if timestamps["queue_time_start"] and timestamps["queue_time_end"]:
+                queue_duration = timestamps["queue_time_end"] - timestamps["queue_time_start"]
+                print(f"\n⏱️  纯排队时间: {queue_duration:.3f}秒")
+            
+            if timestamps["server_created_time"] and timestamps["server_first_token_time"]:
+                total_server_time = timestamps["server_first_token_time"] - timestamps["server_created_time"]
+                print(f"⏱️  总服务器时间: {total_server_time:.3f}秒")
                 
-                print(f"\n📊 CSV Analysis:")
-                print(f"Total rows: {len(df)}")
-                
-                # Check queue time columns
-                queue_cols = ['queue_time_start', 'queue_time_end', 'pure_queue_time']
-                for col in queue_cols:
-                    if col in df.columns:
-                        non_null = df[col].notna().sum()
-                        print(f"  {col}: {non_null}/{len(df)} non-null values")
-                        if non_null > 0:
-                            print(f"    Mean: {df[col].mean():.3f}s")
-                    else:
-                        print(f"  {col}: Column not found!")
-                
-                # Show first few rows
-                print(f"\n📋 First 3 rows (queue time columns):")
-                cols_to_show = ['req_id'] + queue_cols
-                cols_to_show = [c for c in cols_to_show if c in df.columns]
-                print(df[cols_to_show].head(3).to_string())
-                
-                # Clean up
-                os.remove(csv_file)
-                print(f"\n🧹 Cleaned up {csv_file}")
-            else:
-                print(f"❌ CSV file {csv_file} not found")
+            return all(v is not None for v in timestamps.values())
         else:
-            print(f"❌ Test failed with return code {result.returncode}")
-            print(f"STDOUT:\n{result.stdout}")
-            print(f"STDERR:\n{result.stderr}")
-            
-    except subprocess.TimeoutExpired:
-        print("❌ Test timed out after 30 seconds")
-    except Exception as e:
-        print(f"❌ Error running test: {e}")
+            print("❌ 响应中没有meta_info")
+            return False
 
 
-async def main():
-    # Single request test
-    await test_queue_timestamps()
+async def test_concurrent_requests(base_url, num_requests=10):
+    """测试并发请求的时间戳"""
+    print("\n" + "="*60)
+    print(f"测试{num_requests}个并发请求的Queue时间戳")
+    print("="*60 + "\n")
     
-    # CSV test
-    await test_with_csv()
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        for i in range(num_requests):
+            prompt = f"Tell me fact number {i+1} about space"
+            tasks.append(send_test_request(session, base_url, prompt))
+        
+        start_time = time.time()
+        results = await asyncio.gather(*tasks)
+        duration = time.time() - start_time
+        
+        print(f"✅ 所有请求在 {duration:.2f}秒 内完成\n")
+        
+        # 分析结果
+        all_have_timestamps = True
+        queue_durations = []
+        
+        for i, result in enumerate(results):
+            if "meta_info" in result:
+                meta = result["meta_info"]
+                queue_start = meta.get("queue_time_start")
+                queue_end = meta.get("queue_time_end")
+                
+                if queue_start and queue_end:
+                    queue_duration = queue_end - queue_start
+                    queue_durations.append(queue_duration)
+                    print(f"  请求 {i}: ✅ 排队时间 = {queue_duration:.3f}秒")
+                else:
+                    print(f"  请求 {i}: ❌ 缺少queue时间戳")
+                    all_have_timestamps = False
+            else:
+                print(f"  请求 {i}: ❌ 没有meta_info")
+                all_have_timestamps = False
+        
+        if queue_durations:
+            avg_queue = sum(queue_durations) / len(queue_durations)
+            max_queue = max(queue_durations)
+            min_queue = min(queue_durations)
+            print(f"\n📊 排队时间统计:")
+            print(f"  平均: {avg_queue:.3f}秒")
+            print(f"  最小: {min_queue:.3f}秒")
+            print(f"  最大: {max_queue:.3f}秒")
+        
+        return all_have_timestamps
+
+
+async def main(args):
+    """主测试函数"""
+    print(f"\n🚀 开始测试Queue时间戳修复")
+    print(f"时间: {datetime.now()}")
+    print(f"服务器: {args.base_url}")
     
-    print(f"\n{'='*60}")
-    print("Verification completed!")
-    print(f"{'='*60}\n")
+    # 测试单个请求
+    single_success = await test_single_request(args.base_url)
+    
+    # 测试并发请求
+    concurrent_success = await test_concurrent_requests(args.base_url, args.num_requests)
+    
+    # 总结
+    print("\n" + "="*60)
+    print("测试总结")
+    print("="*60)
+    
+    if single_success and concurrent_success:
+        print("\n🎉 所有测试通过！Queue时间戳修复成功！")
+        print("\n建议后续步骤:")
+        print("1. 运行更大规模的负载测试")
+        print("2. 检查服务器日志中的调试信息")
+        print("3. 使用send_req.py进行完整的路由测试")
+    else:
+        print("\n❌ 测试失败！Queue时间戳仍然有问题")
+        print("\n排查建议:")
+        print("1. 确认代码已正确部署到服务器")
+        print("2. 检查服务器启动参数是否包含--enable-metrics")
+        print("3. 查看服务器日志中的enable_metrics状态")
+        print("4. 使用--log-level debug查看详细的时间戳设置日志")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser(description="验证queue时间戳修复")
+    parser.add_argument(
+        "--base-url",
+        type=str,
+        default="http://localhost:30000",
+        help="服务器基础URL"
+    )
+    parser.add_argument(
+        "--num-requests",
+        type=int,
+        default=10,
+        help="并发请求数量"
+    )
+    
+    args = parser.parse_args()
+    asyncio.run(main(args))

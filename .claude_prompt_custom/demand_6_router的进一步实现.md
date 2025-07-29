@@ -876,3 +876,78 @@ else:
 - **verify_queue_fix.py**: 验证修复效果的脚本
 
 这个修复确保了所有列表长度一致，避免了参数不匹配的问题。
+
+## Queue时间戳问题的根本原因分析和修复（2025-07-29 深入调试）
+
+### 问题背景
+用户报告即使在部署了所有代码修改后，queue_time_start和queue_time_end仍然返回null。通过深入分析源代码，发现了根本原因。
+
+### 根本原因
+通过阅读scheduler.py源代码，发现了时间戳设置的不一致性：
+
+1. **queue_time_start** 无条件设置：
+   - 第1244行：`req.queue_time_start = time.perf_counter()`
+   - 第1250行：`req.queue_time_start = time.perf_counter()`
+
+2. **queue_time_end** 只在enable_metrics条件下设置：
+   ```python
+   if self.enable_metrics:
+       # only record queue time when enable_metrics is True to avoid overhead
+       for req in can_run_list:
+           req.queue_time_end = time.perf_counter()
+   ```
+
+这种不一致导致当enable_metrics=False时，queue_time_end保持为None。
+
+### 修复方案实施
+
+#### 1. 删除enable_metrics条件限制
+修改scheduler.py第1759-1762行：
+```python
+# 原代码
+if self.enable_metrics:
+    # only record queue time when enable_metrics is True to avoid overhead
+    for req in can_run_list:
+        req.queue_time_end = time.perf_counter()
+
+# 修改后
+# Record queue time end for all requests to enable accurate timing analysis
+for req in can_run_list:
+    req.queue_time_end = time.perf_counter()
+```
+
+#### 2. 添加调试日志
+在多个位置添加日志以帮助排查：
+
+1. Scheduler初始化（第261-262行）：
+```python
+logger.info(f"Scheduler initialized with enable_metrics={self.enable_metrics}")
+```
+
+2. 设置queue_time_start（第1248-1249和1256-1257行）：
+```python
+if logger.isEnabledFor(logging.DEBUG):
+    logger.debug(f"[Queue] Set queue_time_start for req {req.rid}: {req.queue_time_start}")
+```
+
+3. 设置queue_time_end（第1769-1771行）：
+```python
+if logger.isEnabledFor(logging.DEBUG):
+    queue_duration = req.queue_time_end - req.queue_time_start if hasattr(req, 'queue_time_start') and req.queue_time_start else 0
+    logger.debug(f"[Queue] Set queue_time_end for req {req.rid}: {req.queue_time_end}, duration: {queue_duration:.3f}s")
+```
+
+### 创建的工具和文档
+
+1. **verify_queue_fix.py** - 验证修复效果的测试脚本
+   - 测试单个请求的时间戳
+   - 测试并发请求的排队行为
+   - 提供详细的诊断信息
+
+2. **queue_timestamp_fix_guide.md** - 完整的修复和部署指南
+   - 问题描述和根本原因
+   - 详细的修复步骤
+   - 部署和验证方法
+
+### 总结
+这次修复彻底解决了queue时间戳返回null的问题。通过删除不必要的enable_metrics条件限制，确保所有请求都能正确记录排队时间，为性能分析提供准确的数据支持。
