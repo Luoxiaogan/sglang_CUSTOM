@@ -1410,6 +1410,9 @@ class TokenizerManager:
                     {
                         "completion_tokens": recv_obj.completion_tokens[i],
                         "cached_tokens": recv_obj.cached_tokens[i],
+                        # Add server-side timestamps for accurate queue time measurement
+                        "server_created_time": state.created_time,
+                        "server_first_token_time": state.first_token_time if state.first_token_time > 0 else None,
                     }
                 )
 

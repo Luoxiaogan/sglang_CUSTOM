@@ -318,3 +318,55 @@ async def _send_single_request(self, request, arrival_time, index, total):
 3. **更详细的时间戳记录**：用于深入分析
 
 这个方案通过最小的改动解决了核心问题，保持了系统兼容性，且易于验证和回滚。
+
+
+现在我测试了，log在bash_for_send_and_track.log；输出在router_test_20250729_154540.csv，请你分析和总结。
+
+## 修复成果总结（2025-07-29 15:52）
+
+### 已成功完成 ✅
+
+1. **泊松到达过程修复**
+   - 修正了错误的并行等待实现
+   - 实现了正确的顺序到达 + 异步处理模式
+   - 结果：arrival_time 从错误的 88.31秒 降到正确的 2.22秒
+
+2. **时间戳记录修复**
+   - arrival_time 正确记录请求到达时刻
+   - 保持了 Node/Router test 的语义区别
+   - queue_time 保持微秒级（证明 router 立即转发）
+
+3. **性能验证**
+   - Server latency: mean=1.162s, p50=1.166s, p99=1.757s
+   - 负载均衡: localhost:40005 (52%) vs localhost:40006 (48%)
+   - 100% 成功率
+
+### 待解决问题和改进计划 ❌
+
+1. **添加 server_start_time 时间戳**
+   - 需求：记录请求在 server 上开始处理（放入 batch）的时刻
+   - 影响：无法准确计算 server 端排队时间
+   - 方案：需要 SGLang server 端支持返回该时间戳
+
+2. **拆分 queue_time 为两部分**
+   - `queue_time_in_router = to_server_time - arrival_time`（当前已有，约0）
+   - `queue_time_in_server = server_start_time - to_server_time`（需要新时间戳）
+   - 目的：区分不同阶段的排队延迟
+
+3. **清理冗余代码**
+   - `generate_poisson_arrivals` 函数已不再需要
+   - 可以简化或删除以避免混淆
+
+4. **完整测试验证**
+   - 验证 node test 也使用了正确的泊松过程
+   - 确保所有测试场景都正常工作
+
+5. **文档更新**
+   - 更新 CLAUDE.md 中的测试说明
+   - 添加时间戳详细解释
+   - 记录新的泊松过程实现方式
+
+### 技术债务
+- TTFT 计算从 send_time 开始，包含了网络延迟
+- 理想情况应从 server_start_time 开始计算
+- 需要 server 端配合才能实现精确测量

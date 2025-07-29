@@ -162,6 +162,14 @@ class RequestTracker:
                     except json.JSONDecodeError:
                         response_data = {"text": response_text}
                     
+                    # Extract server-side timestamps from meta_info if available
+                    server_created_time = None
+                    server_first_token_time = None
+                    if isinstance(response_data, dict) and "meta_info" in response_data:
+                        meta_info = response_data["meta_info"]
+                        server_created_time = meta_info.get("server_created_time")
+                        server_first_token_time = meta_info.get("server_first_token_time")
+                    
                     result = {
                         "request_id": request["request_id"],
                         "success": True,
@@ -171,7 +179,12 @@ class RequestTracker:
                         "response": response_data,
                         "input_length": request["input_len"],
                         "expected_output_length": request["expected_output_len"],
-                        "status_code": resp.status
+                        "status_code": resp.status,
+                        # Add server-side timestamps
+                        "server_created_time": server_created_time,
+                        "server_first_token_time": server_first_token_time,
+                        # Calculate server queue time if timestamps available
+                        "queue_time_in_server": (server_first_token_time - server_created_time) if (server_created_time and server_first_token_time) else None
                     }
                     
                     print(f"✅ Request {index+1}/{total} completed")
@@ -328,6 +341,11 @@ class RequestTracker:
             # For TTFT, we don't have streaming data, so approximate as a fraction of server latency
             ttft = server_latency * 0.3 if server_latency else None
             
+            # Calculate server-side queue time if available
+            queue_time_in_server = r.get("queue_time_in_server")
+            if queue_time_in_server is None and r.get("server_created_time") and r.get("server_first_token_time"):
+                queue_time_in_server = r["server_first_token_time"] - r["server_created_time"]
+            
             record = {
                 "req_id": r["request_id"],
                 "input_length": r["input_length"],
@@ -339,9 +357,13 @@ class RequestTracker:
                 "total_latency": total_latency,
                 "ttft": ttft,
                 "queue_time": queue_time,
+                "queue_time_in_server": queue_time_in_server,
                 "success": r["success"],
                 "error": r.get("error", ""),
-                "host": r.get("host", "unknown")  # This replaces worker_url and gpu_id
+                "host": r.get("host", "unknown"),  # This replaces worker_url and gpu_id
+                # Add server timestamps (relative to min_time)
+                "server_created_time": (r["server_created_time"] - min_time) if r.get("server_created_time") else None,
+                "server_first_token_time": (r["server_first_token_time"] - min_time) if r.get("server_first_token_time") else None
             }
             records.append(record)
         
@@ -351,7 +373,10 @@ class RequestTracker:
         # Ensure column order
         columns = ["req_id", "input_length", "decode_length", "arrival_time", 
                   "to_server_time", "finish_time", "server_latency", "total_latency", 
-                  "ttft", "queue_time", "success", "error", "host"]
+                  "ttft", "queue_time", "queue_time_in_server", "success", "error", "host",
+                  "server_created_time", "server_first_token_time"]
+        # Only include columns that exist in the dataframe
+        columns = [col for col in columns if col in df.columns]
         df = df[columns]
         
         # Save to CSV
@@ -376,6 +401,14 @@ class RequestTracker:
             print(f"  Queue time: mean={successful_df['queue_time'].mean():.3f}s, "
                   f"p50={successful_df['queue_time'].median():.3f}s, "
                   f"p99={successful_df['queue_time'].quantile(0.99):.3f}s")
+            
+            # Show server-side queue time if available
+            if 'queue_time_in_server' in successful_df.columns:
+                server_queue_data = successful_df['queue_time_in_server'].dropna()
+                if not server_queue_data.empty:
+                    print(f"  Server queue time: mean={server_queue_data.mean():.3f}s, "
+                          f"p50={server_queue_data.median():.3f}s, "
+                          f"p99={server_queue_data.quantile(0.99):.3f}s")
         
         # Host distribution
         print(f"\nHost Distribution:")
