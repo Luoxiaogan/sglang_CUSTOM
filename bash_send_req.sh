@@ -91,7 +91,7 @@ echo "=========================================="
 echo ""
 
 # 构建命令
-CMD="python /nas/ganluo/sglang/send_request_and_track.py"
+CMD="python /nas/ganluo/sglang/send_req.py"
 CMD="$CMD --num-requests $NUM_REQUESTS"
 CMD="$CMD --request-rate $REQUEST_RATE"
 CMD="$CMD --dataset $DATASET"

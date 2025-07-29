@@ -75,7 +75,7 @@ echo "=========================================="
 echo ""
 
 # 构建命令
-CMD="python /nas/ganluo/sglang/start_a_router_general.py"
+CMD="python /nas/ganluo/sglang/start_router.py"
 CMD="$CMD --policy $POLICY"
 CMD="$CMD --host $ROUTER_HOST"
 CMD="$CMD --port $ROUTER_PORT"
