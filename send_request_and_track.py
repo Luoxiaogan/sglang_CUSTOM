@@ -131,20 +131,84 @@ class RequestTracker:
         self.router_url = router_url
         self.results = []
         
+    async def _send_single_request(self, session: aiohttp.ClientSession, 
+                                   request: Dict[str, Any], 
+                                   arrival_time: float,
+                                   index: int,
+                                   total: int) -> Dict[str, Any]:
+        """Send a single request asynchronously."""
+        # Send request
+        data = {
+            "text": request["prompt"],
+            "sampling_params": {
+                "max_new_tokens": request["max_new_tokens"],
+                "temperature": request["temperature"]
+            },
+            "stream": False
+        }
+        
+        try:
+            send_time = time.time()
+            async with session.post(
+                f"{self.router_url}/generate",
+                json=data
+            ) as resp:
+                completion_time = time.time()
+                
+                if resp.status == 200:
+                    response_text = await resp.text()
+                    try:
+                        response_data = json.loads(response_text)
+                    except json.JSONDecodeError:
+                        response_data = {"text": response_text}
+                    
+                    result = {
+                        "request_id": request["request_id"],
+                        "success": True,
+                        "arrival_time": arrival_time,
+                        "send_time": send_time,
+                        "completion_time": completion_time,
+                        "response": response_data,
+                        "input_length": request["input_len"],
+                        "expected_output_length": request["expected_output_len"],
+                        "status_code": resp.status
+                    }
+                    
+                    print(f"✅ Request {index+1}/{total} completed")
+                else:
+                    result = {
+                        "request_id": request["request_id"],
+                        "success": False,
+                        "arrival_time": arrival_time,
+                        "send_time": send_time,
+                        "completion_time": completion_time,
+                        "error": f"HTTP {resp.status}",
+                        "input_length": request["input_len"],
+                        "expected_output_length": request["expected_output_len"],
+                        "status_code": resp.status
+                    }
+                    print(f"❌ Request {index+1}/{total} failed: HTTP {resp.status}")
+                    
+        except Exception as e:
+            completion_time = time.time()
+            result = {
+                "request_id": request["request_id"],
+                "success": False,
+                "arrival_time": arrival_time,
+                "send_time": send_time if 'send_time' in locals() else arrival_time,
+                "completion_time": completion_time,
+                "error": str(e),
+                "input_length": request["input_len"],
+                "expected_output_length": request["expected_output_len"],
+                "status_code": 0
+            }
+            print(f"❌ Request {index+1}/{total} error: {e}")
+        
+        return result
+    
     async def send_and_track_requests(self, requests: List[Dict[str, Any]], 
                                       request_rate: float) -> List[Dict[str, Any]]:
-        """Send requests and track their execution."""
-        results = []
-        
-        # Calculate Poisson arrival times
-        if request_rate == float('inf'):
-            arrival_times = [0] * len(requests)
-        else:
-            inter_arrival_times = np.random.exponential(1.0 / request_rate, len(requests))
-            arrival_times = np.cumsum(inter_arrival_times)
-        
-        start_time = time.time()
-        
+        """Send requests and track their execution with correct Poisson arrival."""
         async with aiohttp.ClientSession() as session:
             # First, check router health
             try:
@@ -156,90 +220,41 @@ class RequestTracker:
                 print(f"❌ Router health check failed: {e}")
                 return []
             
-            # Send requests
+            # Send requests with correct Poisson process
             print(f"\nSending {len(requests)} requests at {request_rate} req/s...")
             
-            for i, (request, arrival_time) in enumerate(zip(requests, arrival_times)):
-                # Wait until arrival time
-                current_time = time.time() - start_time
-                if arrival_time > current_time:
-                    await asyncio.sleep(arrival_time - current_time)
+            tasks = []
+            start_time = time.time()
+            
+            for i, request in enumerate(requests):
+                # Sequential arrival: wait for inter-arrival time
+                if i > 0 and request_rate != float('inf'):
+                    interval = np.random.exponential(1.0 / request_rate)
+                    await asyncio.sleep(interval)
                 
                 # Record actual arrival time
                 actual_arrival_time = time.time()
                 
-                # Send request
-                data = {
-                    "text": request["prompt"],
-                    "sampling_params": {
-                        "max_new_tokens": request["max_new_tokens"],
-                        "temperature": request["temperature"]
-                    },
-                    "stream": False
-                }
+                # Create async task for concurrent processing
+                task = asyncio.create_task(
+                    self._send_single_request(session, request, actual_arrival_time, i, len(requests))
+                )
+                tasks.append(task)
                 
-                try:
-                    send_time = time.time()
-                    async with session.post(
-                        f"{self.router_url}/generate",
-                        json=data
-                    ) as resp:
-                        completion_time = time.time()
-                        
-                        if resp.status == 200:
-                            response_text = await resp.text()
-                            try:
-                                response_data = json.loads(response_text)
-                            except json.JSONDecodeError:
-                                response_data = {"text": response_text}
-                            
-                            result = {
-                                "request_id": request["request_id"],
-                                "success": True,
-                                "arrival_time": actual_arrival_time,
-                                "send_time": send_time,
-                                "completion_time": completion_time,
-                                "response": response_data,
-                                "input_length": request["input_len"],
-                                "expected_output_length": request["expected_output_len"],
-                                "status_code": resp.status
-                            }
-                            
-                            print(f"✅ Request {i+1}/{len(requests)} completed")
-                        else:
-                            result = {
-                                "request_id": request["request_id"],
-                                "success": False,
-                                "arrival_time": actual_arrival_time,
-                                "send_time": send_time,
-                                "completion_time": completion_time,
-                                "error": f"HTTP {resp.status}",
-                                "input_length": request["input_len"],
-                                "expected_output_length": request["expected_output_len"],
-                                "status_code": resp.status
-                            }
-                            print(f"❌ Request {i+1}/{len(requests)} failed: HTTP {resp.status}")
-                            
-                except Exception as e:
-                    completion_time = time.time()
-                    result = {
-                        "request_id": request["request_id"],
-                        "success": False,
-                        "arrival_time": actual_arrival_time,
-                        "send_time": send_time,
-                        "completion_time": completion_time,
-                        "error": str(e),
-                        "input_length": request["input_len"],
-                        "expected_output_length": request["expected_output_len"],
-                        "status_code": 0
-                    }
-                    print(f"❌ Request {i+1}/{len(requests)} error: {e}")
-                
-                results.append(result)
+                # Log that request was sent (not completed)
+                elapsed = actual_arrival_time - start_time
+                print(f"📤 Request {i+1}/{len(requests)} sent at {elapsed:.2f}s")
             
-            # Wait a bit for all requests to complete
-            print("\nWaiting for requests to complete...")
-            await asyncio.sleep(5)
+            # Wait for all requests to complete
+            print("\nWaiting for all requests to complete...")
+            results = await asyncio.gather(*tasks)
+            
+            # Total elapsed time
+            total_time = time.time() - start_time
+            print(f"\n✅ All requests sent in {total_time:.2f}s")
+            
+            # Additional wait for processing
+            await asyncio.sleep(2)
             
             # Query tracking information
             print("\nQuerying request tracking information...")

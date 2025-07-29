@@ -573,7 +573,12 @@ async def generate_and_send_requests(
     config: Dict[str, Any],
     max_concurrency: Optional[int] = None
 ) -> AsyncGenerator[RequestResult, None]:
-    """Generate requests and send them according to Poisson arrival times."""
+    """Generate requests and send them according to Poisson arrival times.
+    
+    Implements correct Poisson process:
+    - Sequential arrival with exponential inter-arrival times
+    - Concurrent processing after arrival
+    """
     # Generate requests
     requests = generator.generate_requests(
         num_prompts=config["num_prompts"],
@@ -585,43 +590,57 @@ async def generate_and_send_requests(
         seed=config.get("seed", 42)
     )
     
-    # Assign arrival times
-    requests = generator.generate_poisson_arrivals(
-        requests, 
-        config["request_rate"]
-    )
+    # Get request rate
+    request_rate = config["request_rate"]
     
     # Create semaphore for concurrency control
     semaphore = asyncio.Semaphore(max_concurrency) if max_concurrency else None
     
-    async def send_with_delay(request: Request):
-        """Send request after waiting for its arrival time.
-        
-        Following bench_serving_new.py pattern:
-        - Sleep until scheduled arrival time
-        - Record actual arrival time AFTER sleep
-        - Then send the request
-        """
-        # Wait until scheduled arrival time
-        scheduled_time = request.arrival_time
-        wait_time = scheduled_time - time.time()
-        if wait_time > 0:
-            await asyncio.sleep(wait_time)
-            
-        # Record actual arrival time (after sleep)
-        request.arrival_time = time.time()
-            
-        # Acquire semaphore if needed
+    async def send_request_with_semaphore(request: Request):
+        """Send request with optional semaphore control."""
         if semaphore:
             async with semaphore:
                 return await sender.send_request(request, api_url)
         else:
             return await sender.send_request(request, api_url)
     
-    # Create tasks for all requests
-    tasks = [asyncio.create_task(send_with_delay(req)) for req in requests]
+    # Track pending tasks
+    pending_tasks = []
     
-    # Yield results as they complete
-    for task in asyncio.as_completed(tasks):
-        result = await task
-        yield result
+    # Process requests with correct Poisson arrival
+    for i, request in enumerate(requests):
+        # Sequential arrival: wait for inter-arrival time
+        if i > 0 and request_rate != float('inf'):
+            interval = np.random.exponential(1.0 / request_rate)
+            await asyncio.sleep(interval)
+        
+        # Record actual arrival time
+        request.arrival_time = time.time()
+        
+        # Create async task for concurrent processing
+        task = asyncio.create_task(send_request_with_semaphore(request))
+        pending_tasks.append(task)
+        
+        # Yield completed results immediately
+        completed = []
+        for task in pending_tasks:
+            if task.done():
+                try:
+                    result = await task
+                    yield result
+                    completed.append(task)
+                except Exception as e:
+                    logger.error(f"Task failed: {e}")
+                    completed.append(task)
+        
+        # Remove completed tasks
+        for task in completed:
+            pending_tasks.remove(task)
+    
+    # Yield remaining results
+    for task in asyncio.as_completed(pending_tasks):
+        try:
+            result = await task
+            yield result
+        except Exception as e:
+            logger.error(f"Task failed: {e}")
