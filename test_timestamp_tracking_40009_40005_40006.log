@@ -1,0 +1,351 @@
+
+############################################################
+# SGLang 时间戳追踪诊断工具
+# 时间: 2025-07-29 17:36:17
+# 路由器: http://localhost:40009
+# 服务器: ['http://localhost:40005', 'http://localhost:40006']
+############################################################
+
+检查服务器健康状态...
+  http://localhost:40005: ✅ 健康
+  http://localhost:40006: ✅ 健康
+  http://localhost:40009 (路由器): ✅ 健康
+
+============================================================
+测试直接服务器: http://localhost:40005/generate
+============================================================
+状态码: 200
+响应时间: 0.080s
+Content-Type: application/json
+响应长度: 248 字符
+
+✅ 响应是有效的 JSON
+响应结构: ['text', 'meta_info']
+
+✅ 找到 meta_info
+meta_info 字段: ['id', 'finish_reason', 'prompt_tokens', 'completion_tokens', 'cached_tokens', 'e2e_latency']
+
+时间戳检查:
+  ❌ server_created_time: 未找到
+  ❌ server_first_token_time: 未找到
+  ❌ created_time: 未找到
+  ❌ first_token_time: 未找到
+  ❌ time_cost: 未找到
+
+完整的 meta_info:
+{
+  "id": "2453c1a75d634ccb960ecd7d24f716d0",
+  "finish_reason": {
+    "type": "length",
+    "length": 10
+  },
+  "prompt_tokens": 7,
+  "completion_tokens": 10,
+  "cached_tokens": 1,
+  "e2e_latency": 0.0785219669342041
+}
+
+完整响应（前500字符）:
+{
+  "text": " post to see how the new blog looks and feels",
+  "meta_info": {
+    "id": "2453c1a75d634ccb960ecd7d24f716d0",
+    "finish_reason": {
+      "type": "length",
+      "length": 10
+    },
+    "prompt_tokens": 7,
+    "completion_tokens": 10,
+    "cached_tokens": 1,
+    "e2e_latency": 0.0785219669342041
+  }
+}
+
+============================================================
+测试直接服务器: http://localhost:40006/generate
+============================================================
+状态码: 200
+响应时间: 0.080s
+Content-Type: application/json
+响应长度: 249 字符
+
+✅ 响应是有效的 JSON
+响应结构: ['text', 'meta_info']
+
+✅ 找到 meta_info
+meta_info 字段: ['id', 'finish_reason', 'prompt_tokens', 'completion_tokens', 'cached_tokens', 'e2e_latency']
+
+时间戳检查:
+  ❌ server_created_time: 未找到
+  ❌ server_first_token_time: 未找到
+  ❌ created_time: 未找到
+  ❌ first_token_time: 未找到
+  ❌ time_cost: 未找到
+
+完整的 meta_info:
+{
+  "id": "1a38e5abb3a34df09dfe4cce49044ac3",
+  "finish_reason": {
+    "type": "length",
+    "length": 10
+  },
+  "prompt_tokens": 7,
+  "completion_tokens": 10,
+  "cached_tokens": 1,
+  "e2e_latency": 0.07822227478027344
+}
+
+完整响应（前500字符）:
+{
+  "text": " post to see how the new blog looks and feels",
+  "meta_info": {
+    "id": "1a38e5abb3a34df09dfe4cce49044ac3",
+    "finish_reason": {
+      "type": "length",
+      "length": 10
+    },
+    "prompt_tokens": 7,
+    "completion_tokens": 10,
+    "cached_tokens": 1,
+    "e2e_latency": 0.07822227478027344
+  }
+}
+
+============================================================
+测试路由器: http://localhost:40009/generate
+============================================================
+状态码: 200
+响应时间: 0.072s
+Content-Type: 
+响应长度: 245 字符
+
+✅ 响应是有效的 JSON
+响应结构: ['text', 'meta_info']
+
+✅ 找到 meta_info
+meta_info 字段: ['id', 'finish_reason', 'prompt_tokens', 'completion_tokens', 'cached_tokens', 'e2e_latency']
+
+完整的 meta_info:
+{
+  "id": "5d6bcb11dd4f4425bdbdc890b6b2d582",
+  "finish_reason": {
+    "type": "length",
+    "length": 10
+  },
+  "prompt_tokens": 8,
+  "completion_tokens": 10,
+  "cached_tokens": 6,
+  "e2e_latency": 0.06984901428222656
+}
+
+完整响应（前500字符）:
+{
+  "text": " page. You can use this page to test your",
+  "meta_info": {
+    "id": "5d6bcb11dd4f4425bdbdc890b6b2d582",
+    "finish_reason": {
+      "type": "length",
+      "length": 10
+    },
+    "prompt_tokens": 8,
+    "completion_tokens": 10,
+    "cached_tokens": 6,
+    "e2e_latency": 0.06984901428222656
+  }
+}
+
+============================================================
+测试 OpenAI 兼容端点: http://localhost:40005/v1/completions
+============================================================
+状态码: 200
+响应时间: 0.079s
+
+✅ 响应是有效的 JSON
+响应结构: ['id', 'object', 'created', 'model', 'choices', 'usage']
+
+找到 usage 字段:
+{
+  "prompt_tokens": 10,
+  "total_tokens": 20,
+  "completion_tokens": 10,
+  "prompt_tokens_details": null
+}
+
+完整响应（前500字符）:
+{
+  "id": "bab2556b4c2e401197fd611cdfa60ef6",
+  "object": "text_completion",
+  "created": 1753781778,
+  "model": "default",
+  "choices": [
+    {
+      "index": 0,
+      "text": ". I'm here to help you with any questions",
+      "logprobs": null,
+      "finish_reason": "length",
+      "matched_stop": null
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "total_tokens": 20,
+    "completion_tokens": 10,
+    "prompt_tokens_details": null
+  }
+}
+
+============================================================
+测试 OpenAI 兼容端点: http://localhost:40006/v1/completions
+============================================================
+状态码: 200
+响应时间: 0.081s
+
+✅ 响应是有效的 JSON
+响应结构: ['id', 'object', 'created', 'model', 'choices', 'usage']
+
+找到 usage 字段:
+{
+  "prompt_tokens": 10,
+  "total_tokens": 20,
+  "completion_tokens": 10,
+  "prompt_tokens_details": null
+}
+
+完整响应（前500字符）:
+{
+  "id": "ced68186785a46f78c32d03189d910d4",
+  "object": "text_completion",
+  "created": 1753781778,
+  "model": "default",
+  "choices": [
+    {
+      "index": 0,
+      "text": ". I'm here to help you with any questions",
+      "logprobs": null,
+      "finish_reason": "length",
+      "matched_stop": null
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "total_tokens": 20,
+    "completion_tokens": 10,
+    "prompt_tokens_details": null
+  }
+}
+
+============================================================
+测试 OpenAI 兼容端点: http://localhost:40009/v1/completions
+============================================================
+状态码: 200
+响应时间: 0.075s
+
+✅ 响应是有效的 JSON
+响应结构: ['id', 'object', 'created', 'model', 'choices', 'usage']
+
+找到 usage 字段:
+{
+  "prompt_tokens": 10,
+  "total_tokens": 20,
+  "completion_tokens": 10,
+  "prompt_tokens_details": null
+}
+
+完整响应（前500字符）:
+{
+  "id": "4d2f836156a547b885b4d62645ada26c",
+  "object": "text_completion",
+  "created": 1753781778,
+  "model": "default",
+  "choices": [
+    {
+      "index": 0,
+      "text": ". I'm here to help you with any questions",
+      "logprobs": null,
+      "finish_reason": "length",
+      "matched_stop": null
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "total_tokens": 20,
+    "completion_tokens": 10,
+    "prompt_tokens_details": null
+  }
+}
+
+============================================================
+测试流式响应: http://localhost:40005/generate
+============================================================
+状态码: 200
+Content-Type: text/event-stream; charset=utf-8
+
+接收到的数据块:
+  块 1: {"text":".","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finish_reason":null,"prompt_tokens...
+
+✅ 第一个块包含 meta_info:
+{
+  "id": "8a84f86cee2e4f2dbacec6536166d3a0",
+  "finish_reason": null,
+  "prompt_tokens": 8,
+  "completion_tokens": 1,
+  "cached_tokens": 6
+}
+  块 2: {"text":". I","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finish_reason":null,"prompt_toke...
+  块 3: {"text":". I'm","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finish_reason":null,"prompt_to...
+  块 4: {"text":". I'm just","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finish_reason":null,"prom...
+  块 5: {"text":". I'm just testing","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finish_reason":nu...
+  块 6: {"text":". I'm just testing to","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finish_reason"...
+  块 7: {"text":". I'm just testing to see","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finish_rea...
+  块 8: {"text":". I'm just testing to see if","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finish_...
+  块 9: {"text":". I'm just testing to see if I","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","finis...
+  块 10: {"text":". I'm just testing to see if I can","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0","f...
+  块 11: {"text":". I'm just testing to see if I can get","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3a0...
+  块 12: {"text":". I'm just testing to see if I can get a","meta_info":{"id":"8a84f86cee2e4f2dbacec6536166d3...
+  块 13: {"text":". I'm just testing to see if I can get a stream","meta_info":{"id":"8a84f86cee2e4f2dbacec65...
+  块 14: {"text":". I'm just testing to see if I can get a stream going","meta_info":{"id":"8a84f86cee2e4f2db...
+  块 15: {"text":". I'm just testing to see if I can get a stream going.","meta_info":{"id":"8a84f86cee2e4f2d...
+  块 16: {"text":". I'm just testing to see if I can get a stream going. I","meta_info":{"id":"8a84f86cee2e4f...
+  块 17: {"text":". I'm just testing to see if I can get a stream going. I'll","meta_info":{"id":"8a84f86cee2...
+  块 18: {"text":". I'm just testing to see if I can get a stream going. I'll be","meta_info":{"id":"8a84f86c...
+  块 19: {"text":". I'm just testing to see if I can get a stream going. I'll be back","meta_info":{"id":"8a8...
+  块 20: {"text":". I'm just testing to see if I can get a stream going. I'll be back with","meta_info":{"id"...
+
+总共接收到 20 个数据块
+
+✅ 最后一个块包含 meta_info:
+{
+  "id": "8a84f86cee2e4f2dbacec6536166d3a0",
+  "finish_reason": {
+    "type": "length",
+    "length": 20
+  },
+  "prompt_tokens": 8,
+  "completion_tokens": 20,
+  "cached_tokens": 6,
+  "e2e_latency": 0.13350939750671387
+}
+
+############################################################
+# 诊断报告
+############################################################
+
+## 可能的问题：
+1. ❌ 如果直接服务器响应中没有 meta_info:
+   - tokenizer_manager.py 的修改可能没有生效
+   - 服务器可能使用了不同的响应路径
+   - 需要检查服务器启动参数
+
+2. ❌ 如果服务器有 meta_info 但路由器没有:
+   - 路由器可能没有正确透传响应
+   - 需要检查路由器代码
+
+3. ❌ 如果 meta_info 存在但没有时间戳字段:
+   - 代码修改可能不完整
+   - 需要检查 BatchStrOut 类型的处理
+
+## 建议的下一步：
+1. 检查服务器日志，确认使用的代码版本
+2. 在 tokenizer_manager.py 中添加调试日志
+3. 检查请求是否走了预期的代码路径
+4. 考虑使用不同的响应格式或端点
