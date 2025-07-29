@@ -1,0 +1,27 @@
+
+# Add this to scheduler.py around line 1244 (in handle_generate_request method)
+# After: if add_to_grammar_queue:
+#     req.queue_time_start = time.perf_counter()
+#     self.grammar_queue.append(req)
+
+if add_to_grammar_queue:
+    req.queue_time_start = time.perf_counter()
+    if self.enable_metrics:
+        logger.info(f"[DEBUG] Set queue_time_start for req {req.rid}: {req.queue_time_start}")
+    self.grammar_queue.append(req)
+else:
+    self._add_request_to_queue(req)
+
+# Also modify _add_request_to_queue around line 1250:
+def _add_request_to_queue(self, req: Req):
+    req.queue_time_start = time.perf_counter()
+    if self.enable_metrics:
+        logger.info(f"[DEBUG] Set queue_time_start for req {req.rid}: {req.queue_time_start}")
+    # ... rest of the method
+
+# And around line 1762 (where queue_time_end is set):
+if self.enable_metrics:
+    # only record queue time when enable_metrics is True to avoid overhead
+    for req in can_run_list:
+        req.queue_time_end = time.perf_counter()
+        logger.info(f"[DEBUG] Set queue_time_end for req {req.rid}: {req.queue_time_end}, duration: {req.queue_time_end - req.queue_time_start:.3f}s")

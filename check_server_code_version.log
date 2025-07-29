@@ -1,0 +1,38 @@
+============================================================
+SGLang Server Code Version Check
+============================================================
+
+🔍 Checking SGLang installation...
+SGLang path: /nas/ganluo/sglang/python/sglang
+📝 Editable install (pip install -e) detected
+
+🔍 Checking BatchTokenIDOut structure...
+Total fields: 28
+✅ queue_time_start: Found
+✅ queue_time_end: Found
+
+Last 5 fields: ['output_token_ids_logprobs_val', 'output_token_ids_logprobs_idx', 'output_hidden_states', 'queue_time_start', 'queue_time_end']
+
+🔍 Checking scheduler_output_processor_mixin...
+✅ queue_time_start initialization: Found
+✅ queue_time_end initialization: Found
+✅ queue_time_start collection: Found
+✅ queue_time_end collection: Found
+✅ hasattr check for queue_time_start: Found
+✅ spec_verify_ct else branch: Found
+
+🔍 Checking tokenizer_manager...
+✅ queue_time_start in meta_info: Found
+✅ queue_time_end in meta_info: Found
+✅ hasattr check for queue timestamps: Found
+
+============================================================
+Summary:
+============================================================
+✅ BatchTokenIDOut: OK
+✅ SchedulerOutputProcessor: OK
+✅ TokenizerManager: OK
+
+🎉 All modifications are in place!
+
+============================================================

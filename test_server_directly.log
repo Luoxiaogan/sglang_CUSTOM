@@ -1,0 +1,125 @@
+============================================================
+Direct Server Testing (Bypassing Router)
+============================================================
+
+============================================================
+Testing Server Directly: http://localhost:60005
+Time: 2025-07-29 20:46:35.132402
+============================================================
+
+✅ Server health check passed
+✅ Metrics endpoint accessible
+
+📤 Sending test request to http://localhost:60005/generate...
+✅ Response received in 0.182s
+
+📋 Full Response:
+{
+  "text": ".\nLet's go with the default option, which is a simple echo server. This server will just",
+  "meta_info": {
+    "id": "490e08cef9144277a6e9c688070c6aa4",
+    "finish_reason": {
+      "type": "length",
+      "length": 20
+    },
+    "prompt_tokens": 9,
+    "completion_tokens": 20,
+    "cached_tokens": 1,
+    "server_created_time": 1753793195.1387022,
+    "server_first_token_time": null,
+    "queue_time_start": null,
+    "queue_time_end": null,
+    "e2e_latency": 0.1806645393371582
+  }
+}
+
+📊 Timestamp Analysis:
+──────────────────────────────────────────────────
+  ✅ server_created_time: 1753793195.1387022
+  ❌ server_first_token_time: None/Missing
+  ❌ queue_time_start: None/Missing
+  ❌ queue_time_end: None/Missing
+  ✅ e2e_latency: 0.1806645393371582
+
+⚠️  3 timestamp fields are missing
+
+💡 Possible cause: --enable-metrics not used when starting server
+💡 Possible cause: queue timestamp modifications not in effect
+
+============================================================
+Testing Server Directly: http://localhost:60006
+Time: 2025-07-29 20:46:35.320367
+============================================================
+
+✅ Server health check passed
+✅ Metrics endpoint accessible
+
+📤 Sending test request to http://localhost:60006/generate...
+✅ Response received in 0.185s
+
+📋 Full Response:
+{
+  "text": ". The server is pingable and responsive. Please test the server's functionality by sending a request to",
+  "meta_info": {
+    "id": "e0331a1f909f4dac9459523e59ee409a",
+    "finish_reason": {
+      "type": "length",
+      "length": 20
+    },
+    "prompt_tokens": 9,
+    "completion_tokens": 20,
+    "cached_tokens": 1,
+    "server_created_time": 1753793195.3248065,
+    "server_first_token_time": null,
+    "queue_time_start": null,
+    "queue_time_end": null,
+    "e2e_latency": 0.18361997604370117
+  }
+}
+
+📊 Timestamp Analysis:
+──────────────────────────────────────────────────
+  ✅ server_created_time: 1753793195.3248065
+  ❌ server_first_token_time: None/Missing
+  ❌ queue_time_start: None/Missing
+  ❌ queue_time_end: None/Missing
+  ✅ e2e_latency: 0.18361997604370117
+
+⚠️  3 timestamp fields are missing
+
+💡 Possible cause: --enable-metrics not used when starting server
+💡 Possible cause: queue timestamp modifications not in effect
+
+============================================================
+Creating Queue Pressure
+============================================================
+
+
+============================================================
+Testing Concurrent Requests (10 requests)
+============================================================
+
+📤 Sending 10 concurrent requests...
+✅ All requests completed in 0.473s
+  Request 0: ⚠️  No queue timestamps
+  Request 1: ⚠️  No queue timestamps
+  Request 2: ⚠️  No queue timestamps
+  Request 3: ⚠️  No queue timestamps
+  Request 4: ⚠️  No queue timestamps
+  Request 5: ⚠️  No queue timestamps
+  Request 6: ⚠️  No queue timestamps
+  Request 7: ⚠️  No queue timestamps
+  Request 8: ⚠️  No queue timestamps
+  Request 9: ⚠️  No queue timestamps
+
+❌ No queue timestamps found in any response
+
+============================================================
+Testing completed!
+============================================================
+
+💡 If timestamps are still missing:
+1. Run: python check_server_code_version.py
+2. Apply debug patches from debug_scheduler_timestamps.py
+3. Check server logs for [DEBUG] messages
+4. Ensure servers started with --enable-metrics
