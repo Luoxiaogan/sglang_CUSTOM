@@ -588,8 +588,15 @@ class SchedulerOutputProcessorMixin:
                 cached_tokens.append(req.cached_tokens)
                 
                 # Collect queue time information
-                queue_time_start.append(req.queue_time_start if hasattr(req, 'queue_time_start') else None)
-                queue_time_end.append(req.queue_time_end if hasattr(req, 'queue_time_end') else None)
+                q_start = req.queue_time_start if hasattr(req, 'queue_time_start') else None
+                q_end = req.queue_time_end if hasattr(req, 'queue_time_end') else None
+                
+                # Debug logging for queue timestamps
+                if logger.isEnabledFor(logging.DEBUG):
+                    logger.debug(f"[QueueTime] Collecting for req {req.rid}: start={q_start}, end={q_end}")
+                
+                queue_time_start.append(q_start)
+                queue_time_end.append(q_end)
 
                 if not self.spec_algorithm.is_none():
                     spec_verify_ct.append(req.spec_verify_ct)
@@ -680,6 +687,12 @@ class SchedulerOutputProcessorMixin:
         if rids:
             if self.model_config.is_multimodal_gen:
                 return
+            
+            # Debug logging before sending
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug(f"[QueueTime] Sending BatchTokenIDOut with {len(rids)} requests")
+                logger.debug(f"[QueueTime] queue_time_start values: {queue_time_start[:3]}...")  # First 3 values
+                logger.debug(f"[QueueTime] queue_time_end values: {queue_time_end[:3]}...")
 
             self.send_to_detokenizer.send_pyobj(
                 BatchTokenIDOut(

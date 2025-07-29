@@ -1244,7 +1244,7 @@ class Scheduler(
                     req.set_finish_with_abort(error_msg)
 
         if add_to_grammar_queue:
-            req.queue_time_start = time.perf_counter()
+            req.queue_time_start = time.time()
             if logger.isEnabledFor(logging.DEBUG):
                 logger.debug(f"[Queue] Set queue_time_start for req {req.rid}: {req.queue_time_start}")
             self.grammar_queue.append(req)
@@ -1252,7 +1252,7 @@ class Scheduler(
             self._add_request_to_queue(req)
 
     def _add_request_to_queue(self, req: Req):
-        req.queue_time_start = time.perf_counter()
+        req.queue_time_start = time.time()
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug(f"[Queue] Set queue_time_start for req {req.rid}: {req.queue_time_start}")
         if self.disaggregation_mode == DisaggregationMode.PREFILL:
@@ -1765,7 +1765,7 @@ class Scheduler(
 
         # Record queue time end for all requests to enable accurate timing analysis
         for req in can_run_list:
-            req.queue_time_end = time.perf_counter()
+            req.queue_time_end = time.time()
             if logger.isEnabledFor(logging.DEBUG):
                 queue_duration = req.queue_time_end - req.queue_time_start if hasattr(req, 'queue_time_start') and req.queue_time_start else 0
                 logger.debug(f"[Queue] Set queue_time_end for req {req.rid}: {req.queue_time_end}, duration: {queue_duration:.3f}s")

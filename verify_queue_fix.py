@@ -15,16 +15,33 @@ from datetime import datetime
 
 async def send_test_request(session, url, prompt="Write a short story about a robot"):
     """发送单个测试请求"""
+    # 尝试使用text字段（新API格式）
     payload = {
-        "prompt": prompt,
-        "max_tokens": 50,
-        "temperature": 0.1,
+        "text": prompt,
+        "sampling_params": {
+            "max_new_tokens": 50,
+            "temperature": 0.1
+        },
         "stream": False
     }
     
-    async with session.post(url + "/generate", json=payload) as response:
-        result = await response.json()
-        return result
+    try:
+        async with session.post(url + "/generate", json=payload) as response:
+            result = await response.json()
+            # 如果有错误且包含"text"相关错误，尝试旧格式
+            if "error" in result and "text" in str(result.get("error", {})):
+                # 尝试prompt格式（旧API格式）
+                payload = {
+                    "prompt": prompt,
+                    "max_tokens": 50,
+                    "temperature": 0.1,
+                    "stream": False
+                }
+                async with session.post(url + "/generate", json=payload) as response2:
+                    result = await response2.json()
+            return result
+    except Exception as e:
+        return {"error": {"message": str(e)}}
 
 
 async def test_single_request(base_url):
@@ -158,8 +175,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--base-url",
         type=str,
-        default="http://localhost:60006",
-        help="服务器基础URL"
+        default="http://localhost:60009",
+        help="路由器基础URL（默认60009）或服务器URL"
     )
     parser.add_argument(
         "--num-requests",
