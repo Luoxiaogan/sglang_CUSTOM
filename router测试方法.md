@@ -7,7 +7,7 @@
 python -m sglang.launch_server \
 --model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
 --host "0.0.0.0" \
---port 30005 \
+--port 60005 \
 --base-gpu-id 2 \
 --enable-metrics   # 添加这个参数,collect_metrics 只在 self.enable_metrics 为 True 时调用
 
@@ -15,7 +15,7 @@ python -m sglang.launch_server \
 python -m sglang.launch_server \
 --model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
 --host "0.0.0.0" \
---port 30006 \
+--port 60006 \
 --base-gpu-id 3 \
 --enable-metrics
 ```
@@ -23,7 +23,7 @@ python -m sglang.launch_server \
 ### 2. 启动路由器（启用请求追踪）
 
 ```bash
-bash /nas/ganluo/sglang_CUSTOM/bash_start_router.sh
+bash /nas/ganluo/sglang/bash_start_router.sh
 ```
 停止的方法是:
 ```bash
@@ -34,7 +34,7 @@ clear
 
 ### 3. 测试router
 ```bash
-python /nas/ganluo/sglang_CUSTOM/bash_start_router.sh
+bash /nas/ganluo/sglang/bash_send_req.sh
 ```
 
 ### 4. 故障排除
