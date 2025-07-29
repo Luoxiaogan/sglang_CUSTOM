@@ -1,3 +1,0 @@
-Generating 100 random requests...
-❌ Router health check failed: Cannot connect to host localhost:40009 ssl:default [Multiple exceptions: [Errno 111] Connect call failed ('::1', 40009, 0, 0), [Errno 111] Connect call failed ('127.0.0.1', 40009)]
-❌ No results to export
