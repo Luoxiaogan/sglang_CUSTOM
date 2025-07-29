@@ -36,3 +36,10 @@ clear
 ```bash
 python /nas/ganluo/sglang_CUSTOM/bash_start_router.sh
 ```
+
+### 4. 故障排除
+当遇到29000端口被占据的情况, 是因为之前的router端口没有释放, 需要这样做
+```bash
+lsof -i :29000
+```
+然后`kill -9`这个pid.
