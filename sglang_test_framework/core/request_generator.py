@@ -53,6 +53,11 @@ class RequestResult:
     queue_time_ms: float = 0.0  # Queue time in milliseconds
     worker_url: Optional[str] = None  # Worker URL that handled the request
     gpu_id: Optional[int] = None  # GPU ID mapped from worker URL
+    # Server-side queue timestamps
+    queue_time_start: Optional[float] = None  # Absolute timestamp from server
+    queue_time_end: Optional[float] = None    # Absolute timestamp from server
+    pure_queue_time: float = 0.0              # Pure queue time in seconds
+    pure_queue_time_ms: float = 0.0           # Pure queue time in milliseconds
     
     def __post_init__(self):
         if self.itl is None:
@@ -72,6 +77,11 @@ class RequestResult:
         self.server_latency_ms = self.server_latency * 1000
         self.total_latency_ms = self.total_latency * 1000
         self.queue_time_ms = self.queue_time * 1000
+        
+        # Calculate pure queue time from server timestamps
+        if self.queue_time_start is not None and self.queue_time_end is not None:
+            self.pure_queue_time = self.queue_time_end - self.queue_time_start
+            self.pure_queue_time_ms = self.pure_queue_time * 1000
         
         # Validation for successful requests
         if self.success:
@@ -453,6 +463,8 @@ class RequestSender:
         itl_list = []
         last_timestamp = request.send_time
         chunk_count = 0
+        queue_time_start = None
+        queue_time_end = None
         
         async for chunk_bytes in response.content:
             chunk_bytes = chunk_bytes.strip()
@@ -471,6 +483,14 @@ class RequestSender:
                 
             try:
                 data = json.loads(chunk)
+                
+                # Extract meta_info if present (usually in the last chunk)
+                if "meta_info" in data:
+                    meta_info = data["meta_info"]
+                    if "queue_time_start" in meta_info:
+                        queue_time_start = meta_info["queue_time_start"]
+                    if "queue_time_end" in meta_info:
+                        queue_time_end = meta_info["queue_time_end"]
                 
                 # Handle both SGLang and OpenAI response formats
                 text_field = None
@@ -510,7 +530,9 @@ class RequestSender:
             generated_text=generated_text,
             ttft=ttft,
             itl=itl_list,
-            worker_url=worker_url
+            worker_url=worker_url,
+            queue_time_start=queue_time_start,
+            queue_time_end=queue_time_end
         )
         
         logger.debug(f"Request {request.request_id} completed: {len(generated_text)} chars, {chunk_count} chunks, TTFT={ttft*1000:.1f}ms")
@@ -543,6 +565,14 @@ class RequestSender:
         # Set completion time BEFORE creating result
         request.completion_time = time.time()
         
+        # Extract meta_info if present
+        queue_time_start = None
+        queue_time_end = None
+        if "meta_info" in data:
+            meta_info = data["meta_info"]
+            queue_time_start = meta_info.get("queue_time_start")
+            queue_time_end = meta_info.get("queue_time_end")
+        
         # Handle both SGLang and OpenAI response formats
         if "text" in data:
             generated_text = data["text"]
@@ -560,7 +590,9 @@ class RequestSender:
             success=True,
             generated_text=generated_text,
             ttft=ttft,
-            worker_url=worker_url
+            worker_url=worker_url,
+            queue_time_start=queue_time_start,
+            queue_time_end=queue_time_end
         )
         
         return result

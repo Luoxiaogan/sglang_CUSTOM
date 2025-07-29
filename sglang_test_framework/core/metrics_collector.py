@@ -634,6 +634,14 @@ class MetricsCollector:
             send_relative = (r.request.send_time - min_time) if r.request.send_time else None
             finish_relative = (r.request.completion_time - min_time) if r.request.completion_time else None
             
+            # Calculate queue time relative values if available
+            queue_start_relative = None
+            queue_end_relative = None
+            if hasattr(r, 'queue_time_start') and r.queue_time_start is not None:
+                queue_start_relative = r.queue_time_start - min_time
+            if hasattr(r, 'queue_time_end') and r.queue_time_end is not None:
+                queue_end_relative = r.queue_time_end - min_time
+            
             record = {
                 "req_id": r.request.request_id,
                 "input_length": r.request.prompt_len,
@@ -649,7 +657,12 @@ class MetricsCollector:
                 "success": r.success,
                 "error": r.error if not r.success else "",
                 "worker_url": getattr(r, 'worker_url', "") or "",
-                "gpu_id": getattr(r, 'gpu_id', None)
+                "gpu_id": getattr(r, 'gpu_id', None),
+                # New fields for server-side queue timestamps
+                "queue_time_start_relative": queue_start_relative,
+                "queue_time_end_relative": queue_end_relative,
+                "pure_queue_time": getattr(r, 'pure_queue_time', None),
+                "pure_queue_time_ms": getattr(r, 'pure_queue_time_ms', None)
             }
             records.append(record)
             
@@ -657,8 +670,11 @@ class MetricsCollector:
         # Ensure column order matches requirements
         columns = ["req_id", "input_length", "decode_length", "arrival_time", 
                   "to_server_time", "finish_time", "server_latency", "total_latency", "ttft",
-                  "queue_time", "success", "error", "worker_url", "gpu_id"]
-        df = df[columns]
+                  "queue_time", "queue_time_start_relative", "queue_time_end_relative",
+                  "pure_queue_time", "pure_queue_time_ms", "success", "error", "worker_url", "gpu_id"]
+        # Only include columns that exist in the dataframe
+        available_columns = [col for col in columns if col in df.columns]
+        df = df[available_columns]
         df.to_csv(path, index=False)
     
     def _export_parquet(self, path: str):
