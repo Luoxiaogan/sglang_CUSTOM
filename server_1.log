@@ -1917,3 +1917,32 @@
 [2025-07-29 22:13:20] INFO:     127.0.0.1:50084 - "GET /health HTTP/1.1" 200 OK
 [2025-07-29 22:13:30] INFO:     127.0.0.1:39884 - "GET /health HTTP/1.1" 200 OK
 [2025-07-29 22:13:40] INFO:     127.0.0.1:33232 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:13:50] INFO:     127.0.0.1:48728 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:14:00] INFO:     127.0.0.1:44786 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:14:10] INFO:     127.0.0.1:55016 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:14:20] INFO:     127.0.0.1:60790 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:14:30] INFO:     127.0.0.1:34478 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:14:40] INFO:     127.0.0.1:52088 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:14:50] INFO:     127.0.0.1:36882 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:15:00] INFO:     127.0.0.1:41016 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:15:10] INFO:     127.0.0.1:54230 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:15:20] INFO:     127.0.0.1:46650 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:15:30] INFO:     127.0.0.1:49408 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:15:40] INFO:     127.0.0.1:47668 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:15:50] INFO:     127.0.0.1:44898 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:16:00] INFO:     127.0.0.1:60660 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:16:10] INFO:     127.0.0.1:59616 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:16:20] INFO:     127.0.0.1:34420 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:16:30] INFO:     127.0.0.1:48542 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:16:40] INFO:     127.0.0.1:43346 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:16:42] INFO:     127.0.0.1:43356 - "GET /health HTTP/1.1" 200 OK
+[2025-07-29 22:16:42] [Queue] Set queue_time_start for req 14af4a8ffd004cf18cf633536c63d21a: 1753798602.3740613
+[2025-07-29 22:16:42] [Queue] Set queue_time_end for req 14af4a8ffd004cf18cf633536c63d21a: 1753798602.375027, duration: 0.001s
+[2025-07-29 22:16:42] Prefill batch. #new-seq: 1, #new-token: 4, #cached-token: 3, token usage: 0.00, #running-req: 0, #queue-req: 0, 
+[2025-07-29 22:16:42] [QueueTime] Collecting for req 14af4a8ffd004cf18cf633536c63d21a: start=1753798602.3740613, end=1753798602.375027
+[2025-07-29 22:16:42] [QueueTime] Sending BatchTokenIDOut with 1 requests
+[2025-07-29 22:16:42] [QueueTime] queue_time_start values: [1753798602.3740613]...
+[2025-07-29 22:16:42] [QueueTime] queue_time_end values: [1753798602.375027]...
+[2025-07-29 22:16:42] [QueueTime] Processing request 14af4a8ffd004cf18cf633536c63d21a, index 0
+[2025-07-29 22:16:42] INFO:     127.0.0.1:43356 - "POST /generate HTTP/1.1" 200 OK
+[2025-07-29 22:16:50] INFO:     127.0.0.1:44880 - "GET /health HTTP/1.1" 200 OK
