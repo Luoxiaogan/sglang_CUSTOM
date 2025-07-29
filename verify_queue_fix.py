@@ -158,7 +158,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--base-url",
         type=str,
-        default="http://localhost:30000",
+        default="http://localhost:60006",
         help="服务器基础URL"
     )
     parser.add_argument(
