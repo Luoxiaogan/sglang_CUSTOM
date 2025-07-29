@@ -1406,6 +1406,16 @@ class TokenizerManager:
                 )
 
             if not isinstance(recv_obj, BatchEmbeddingOut):
+                # Debug logging for queue timestamps
+                if logger.isEnabledFor(logging.DEBUG):
+                    logger.debug(f"[QueueTime] Processing request {rid}, index {i}")
+                    if hasattr(recv_obj, 'queue_time_start'):
+                        logger.debug(f"[QueueTime] queue_time_start exists: {recv_obj.queue_time_start is not None}")
+                        if recv_obj.queue_time_start is not None:
+                            logger.debug(f"[QueueTime] queue_time_start length: {len(recv_obj.queue_time_start)}")
+                            if i < len(recv_obj.queue_time_start):
+                                logger.debug(f"[QueueTime] queue_time_start[{i}] = {recv_obj.queue_time_start[i]}")
+                
                 meta_info.update(
                     {
                         "completion_tokens": recv_obj.completion_tokens[i],
@@ -1414,8 +1424,8 @@ class TokenizerManager:
                         "server_created_time": state.created_time,
                         "server_first_token_time": state.first_token_time if state.first_token_time > 0 else None,
                         # Add queue time tracking from scheduler
-                        "queue_time_start": recv_obj.queue_time_start[i] if hasattr(recv_obj, 'queue_time_start') and recv_obj.queue_time_start else None,
-                        "queue_time_end": recv_obj.queue_time_end[i] if hasattr(recv_obj, 'queue_time_end') and recv_obj.queue_time_end else None,
+                        "queue_time_start": recv_obj.queue_time_start[i] if hasattr(recv_obj, 'queue_time_start') and recv_obj.queue_time_start and i < len(recv_obj.queue_time_start) else None,
+                        "queue_time_end": recv_obj.queue_time_end[i] if hasattr(recv_obj, 'queue_time_end') and recv_obj.queue_time_end and i < len(recv_obj.queue_time_end) else None,
                     }
                 )
 
