@@ -113,6 +113,23 @@ server_latency,total_latency,ttft,queue_time_in_router,queue_time_in_server,toke
 - `tokenize_time`: server端tokenize的时间 = `queue_time_start - server_created_time`
 - `pure_queue_time`: scheduler纯排队时间 = `queue_time_end - queue_time_start`（不含tokenize时间）
 
+**Throughput(吞吐量计算)计算方法, 注意这里记录的是不同的host上的, 分开计算**
++ 首先计算的时候，需要按照不同的 host 进行group
++ 之后把每个group按照 finish_time 从小到大排序
++ 之后，对于每个group, 对于一个req, 我们知道这个req的finish_time, 然后计算是这样的:
+  + prefill_token_throughput: (所有小于等于finish_time的这个group的reqs的`actual_prompt_tokens`的求和) / (finish_time)
+  + decode_token_throughput: (所有小于等于finish_time的这个group的reqs的`actual_output_tokens`的求和) / (finish_time)
++ 这两个参数在csv里面的位置是，在ttft和queue_time_in_router之间。
+
+**最后还需要添加对于整个系统的评判：**
++ 整个df按照 finish_time 从小到大排序
++ 对于一个req, 我们知道这个req的finish_time
++ PREFILL_THROUGHPUT: (所有小于等于finish_time(不考虑host了)的reqs的`actual_prompt_tokens`的求和) / (finish_time)
++ DECODE_THROUGHPUT: (所有小于等于finish_time(不考虑host了)的reqs的`actual_output_tokens`的求和) / (finish_time)
++ AVG_LATENCY: finish_time/(所有小于等于finish_time(不考虑host了)的reqs的数目)
++ 这3个参数在csv里面的位置时req_id 最前面.
+
+
 **各阶段耗时计算：**
 1. **Router转发延迟**: `router_send_time - arrival_time` （通常<0.1ms）
 2. **Tokenize时间**: `queue_time_start - server_created_time`

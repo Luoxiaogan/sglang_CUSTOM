@@ -429,11 +429,95 @@ class RequestTracker:
             }
             records.append(record)
         
+        # Calculate throughput metrics per host
+        # Group by host and sort by finish_time
+        df_temp = pd.DataFrame(records)
+        
+        # Initialize throughput columns
+        for record in records:
+            record["prefill_token_throughput"] = None
+            record["decode_token_throughput"] = None
+        
+        # Calculate throughput for each host group
+        if not df_temp.empty and 'host' in df_temp.columns:
+            for host, group in df_temp.groupby('host'):
+                # Sort by finish_time
+                group = group.sort_values('finish_time')
+                
+                # Calculate cumulative throughput for each request in this group
+                for idx in group.index:
+                    finish_time = group.loc[idx, 'finish_time']
+                    
+                    # Skip if finish_time is invalid
+                    if pd.isna(finish_time) or finish_time <= 0:
+                        continue
+                    
+                    # Get all requests in this group with finish_time <= current finish_time
+                    mask = (group['finish_time'] <= finish_time) & group['success']
+                    
+                    # Calculate prefill_token_throughput (using actual_prompt_tokens)
+                    prompt_tokens_sum = 0
+                    if 'actual_prompt_tokens' in group.columns:
+                        prompt_tokens_sum = group.loc[mask, 'actual_prompt_tokens'].fillna(0).sum()
+                    
+                    # Calculate decode_token_throughput (using actual_output_tokens)
+                    output_tokens_sum = 0
+                    if 'actual_output_tokens' in group.columns:
+                        output_tokens_sum = group.loc[mask, 'actual_output_tokens'].fillna(0).sum()
+                    
+                    # Update the record
+                    records[idx]["prefill_token_throughput"] = prompt_tokens_sum / finish_time if finish_time > 0 else 0
+                    records[idx]["decode_token_throughput"] = output_tokens_sum / finish_time if finish_time > 0 else 0
+        
+        # Calculate system-wide metrics
+        # Initialize system-wide columns
+        for record in records:
+            record["PREFILL_THROUGHPUT"] = None
+            record["DECODE_THROUGHPUT"] = None
+            record["AVG_LATENCY"] = None
+        
+        # Sort all records by finish_time for system-wide calculation
+        if not df_temp.empty:
+            df_sorted = df_temp.sort_values('finish_time')
+            
+            for idx in df_sorted.index:
+                finish_time = df_sorted.loc[idx, 'finish_time']
+                
+                # Skip if finish_time is invalid
+                if pd.isna(finish_time) or finish_time <= 0:
+                    continue
+                
+                # Get all requests with finish_time <= current finish_time (regardless of host)
+                mask = (df_sorted['finish_time'] <= finish_time) & df_sorted['success']
+                
+                # Calculate PREFILL_THROUGHPUT (using actual_prompt_tokens)
+                system_prompt_tokens_sum = 0
+                if 'actual_prompt_tokens' in df_sorted.columns:
+                    system_prompt_tokens_sum = df_sorted.loc[mask, 'actual_prompt_tokens'].fillna(0).sum()
+                
+                # Calculate DECODE_THROUGHPUT (using actual_output_tokens)
+                system_output_tokens_sum = 0
+                if 'actual_output_tokens' in df_sorted.columns:
+                    system_output_tokens_sum = df_sorted.loc[mask, 'actual_output_tokens'].fillna(0).sum()
+                
+                # Calculate AVG_LATENCY
+                num_requests = mask.sum()
+                
+                # Update the record
+                records[idx]["PREFILL_THROUGHPUT"] = system_prompt_tokens_sum / finish_time if finish_time > 0 else 0
+                records[idx]["DECODE_THROUGHPUT"] = system_output_tokens_sum / finish_time if finish_time > 0 else 0
+                records[idx]["AVG_LATENCY"] = finish_time / num_requests if num_requests > 0 else 0
+        
         # Create DataFrame and save to CSV
         df = pd.DataFrame(records)
         
         # Ensure column order as per requirements
         columns = [
+            # 系统级指标 (System-wide metrics)
+            "PREFILL_THROUGHPUT",
+            "DECODE_THROUGHPUT", 
+            "AVG_LATENCY",
+            
             # 基础信息
             "req_id", 
             "success", 
@@ -463,6 +547,8 @@ class RequestTracker:
             "server_latency", 
             "total_latency", 
             "ttft", 
+            "prefill_token_throughput",  # New field
+            "decode_token_throughput",   # New field
             "queue_time_in_router",  # 原 queue_time
             "queue_time_in_server", 
             "tokenize_time",
