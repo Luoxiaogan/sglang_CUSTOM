@@ -13,6 +13,7 @@
 ```bash
 cd /path/to/sglang/sgl-router
 cargo build --release
+maturin build --release
 ```
 
 ### 2.2 安装 Python 绑定

@@ -1,5 +1,59 @@
 # SGLang Router 测试
 
+### 0. 安装rust环境和编译
+本地测试安装sglang:
+```bash
+pip install -e "python[all]"
+```
+然后安装rust和相关的编译依赖
+```bash
+apt install -y pkgconf
+apt install -y libssl-dev # 可以不用
+
+conda install -c conda-forge openssl #可能conda的openssl比apt跟不容易报错
+export OPENSSL_DIR=$CONDA_PREFIX
+export OPENSSL_INCLUDE_DIR=$CONDA_PREFIX/include
+export OPENSSL_LIB_DIR=$CONDA_PREFIX/lib
+export PKG_CONFIG_PATH=$CONDA_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH
+
+pkg-config --version
+conda install -c conda-forge clang
+conda install -c conda-forge gcc_impl_linux=12.0
+conda install -c conda-forge rust
+conda update -c conda-forge rust
+pip install maturin
+rustc --version
+cargo --version
+```
+以及配置rust的临时镜像
+```bash
+export CARGO_REGISTRIES_CRATES_IO_REGISTRY=https://mirrors.tuna.tsinghua.edu.cn/crates.io-index
+echo $CARGO_HOME
+cd $HOME/.cargo
+
+touch config.toml
+
+cat << EOF | tee -a ${CARGO_HOME:-$HOME/.cargo}/config.toml
+[source.crates-io]
+replace-with = 'mirror'
+
+[source.mirror]
+registry = "sparse+https://mirrors.tuna.tsinghua.edu.cn/crates.io-index/"
+
+[registries.mirror]
+index = "sparse+https://mirrors.tuna.tsinghua.edu.cn/crates.io-index/"
+EOF
+
+cat config.toml
+
+conda remove -c conda-forge rust # 删除重装
+```
+编译
+```bash 
+cargo build --release
+maturin build --release
+```
+
 ### 1. 启动 SGLang 服务器
 
 ```bash
