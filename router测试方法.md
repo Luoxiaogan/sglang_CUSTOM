@@ -47,17 +47,40 @@ lsof -i :29000
 
 ### 5. 参数解读
 目前记录在csv中的参数有:
-req_id,input_length,decode_length,arrival_time,to_server_time,finish_time,server_latency,total_latency,ttft,queue_time,queue_time_in_server,pure_queue_time,success,error,host,server_created_time,server_first_token_time,queue_time_start,queue_time_end
+req_id,input_length,expected_output_length,decode_length,actual_output_tokens,actual_prompt_tokens,actual_total_tokens,output_tokens_from_trace,arrival_time,to_server_time,finish_time,server_latency,total_latency,ttft,queue_time,queue_time_in_server,pure_queue_time,success,error,host,server_created_time,server_first_token_time,queue_time_start,queue_time_end,has_generated_text
 
 #### 参数含义详解：
 
 **基础信息：**
 - `req_id`: 请求的唯一标识符
-- `input_length`: 输入token的长度
-- `decode_length`: 生成的token长度（目前为0，因为测试使用的是tokenize模式）
 - `success`: 请求是否成功（True/False）
 - `error`: 错误信息（如果有）
 - `host`: 实际处理请求的服务器地址
+- `has_generated_text`: 是否有生成的文本（用于调试）
+
+**长度相关字段说明（重要）：**
+- `input_length`: 输入文本的**单词数**（由 `prompt.split()` 计算，以空格分割）
+- `expected_output_length`: 请求时设置的期望输出 **token 数**（max_new_tokens 参数）
+- `actual_prompt_tokens`: 输入文本经过 tokenizer 处理后的实际 **token 数**（从服务器返回）
+- `actual_output_tokens`: 实际生成的 **token 数**（从服务器返回）
+- `actual_total_tokens`: 实际总 **token 数**（输入+输出，从服务器返回）
+- `output_tokens_from_trace`: 从路由器追踪信息获取的输出 **token 数**（通常为 0）
+- `decode_length`: 综合字段，表示生成的 **token 数**（优先使用 actual_output_tokens）
+
+**注意事项：**
+1. **单词数 vs Token 数**：
+   - `input_length` 是按空格分割的单词数，不是 token 数
+   - 对于英文：一个单词可能对应 1-3 个 tokens
+   - 对于中文：由于中文通常不使用空格分割，`input_length` 可能不准确
+   - 因此 `actual_prompt_tokens` 才是真实的输入 token 数量
+
+2. **准确的 Token 计数**：
+   - **必须使用** `actual_prompt_tokens` 而不是 `input_length` 来计算输入 token 吞吐量
+   - **必须使用** `actual_output_tokens` 而不是 `decode_length` 来计算输出 token 吞吐量
+   
+3. **示例对比**：
+   - 英文文本 "Hello world": `input_length`=2（2个单词），`actual_prompt_tokens` 可能是 2-3
+   - 中文文本 "你好世界": `input_length`=1（没有空格），`actual_prompt_tokens` 可能是 4-6
 
 **时间戳（按时间顺序）：**
 - `arrival_time`: 请求到达router的时刻（从测试开始计时）
