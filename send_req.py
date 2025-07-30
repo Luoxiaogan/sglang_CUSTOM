@@ -167,12 +167,35 @@ class RequestTracker:
                     server_first_token_time = None
                     queue_time_start = None
                     queue_time_end = None
+                    actual_output_tokens = None
+                    prompt_tokens = None
+                    total_tokens = None
+                    
                     if isinstance(response_data, dict) and "meta_info" in response_data:
                         meta_info = response_data["meta_info"]
                         server_created_time = meta_info.get("server_created_time")
                         server_first_token_time = meta_info.get("server_first_token_time")
                         queue_time_start = meta_info.get("queue_time_start")
                         queue_time_end = meta_info.get("queue_time_end")
+                        
+                        # SGLang native API fields
+                        actual_output_tokens = meta_info.get("completion_tokens")
+                        prompt_tokens = meta_info.get("prompt_tokens")
+                        total_tokens = meta_info.get("total_tokens")
+                    
+                    # Also check usage field for OpenAI-compatible API
+                    if isinstance(response_data, dict) and "usage" in response_data:
+                        usage = response_data["usage"]
+                        actual_output_tokens = actual_output_tokens or usage.get("completion_tokens")
+                        prompt_tokens = prompt_tokens or usage.get("prompt_tokens")
+                        total_tokens = total_tokens or usage.get("total_tokens")
+                    
+                    # Extract generated text
+                    generated_text = ""
+                    if isinstance(response_data, dict):
+                        generated_text = response_data.get("text", "")
+                    else:
+                        generated_text = response_text
                     
                     # Calculate various time durations
                     pure_queue_time = None
@@ -201,7 +224,12 @@ class RequestTracker:
                         "queue_time_end": queue_time_end,
                         # Calculate server queue time if timestamps available
                         "queue_time_in_server": queue_time_in_server,
-                        "pure_queue_time": pure_queue_time
+                        "pure_queue_time": pure_queue_time,
+                        # Add token counts
+                        "actual_output_tokens": actual_output_tokens,
+                        "actual_prompt_tokens": prompt_tokens,
+                        "actual_total_tokens": total_tokens,
+                        "generated_text": generated_text
                     }
                     
                     print(f"✅ Request {index+1}/{total} completed")
@@ -366,7 +394,12 @@ class RequestTracker:
             record = {
                 "req_id": r["request_id"],
                 "input_length": r["input_length"],
-                "decode_length": r.get("output_tokens", r["expected_output_length"]),
+                "expected_output_length": r["expected_output_length"],
+                "actual_output_tokens": r.get("actual_output_tokens"),
+                "actual_prompt_tokens": r.get("actual_prompt_tokens"),
+                "actual_total_tokens": r.get("actual_total_tokens"),
+                "output_tokens_from_trace": r.get("output_tokens", 0),
+                "decode_length": r.get("actual_output_tokens") or r.get("output_tokens", 0) or r["expected_output_length"],
                 "arrival_time": r["arrival_time"] - min_time,
                 "to_server_time": r["send_time"] - min_time,
                 "finish_time": r["completion_time"] - min_time,
@@ -383,7 +416,8 @@ class RequestTracker:
                 "server_created_time": (r["server_created_time"] - min_time) if r.get("server_created_time") else None,
                 "server_first_token_time": (r["server_first_token_time"] - min_time) if r.get("server_first_token_time") else None,
                 "queue_time_start": (r["queue_time_start"] - min_time) if r.get("queue_time_start") else None,
-                "queue_time_end": (r["queue_time_end"] - min_time) if r.get("queue_time_end") else None
+                "queue_time_end": (r["queue_time_end"] - min_time) if r.get("queue_time_end") else None,
+                "has_generated_text": bool(r.get("generated_text"))
             }
             records.append(record)
         
@@ -391,10 +425,33 @@ class RequestTracker:
         df = pd.DataFrame(records)
         
         # Ensure column order
-        columns = ["req_id", "input_length", "decode_length", "arrival_time", 
-                  "to_server_time", "finish_time", "server_latency", "total_latency", 
-                  "ttft", "queue_time", "queue_time_in_server", "pure_queue_time", "success", "error", "host",
-                  "server_created_time", "server_first_token_time", "queue_time_start", "queue_time_end"]
+        columns = [
+            "req_id", 
+            "input_length",
+            "expected_output_length",
+            "decode_length",  # Keep for compatibility
+            "actual_output_tokens",
+            "actual_prompt_tokens",
+            "actual_total_tokens",
+            "output_tokens_from_trace",
+            "arrival_time", 
+            "to_server_time", 
+            "finish_time", 
+            "server_latency", 
+            "total_latency", 
+            "ttft", 
+            "queue_time", 
+            "queue_time_in_server", 
+            "pure_queue_time", 
+            "success", 
+            "error", 
+            "host",
+            "server_created_time", 
+            "server_first_token_time", 
+            "queue_time_start", 
+            "queue_time_end",
+            "has_generated_text"
+        ]
         # Only include columns that exist in the dataframe
         columns = [col for col in columns if col in df.columns]
         df = df[columns]
