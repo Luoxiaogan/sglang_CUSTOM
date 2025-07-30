@@ -381,15 +381,22 @@ class RequestTracker:
             # Calculate latencies in seconds (matching test_timing_fix.py)
             server_latency = r["completion_time"] - r["send_time"] if r["success"] else None
             total_latency = r["completion_time"] - r["arrival_time"] if r["success"] else None
-            queue_time = r["send_time"] - r["arrival_time"]
+            queue_time_in_router = r["send_time"] - r["arrival_time"]
             
-            # For TTFT, we don't have streaming data, so approximate as a fraction of server latency
-            ttft = server_latency * 0.3 if server_latency else None
+            # Calculate TTFT correctly: server_first_token_time - arrival_time
+            ttft = None
+            if r["success"] and r.get("server_first_token_time") and r.get("arrival_time"):
+                ttft = r["server_first_token_time"] - r["arrival_time"]
             
             # Calculate server-side queue time if available
             queue_time_in_server = r.get("queue_time_in_server")
             if queue_time_in_server is None and r.get("server_created_time") and r.get("server_first_token_time"):
                 queue_time_in_server = r["server_first_token_time"] - r["server_created_time"]
+            
+            # Calculate tokenize time: queue_time_start - server_created_time
+            tokenize_time = None
+            if r.get("queue_time_start") and r.get("server_created_time"):
+                tokenize_time = r["queue_time_start"] - r["server_created_time"]
             
             record = {
                 "req_id": r["request_id"],
@@ -401,13 +408,14 @@ class RequestTracker:
                 "output_tokens_from_trace": r.get("output_tokens", 0),
                 "decode_length": r.get("actual_output_tokens") or r.get("output_tokens", 0) or r["expected_output_length"],
                 "arrival_time": r["arrival_time"] - min_time,
-                "to_server_time": r["send_time"] - min_time,
+                "router_send_time": r["send_time"] - min_time,
                 "finish_time": r["completion_time"] - min_time,
                 "server_latency": server_latency,
                 "total_latency": total_latency,
                 "ttft": ttft,
-                "queue_time": queue_time,
+                "queue_time_in_router": queue_time_in_router,
                 "queue_time_in_server": queue_time_in_server,
+                "tokenize_time": tokenize_time,
                 "pure_queue_time": r.get("pure_queue_time"),
                 "success": r["success"],
                 "error": r.get("error", ""),
@@ -424,33 +432,41 @@ class RequestTracker:
         # Create DataFrame and save to CSV
         df = pd.DataFrame(records)
         
-        # Ensure column order
+        # Ensure column order as per requirements
         columns = [
+            # 基础信息
             "req_id", 
-            "input_length",
-            "expected_output_length",
-            "decode_length",  # Keep for compatibility
-            "actual_output_tokens",
-            "actual_prompt_tokens",
-            "actual_total_tokens",
-            "output_tokens_from_trace",
-            "arrival_time", 
-            "to_server_time", 
-            "finish_time", 
-            "server_latency", 
-            "total_latency", 
-            "ttft", 
-            "queue_time", 
-            "queue_time_in_server", 
-            "pure_queue_time", 
             "success", 
             "error", 
             "host",
+            "has_generated_text",
+            
+            # 长度相关字段
+            "input_length",  # 单词数
+            "expected_output_length",
+            "actual_prompt_tokens",
+            "actual_output_tokens",
+            "actual_total_tokens",
+            "output_tokens_from_trace",
+            "decode_length",  # Keep for compatibility
+            
+            # 时间戳（按时间顺序）
+            "arrival_time", 
+            "router_send_time",  # 原 to_server_time
             "server_created_time", 
-            "server_first_token_time", 
             "queue_time_start", 
             "queue_time_end",
-            "has_generated_text"
+            "server_first_token_time", 
+            "finish_time", 
+            
+            # 延迟指标
+            "server_latency", 
+            "total_latency", 
+            "ttft", 
+            "queue_time_in_router",  # 原 queue_time
+            "queue_time_in_server", 
+            "tokenize_time",
+            "pure_queue_time"
         ]
         # Only include columns that exist in the dataframe
         columns = [col for col in columns if col in df.columns]
@@ -475,9 +491,9 @@ class RequestTracker:
             print(f"  Total latency: mean={successful_df['total_latency'].mean():.3f}s, "
                   f"p50={successful_df['total_latency'].median():.3f}s, "
                   f"p99={successful_df['total_latency'].quantile(0.99):.3f}s")
-            print(f"  Queue time: mean={successful_df['queue_time'].mean():.3f}s, "
-                  f"p50={successful_df['queue_time'].median():.3f}s, "
-                  f"p99={successful_df['queue_time'].quantile(0.99):.3f}s")
+            print(f"  Queue time in router: mean={successful_df['queue_time_in_router'].mean():.3f}s, "
+                  f"p50={successful_df['queue_time_in_router'].median():.3f}s, "
+                  f"p99={successful_df['queue_time_in_router'].quantile(0.99):.3f}s")
             
             # Show server-side queue time if available
             if 'queue_time_in_server' in successful_df.columns:

@@ -46,8 +46,19 @@ lsof -i :29000
 然后`kill -9`这个pid.
 
 ### 5. 参数解读
-目前记录在csv中的参数有:
-req_id,input_length,expected_output_length,decode_length,actual_output_tokens,actual_prompt_tokens,actual_total_tokens,output_tokens_from_trace,arrival_time,to_server_time,finish_time,server_latency,total_latency,ttft,queue_time,queue_time_in_server,pure_queue_time,success,error,host,server_created_time,server_first_token_time,queue_time_start,queue_time_end,has_generated_text
+目前记录在csv中的参数有（按照新的顺序）:
+
+**基础信息：**
+req_id,success,error,host,has_generated_text
+
+**长度相关字段：**
+input_length,expected_output_length,actual_prompt_tokens,actual_output_tokens,actual_total_tokens,output_tokens_from_trace,decode_length
+
+**时间戳（按时间顺序）：**
+arrival_time,router_send_time,server_created_time,queue_time_start,queue_time_end,server_first_token_time,finish_time
+
+**延迟指标：**
+server_latency,total_latency,ttft,queue_time_in_router,queue_time_in_server,tokenize_time,pure_queue_time
 
 #### 参数含义详解：
 
@@ -84,27 +95,30 @@ req_id,input_length,expected_output_length,decode_length,actual_output_tokens,ac
 
 **时间戳（按时间顺序）：**
 - `arrival_time`: 请求到达router的时刻（从测试开始计时）
-- `to_server_time`: router将请求转发到server的时刻
+- `router_send_time`: router将请求转发到server的时刻（原名 to_server_time）
 - `server_created_time`: 请求在server端被tokenizer_manager接收的时刻
+  - 根据`python/sglang/srt/entrypoints/http_server.py`, server_created_time 是请求被 tokenizer_manager 接收的时刻，而不是 HTTP 请求刚到达服务器的时刻
+  - 但是请求到达服务器后基本上是立即转发到 tokenizer_manager 的，中间没有排队
 - `queue_time_start`: 请求进入scheduler waiting_queue的时刻
 - `queue_time_end`: 请求从waiting_queue取出准备处理的时刻
-- `server_first_token_time`: server生成第一个token的时刻（prefill完成）
+- `server_first_token_time`: server生成第一个token的时刻（prefill完成+第一次decode）
 - `finish_time`: 请求完成的时刻
 
 **延迟指标：**
-- `server_latency`: 服务器处理时间 = `finish_time - to_server_time`
+- `server_latency`: 服务器中的总时间 = `finish_time - router_send_time`
 - `total_latency`: 总延迟 = `finish_time - arrival_time`
-- `ttft` (Time To First Token): 第一个token生成时间（从客户端发送时刻算起）
-- `queue_time`: 客户端视角的排队时间 = `to_server_time - arrival_time`（router中几乎为0）
+- `ttft` (Time To First Token): 第一个token生成时间 = `server_first_token_time - arrival_time`（从客户端发送时刻算起）
+- `queue_time_in_router`: router中的排队时间 = `router_send_time - arrival_time`（通常很小）
 - `queue_time_in_server`: server端总排队时间 = `server_first_token_time - server_created_time`
+- `tokenize_time`: server端tokenize的时间 = `queue_time_start - server_created_time`
 - `pure_queue_time`: scheduler纯排队时间 = `queue_time_end - queue_time_start`（不含tokenize时间）
 
 **各阶段耗时计算：**
-1. **Router转发延迟**: `to_server_time - arrival_time` （通常<0.1ms）
+1. **Router转发延迟**: `router_send_time - arrival_time` （通常<0.1ms）
 2. **Tokenize时间**: `queue_time_start - server_created_time`
-3. **Scheduler排队时间**: `queue_time_end - queue_time_start`
+3. **Scheduler排队时间**: `queue_time_end - queue_time_start`（即 pure_queue_time）
 4. **Prefill时间**: `server_first_token_time - queue_time_end`
-5. **网络传输时间**: `server_created_time - to_server_time`
+5. **网络传输时间**: `server_created_time - router_send_time`
 
 ### 6. 关于 decode_length 和 token 计数说明（已修复）
 
