@@ -9,7 +9,7 @@
 
 # 路由策略选择
 # 可选值: cache_aware, round_robin, random, power_of_two
-POLICY="random"
+POLICY="round_robin"
 
 # Worker节点配置
 # 修改为你的实际worker地址和端口

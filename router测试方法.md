@@ -9,7 +9,8 @@ python -m sglang.launch_server \
 --host "0.0.0.0" \
 --port 60005 \
 --base-gpu-id 2 \
---enable-metrics   # 添加这个参数,collect_metrics 只在 self.enable_metrics 为 True 时调用
+--enable-metrics \  # 添加这个参数,collect_metrics 只在 self.enable_metrics 为 True 时调用
+--log-level debug # 这个可以在server的log里面检查相应的全部的log
 
 # 终端 2 - GPU 3
 python -m sglang.launch_server \
