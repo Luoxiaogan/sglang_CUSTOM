@@ -8,12 +8,16 @@ use std::fmt::Debug;
 
 mod cache_aware;
 mod factory;
+mod marginal_utility;
+mod metrics;
 mod power_of_two;
 mod random;
 mod round_robin;
 
 pub use cache_aware::CacheAwarePolicy;
 pub use factory::PolicyFactory;
+pub use marginal_utility::{MarginalUtilityConfig, MarginalUtilityPolicy};
+pub use metrics::RequestMetrics;
 pub use power_of_two::PowerOfTwoPolicy;
 pub use random::RandomPolicy;
 pub use round_robin::RoundRobinPolicy;
@@ -76,6 +80,23 @@ pub trait LoadBalancingPolicy: Send + Sync + Debug {
     /// Get as Any for downcasting
     fn as_any(&self) -> &dyn std::any::Any;
 }
+
+/// Extended trait for policies that can use detailed request metrics
+///
+/// This trait extends LoadBalancingPolicy to support richer performance data
+/// while maintaining backward compatibility with existing policies.
+pub trait LoadBalancingPolicyV2: LoadBalancingPolicy {
+    /// Called when a request completes with detailed metrics
+    ///
+    /// Default implementation delegates to the legacy method for compatibility
+    fn on_request_complete_v2(&self, metrics: &RequestMetrics) {
+        let (worker_url, success) = metrics.to_legacy_params();
+        self.on_request_complete(worker_url, success);
+    }
+}
+
+// Automatically implement LoadBalancingPolicyV2 for all LoadBalancingPolicy types
+impl<T: LoadBalancingPolicy + ?Sized> LoadBalancingPolicyV2 for T {}
 
 /// Configuration for cache-aware policy
 #[derive(Debug, Clone)]

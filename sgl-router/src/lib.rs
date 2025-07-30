@@ -20,6 +20,7 @@ pub enum PolicyType {
     RoundRobin,
     CacheAware,
     PowerOfTwo, // Moved from PD-specific, now shared
+    MarginalUtility,
 }
 
 #[pyclass]
@@ -93,6 +94,12 @@ impl Router {
             },
             PolicyType::PowerOfTwo => ConfigPolicyConfig::PowerOfTwo {
                 load_check_interval_secs: 5, // Default value
+            },
+            PolicyType::MarginalUtility => ConfigPolicyConfig::MarginalUtility {
+                window_size: 20,
+                min_history_for_trend: 10,
+                throughput_weight: 0.6,
+                latency_weight: 0.4,
             },
         };
 

@@ -112,6 +112,7 @@ def main():
         "round_robin": PolicyType.RoundRobin,
         "random": PolicyType.Random,
         "power_of_two": PolicyType.PowerOfTwo,
+        "marginal_utility": PolicyType.MarginalUtility,
     }
     
     # Handle port-GPU mapping

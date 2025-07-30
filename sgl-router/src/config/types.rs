@@ -97,6 +97,18 @@ pub enum PolicyConfig {
         /// Interval for load monitoring (seconds)
         load_check_interval_secs: u64,
     },
+
+    #[serde(rename = "marginal_utility")]
+    MarginalUtility {
+        /// Size of the sliding window for historical metrics
+        window_size: usize,
+        /// Minimum history size needed for trend analysis
+        min_history_for_trend: usize,
+        /// Weight for throughput gradient (0.0 to 1.0)
+        throughput_weight: f64,
+        /// Weight for latency gradient (0.0 to 1.0)
+        latency_weight: f64,
+    },
 }
 
 impl PolicyConfig {
@@ -106,6 +118,7 @@ impl PolicyConfig {
             PolicyConfig::RoundRobin => "round_robin",
             PolicyConfig::CacheAware { .. } => "cache_aware",
             PolicyConfig::PowerOfTwo { .. } => "power_of_two",
+            PolicyConfig::MarginalUtility { .. } => "marginal_utility",
         }
     }
 }

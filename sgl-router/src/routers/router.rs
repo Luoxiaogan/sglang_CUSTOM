@@ -1,6 +1,6 @@
 use crate::core::{HealthChecker, Worker, WorkerFactory};
 use crate::metrics::RouterMetrics;
-use crate::policies::LoadBalancingPolicy;
+use crate::policies::{LoadBalancingPolicy, LoadBalancingPolicyV2};
 use crate::request_tracker::{RequestTracker, RequestTrace, RequestStatus, worker_url_to_node_id};
 use actix_web::http::header::{HeaderValue, CONTENT_TYPE};
 use actix_web::{HttpRequest, HttpResponse};
@@ -11,6 +11,9 @@ use std::sync::{Arc, RwLock};
 use std::thread;
 use std::time::{Duration, Instant};
 use tracing::{debug, error, info, warn};
+
+mod response_parser;
+use response_parser::ResponseParser;
 
 pub fn copy_request_headers(req: &HttpRequest) -> Vec<(String, String)> {
     req.headers()
@@ -516,10 +519,26 @@ impl Router {
         if !is_stream {
             // For non-streaming requests, get response first
             let response = match res.bytes().await {
-                Ok(body) => HttpResponse::build(status)
-                    .insert_header(("X-SGLang-Worker", worker_url))
-                    .body(body.to_vec()),
+                Ok(body) => {
+                    // Try to extract performance metrics from successful responses
+                    if status.is_success() {
+                        if let Some(metrics) = ResponseParser::extract_metrics(
+                            &body,
+                            worker_url,
+                            start,  // Use the existing start variable
+                        ) {
+                            // Call the V2 interface which will delegate to legacy if needed
+                            self.policy.on_request_complete_v2(&metrics);
+                        }
+                    }
+                    
+                    HttpResponse::build(status)
+                        .insert_header(("X-SGLang-Worker", worker_url))
+                        .body(body.to_vec())
+                }
                 Err(e) => {
+                    // Notify policy of failure using legacy interface
+                    self.policy.on_request_complete(worker_url, false);
                     let error_msg = format!("Failed to get response body: {}", e);
                     HttpResponse::InternalServerError().body(error_msg)
                 }

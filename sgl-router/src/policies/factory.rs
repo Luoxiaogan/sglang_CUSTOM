@@ -1,8 +1,8 @@
 //! Factory for creating load balancing policies
 
 use super::{
-    CacheAwareConfig, CacheAwarePolicy, LoadBalancingPolicy, PowerOfTwoPolicy, RandomPolicy,
-    RoundRobinPolicy,
+    CacheAwareConfig, CacheAwarePolicy, LoadBalancingPolicy, MarginalUtilityConfig,
+    MarginalUtilityPolicy, PowerOfTwoPolicy, RandomPolicy, RoundRobinPolicy,
 };
 use crate::config::PolicyConfig;
 use std::sync::Arc;
@@ -33,6 +33,20 @@ impl PolicyFactory {
                 };
                 Arc::new(CacheAwarePolicy::with_config(config))
             }
+            PolicyConfig::MarginalUtility {
+                window_size,
+                min_history_for_trend,
+                throughput_weight,
+                latency_weight,
+            } => {
+                let config = MarginalUtilityConfig {
+                    window_size: *window_size,
+                    min_history_for_trend: *min_history_for_trend,
+                    throughput_weight: *throughput_weight,
+                    latency_weight: *latency_weight,
+                };
+                Arc::new(MarginalUtilityPolicy::new(config))
+            }
         }
     }
 
@@ -43,6 +57,9 @@ impl PolicyFactory {
             "round_robin" | "roundrobin" => Some(Arc::new(RoundRobinPolicy::new())),
             "power_of_two" | "poweroftwo" => Some(Arc::new(PowerOfTwoPolicy::new())),
             "cache_aware" | "cacheaware" => Some(Arc::new(CacheAwarePolicy::new())),
+            "marginal_utility" | "marginalutility" => Some(Arc::new(MarginalUtilityPolicy::new(
+                MarginalUtilityConfig::default()
+            ))),
             _ => None,
         }
     }
