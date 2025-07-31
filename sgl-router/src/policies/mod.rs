@@ -9,14 +9,16 @@ use std::fmt::Debug;
 mod cache_aware;
 mod factory;
 mod marginal_utility;
+mod marginal_utility_recorder;
 mod metrics;
 mod power_of_two;
 mod random;
 mod round_robin;
 
-pub use cache_aware::CacheAwarePolicy;
+pub use cache_aware::{CacheAwareConfig, CacheAwarePolicy};
 pub use factory::PolicyFactory;
 pub use marginal_utility::{MarginalUtilityConfig, MarginalUtilityPolicy};
+pub use marginal_utility_recorder::{MarginalUtilityRecorderConfig, MarginalUtilityRecorderPolicy};
 pub use metrics::RequestMetrics;
 pub use power_of_two::PowerOfTwoPolicy;
 pub use random::RandomPolicy;

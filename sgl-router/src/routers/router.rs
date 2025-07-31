@@ -532,6 +532,9 @@ impl Router {
                             if let Some(marginal_policy) = self.policy.as_any()
                                 .downcast_ref::<crate::policies::MarginalUtilityPolicy>() {
                                 marginal_policy.handle_request_metrics(&metrics);
+                            } else if let Some(recorder_policy) = self.policy.as_any()
+                                .downcast_ref::<crate::policies::MarginalUtilityRecorderPolicy>() {
+                                recorder_policy.handle_request_metrics(&metrics);
                             } else {
                                 // For other policies, use the V2 interface
                                 self.policy.on_request_complete_v2(&metrics);

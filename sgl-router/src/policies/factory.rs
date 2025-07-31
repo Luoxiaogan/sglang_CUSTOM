@@ -2,7 +2,8 @@
 
 use super::{
     CacheAwareConfig, CacheAwarePolicy, LoadBalancingPolicy, MarginalUtilityConfig,
-    MarginalUtilityPolicy, PowerOfTwoPolicy, RandomPolicy, RoundRobinPolicy,
+    MarginalUtilityPolicy, MarginalUtilityRecorderConfig, MarginalUtilityRecorderPolicy,
+    PowerOfTwoPolicy, RandomPolicy, RoundRobinPolicy,
 };
 use crate::config::PolicyConfig;
 use std::sync::Arc;
@@ -47,6 +48,29 @@ impl PolicyFactory {
                 };
                 Arc::new(MarginalUtilityPolicy::new(config))
             }
+            PolicyConfig::MarginalUtilityRecorder {
+                window_size,
+                min_history_for_trend,
+                throughput_weight,
+                latency_weight,
+                output_dir,
+                buffer_size,
+                flush_interval_secs,
+            } => {
+                let base_config = MarginalUtilityConfig {
+                    window_size: *window_size,
+                    min_history_for_trend: *min_history_for_trend,
+                    throughput_weight: *throughput_weight,
+                    latency_weight: *latency_weight,
+                };
+                let config = MarginalUtilityRecorderConfig {
+                    base_config,
+                    output_dir: output_dir.clone(),
+                    buffer_size: *buffer_size,
+                    flush_interval_secs: *flush_interval_secs,
+                };
+                Arc::new(MarginalUtilityRecorderPolicy::new(config))
+            }
         }
     }
 
@@ -60,6 +84,16 @@ impl PolicyFactory {
             "marginal_utility" | "marginalutility" => Some(Arc::new(MarginalUtilityPolicy::new(
                 MarginalUtilityConfig::default()
             ))),
+            "marginal_utility_recorder" | "marginalutilityrecorder" => {
+                let base_config = MarginalUtilityConfig::default();
+                let config = MarginalUtilityRecorderConfig {
+                    base_config,
+                    output_dir: "/tmp/marginal_utility_metrics".to_string(),
+                    buffer_size: 1000,
+                    flush_interval_secs: 10,
+                };
+                Some(Arc::new(MarginalUtilityRecorderPolicy::new(config)))
+            }
             _ => None,
         }
     }

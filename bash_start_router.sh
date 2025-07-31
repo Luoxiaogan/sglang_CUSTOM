@@ -8,8 +8,8 @@
 # =============================================================================
 
 # 路由策略选择
-# 可选值: cache_aware, round_robin, random, power_of_two, marginal_utility
-POLICY="marginal_utility"
+# 可选值: cache_aware, round_robin, random, power_of_two, marginal_utility, marginal_utility_recorder
+POLICY="marginal_utility_recorder"
 
 # Worker节点配置
 # 修改为你的实际worker地址和端口
@@ -30,6 +30,19 @@ TRACE_TTL=3600                 # 追踪记录保留时间（秒）
 
 # 日志级别: DEBUG, INFO, WARN, ERROR
 LOG_LEVEL="INFO"
+
+# Marginal Utility Recorder 输出目录配置（仅在使用 marginal_utility_recorder 策略时生效）
+# 设置为空字符串将使用默认路径 /tmp/marginal_utility_metrics
+# 
+# ⚠️ 注意：这是路由器内部决策记录，与 send_req.py 生成的请求记录不同
+# - 本文件记录：路由器的决策过程（梯度、评分、选择原因等）
+# - send_req.py 记录：客户端视角的请求执行情况（延迟、吞吐量等）
+# 
+# CSV 文件内容说明：
+# - 路由决策记录：记录每次选择 worker 时的梯度、评分等信息（selection_reason="gradient_based"）
+# - 请求完成记录：记录请求完成后的实际性能指标（selection_reason="completion_record"）
+# 两种记录都保存在同一个 CSV 文件中，通过 selection_reason 字段区分
+MARGINAL_UTILITY_OUTPUT_DIR="/tmp/marginal_utility_metrics"
 
 # GPU映射配置（可选）
 # 格式: '{"端口号": "GPU设备"}'
@@ -58,6 +71,17 @@ LOG_LEVEL="INFO"
 # POLICY="random"
 # WORKERS=("http://localhost:40005" "http://localhost:40006" "http://localhost:40007" "http://localhost:40008")
 # ROUTER_PORT=40009
+
+# # 配置5: Marginal Utility 策略（高性能，无记录）
+# POLICY="marginal_utility"
+# WORKERS=("http://localhost:40005" "http://localhost:40006")
+# ROUTER_PORT=40009
+
+# # 配置6: Marginal Utility Recorder 策略（带性能指标记录）
+# POLICY="marginal_utility_recorder"
+# WORKERS=("http://localhost:40005" "http://localhost:40006")
+# ROUTER_PORT=40009
+# # 记录文件将保存在 /tmp/marginal_utility_metrics/ 目录下
 
 # =============================================================================
 # 执行脚本 - 通常不需要修改以下内容
@@ -98,6 +122,11 @@ fi
 # 添加GPU映射（如果设置了）
 if [ ! -z "$PORT_GPU_MAPPING" ]; then
     CMD="$CMD --port-gpu-mapping '$PORT_GPU_MAPPING'"
+fi
+
+# 添加 Marginal Utility 输出目录（如果是相应策略且设置了目录）
+if [ "$POLICY" = "marginal_utility_recorder" ] && [ ! -z "$MARGINAL_UTILITY_OUTPUT_DIR" ]; then
+    CMD="$CMD --marginal-utility-output-dir $MARGINAL_UTILITY_OUTPUT_DIR"
 fi
 
 # 显示完整命令

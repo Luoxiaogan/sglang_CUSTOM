@@ -109,6 +109,24 @@ pub enum PolicyConfig {
         /// Weight for latency gradient (0.0 to 1.0)
         latency_weight: f64,
     },
+
+    #[serde(rename = "marginal_utility_recorder")]
+    MarginalUtilityRecorder {
+        /// Size of the sliding window for historical metrics
+        window_size: usize,
+        /// Minimum history size needed for trend analysis
+        min_history_for_trend: usize,
+        /// Weight for throughput gradient (0.0 to 1.0)
+        throughput_weight: f64,
+        /// Weight for latency gradient (0.0 to 1.0)
+        latency_weight: f64,
+        /// Directory to save CSV metrics
+        output_dir: String,
+        /// Buffer size for batch writing
+        buffer_size: usize,
+        /// Flush interval in seconds
+        flush_interval_secs: u64,
+    },
 }
 
 impl PolicyConfig {
@@ -119,6 +137,7 @@ impl PolicyConfig {
             PolicyConfig::CacheAware { .. } => "cache_aware",
             PolicyConfig::PowerOfTwo { .. } => "power_of_two",
             PolicyConfig::MarginalUtility { .. } => "marginal_utility",
+            PolicyConfig::MarginalUtilityRecorder { .. } => "marginal_utility_recorder",
         }
     }
 }

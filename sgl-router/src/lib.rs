@@ -21,6 +21,7 @@ pub enum PolicyType {
     CacheAware,
     PowerOfTwo, // Moved from PD-specific, now shared
     MarginalUtility,
+    MarginalUtilityRecorder,
 }
 
 #[pyclass]
@@ -60,6 +61,8 @@ struct Router {
     enable_request_tracking: bool,
     max_trace_entries: usize,
     trace_ttl_seconds: i64,
+    // Marginal Utility Recorder configuration
+    marginal_utility_output_dir: Option<String>,
 }
 
 impl Router {
@@ -100,6 +103,16 @@ impl Router {
                 min_history_for_trend: 10,
                 throughput_weight: 0.6,
                 latency_weight: 0.4,
+            },
+            PolicyType::MarginalUtilityRecorder => ConfigPolicyConfig::MarginalUtilityRecorder {
+                window_size: 20,
+                min_history_for_trend: 10,
+                throughput_weight: 0.6,
+                latency_weight: 0.4,
+                output_dir: self.marginal_utility_output_dir.clone()
+                    .unwrap_or_else(|| "/tmp/marginal_utility_metrics".to_string()),
+                buffer_size: 1000,
+                flush_interval_secs: 10,
             },
         };
 
@@ -191,7 +204,8 @@ impl Router {
         decode_urls = None,
         enable_request_tracking = false,
         max_trace_entries = 100000,
-        trace_ttl_seconds = 3600
+        trace_ttl_seconds = 3600,
+        marginal_utility_output_dir = None
     ))]
     fn new(
         worker_urls: Vec<String>,
@@ -224,6 +238,7 @@ impl Router {
         enable_request_tracking: bool,
         max_trace_entries: usize,
         trace_ttl_seconds: i64,
+        marginal_utility_output_dir: Option<String>,
     ) -> PyResult<Self> {
         Ok(Router {
             host,
@@ -256,6 +271,7 @@ impl Router {
             enable_request_tracking,
             max_trace_entries,
             trace_ttl_seconds,
+            marginal_utility_output_dir,
         })
     }
 

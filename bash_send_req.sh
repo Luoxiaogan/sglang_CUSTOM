@@ -21,7 +21,11 @@ RANGE_RATIO=0.5                # 长度变化范围（±50%）
 ROUTER_URL="http://localhost:29001"    # 路由器地址
 
 # 输出配置
-# OUTPUT_FILE="router_test_$(date +%Y%m%d_%H%M%S).csv"  # 自动生成时间戳
+# 选项1: 指定完整路径和文件名
+# OUTPUT_FILE="/path/to/request/metrics/router_test_$(date +%Y%m%d_%H%M%S).csv"
+# 选项2: 只指定文件名（保存在当前目录）
+# OUTPUT_FILE="router_test_$(date +%Y%m%d_%H%M%S).csv"
+# 选项3: 留空则自动生成带时间戳的文件名（保存在当前目录）
 OUTPUT_FILE=""                 # 留空则自动生成带时间戳的文件名
 
 # 自定义数据集路径（仅当DATASET="custom"时使用）

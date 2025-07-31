@@ -27,7 +27,7 @@ def main():
         "--policy",
         type=str,
         default="cache_aware",
-        choices=["cache_aware", "round_robin", "random", "power_of_two", "marginal_utility"],
+        choices=["cache_aware", "round_robin", "random", "power_of_two", "marginal_utility", "marginal_utility_recorder"],
         help="Routing policy type (default: cache_aware)"
     )
     
@@ -99,6 +99,14 @@ def main():
         help="JSON string or file path containing port to GPU mapping"
     )
     
+    # Marginal Utility Recorder configuration
+    parser.add_argument(
+        "--marginal-utility-output-dir",
+        type=str,
+        default="/tmp/marginal_utility_metrics",
+        help="Directory to save CSV metrics for marginal_utility_recorder policy (default: /tmp/marginal_utility_metrics)"
+    )
+    
     args = parser.parse_args()
     
     # Validate power_of_two requires PD mode
@@ -113,6 +121,7 @@ def main():
         "random": PolicyType.Random,
         "power_of_two": PolicyType.PowerOfTwo,
         "marginal_utility": PolicyType.MarginalUtility,
+        "marginal_utility_recorder": PolicyType.MarginalUtilityRecorder,
     }
     
     # Handle port-GPU mapping
@@ -167,6 +176,10 @@ def main():
             "trace_ttl_seconds": args.trace_ttl,
         })
     
+    # Add marginal utility recorder configuration if needed
+    if args.policy == "marginal_utility_recorder":
+        router_config["marginal_utility_output_dir"] = args.marginal_utility_output_dir
+    
     # Create and start router
     print(f"Starting router with configuration:")
     print(f"  Policy: {args.policy}")
@@ -176,6 +189,8 @@ def main():
     if args.enable_tracking:
         print(f"  Max trace entries: {args.max_trace_entries}")
         print(f"  Trace TTL: {args.trace_ttl}s")
+    if args.policy == "marginal_utility_recorder":
+        print(f"  Marginal Utility Output Dir: {args.marginal_utility_output_dir}")
     print(f"  Log level: {args.log_level}")
     print()
     
