@@ -15,7 +15,9 @@ mod power_of_two;
 mod random;
 mod round_robin;
 
-pub use cache_aware::{CacheAwareConfig, CacheAwarePolicy};
+// pub use cache_aware::{CacheAwareConfig, CacheAwarePolicy};
+pub use crate::policies::CacheAwareConfig;   // 结构体定义就在本文件
+pub use cache_aware::CacheAwarePolicy;
 pub use factory::PolicyFactory;
 pub use marginal_utility::{MarginalUtilityConfig, MarginalUtilityPolicy};
 pub use marginal_utility_recorder::{MarginalUtilityRecorderConfig, MarginalUtilityRecorderPolicy};

@@ -53,6 +53,7 @@ struct RoutingDecisionRecord {
 }
 
 /// CSV writer with buffering
+#[derive(Debug)] //CsvWriter 缺少 Debug，要么给它加，要么去掉外层 Debug
 struct CsvWriter {
     file_path: PathBuf,
     buffer: Vec<RoutingDecisionRecord>,

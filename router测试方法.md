@@ -11,6 +11,7 @@ apt install -y pkgconf
 apt install -y libssl-dev # 可以不用
 
 conda install -c conda-forge openssl #可能conda的openssl比apt跟不容易报错
+conda install -c conda-forge openssl libopenssl-static pkg-config
 export OPENSSL_DIR=$CONDA_PREFIX
 export OPENSSL_INCLUDE_DIR=$CONDA_PREFIX/include
 export OPENSSL_LIB_DIR=$CONDA_PREFIX/lib
