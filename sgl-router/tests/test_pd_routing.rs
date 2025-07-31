@@ -167,6 +167,7 @@ mod test_pd_routing {
                 metrics: None,
                 log_dir: None,
                 log_level: None,
+                request_tracking: None,
             };
 
             // Router creation will fail due to health checks, but config should be valid
