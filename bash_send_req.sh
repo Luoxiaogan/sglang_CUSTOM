@@ -8,14 +8,14 @@
 # =============================================================================
 
 # 基础配置
-NUM_REQUESTS=500               # 发送的请求数量
-REQUEST_RATE=50.0              # 请求速率（req/s），inf表示最大速率
+NUM_REQUESTS=100               # 发送的请求数量
+REQUEST_RATE=5.0              # 请求速率（req/s），inf表示最大速率
 DATASET="random"               # 数据集类型: random, sharegpt, custom
 
 # Random数据集参数
 INPUT_LEN=512                  # 平均输入长度（tokens）
-OUTPUT_LEN=128                 # 平均输出长度（tokens）
-RANGE_RATIO=0.5                # 长度变化范围（±50%）
+OUTPUT_LEN=512                 # 平均输出长度（tokens）
+RANGE_RATIO=0.25                # 长度变化范围（±50%）
 
 # 路由器配置
 ROUTER_URL="http://localhost:29001"    # 路由器地址

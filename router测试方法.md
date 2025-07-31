@@ -70,7 +70,7 @@ python -m sglang.launch_server \
 
 # 终端 2 - GPU 3
 python -m sglang.launch_server \
---model-path "/nas/models/Meta-Llama-3-8B-Instruct" \
+--model-path "/nas/models/Qwen2.5-7B-Instruct" \
 --host "0.0.0.0" \
 --port 60006 \
 --base-gpu-id 3 \

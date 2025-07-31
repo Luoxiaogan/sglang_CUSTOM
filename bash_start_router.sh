@@ -14,7 +14,7 @@ POLICY="marginal_utility_recorder"
 # Worker节点配置
 # 修改为你的实际worker地址和端口
 WORKERS=(
-    "http://localhost:30001"    # GPU 2
+    # "http://localhost:30001"    # GPU 2
     "http://localhost:30002"    # GPU 3
     "http://localhost:30003"    # GPU 3
 )
