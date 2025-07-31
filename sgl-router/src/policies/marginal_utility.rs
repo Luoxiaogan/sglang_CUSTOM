@@ -3,7 +3,7 @@
 //! This policy routes requests based on performance trends, selecting workers
 //! that show the best marginal improvement in throughput or latency.
 
-use super::{get_healthy_worker_indices, LoadBalancingPolicy, LoadBalancingPolicyV2, RequestMetrics};
+use super::{get_healthy_worker_indices, LoadBalancingPolicy, RequestMetrics};
 use crate::core::Worker;
 use std::collections::{HashMap, VecDeque};
 use std::sync::atomic::{AtomicUsize, Ordering};

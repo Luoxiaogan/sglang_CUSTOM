@@ -3,7 +3,7 @@
 use crate::policies::RequestMetrics;
 use serde_json::Value;
 use std::time::Instant;
-use tracing::{debug, warn};
+use tracing::debug;
 
 /// Parser for extracting metrics from server responses
 pub struct ResponseParser;
