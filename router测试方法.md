@@ -19,6 +19,7 @@ export PKG_CONFIG_PATH=$CONDA_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH
 pkg-config --version
 conda install -c conda-forge clang
 conda install -c conda-forge gcc_impl_linux=12.0
+conda install -c conda-forge gcc_linux-64 gxx_linux-64 gfortran_linux-64 # 还有一个原因出在system的gcc版本太低了, 并且后续可能还需要which gcc来测试使用
 conda install -c conda-forge rust
 conda update -c conda-forge rust
 pip install maturin

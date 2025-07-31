@@ -84,7 +84,7 @@ python start_router.py \
   --policy marginal_utility \
   --prometheus-port 29001 \
   --enable-request-tracking \
-  --log-level debug \
+  --log-level DEBUG \
   localhost:30001 localhost:30002 localhost:30003
 ```
 

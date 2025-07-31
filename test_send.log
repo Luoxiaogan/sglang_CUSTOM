@@ -1,0 +1,2054 @@
+==========================================
+SGLang Router 测试配置
+==========================================
+请求数量: 1000
+请求速率: 1000.0 req/s
+数据集: random
+/nas/ganluo/sglang/bash_send_req.sh: line 86: bc: command not found
+输入长度: 512 ±%
+/nas/ganluo/sglang/bash_send_req.sh: line 87: bc: command not found
+输出长度: 128 ±%
+路由器地址: http://localhost:29001
+==========================================
+
+执行命令:
+python /nas/ganluo/sglang/send_req.py --num-requests 1000 --request-rate 1000.0 --dataset random --router-url http://localhost:29001 --input-len 512 --output-len 128 --range-ratio 0.5
+
+/nas/ganluo/sglang/bash_send_req.sh: line 124: bc: command not found
+预计测试时间: 秒（不含处理时间）
+
+Generating 1000 random requests...
+✅ Router health check passed
+
+Sending 1000 requests at 1000.0 req/s...
+📤 Request 1/1000 sent at 0.00s
+📤 Request 2/1000 sent at 0.00s
+📤 Request 3/1000 sent at 0.00s
+📤 Request 4/1000 sent at 0.00s
+📤 Request 5/1000 sent at 0.01s
+📤 Request 6/1000 sent at 0.01s
+📤 Request 7/1000 sent at 0.01s
+📤 Request 8/1000 sent at 0.01s
+📤 Request 9/1000 sent at 0.01s
+📤 Request 10/1000 sent at 0.01s
+📤 Request 11/1000 sent at 0.01s
+📤 Request 12/1000 sent at 0.01s
+📤 Request 13/1000 sent at 0.02s
+📤 Request 14/1000 sent at 0.02s
+📤 Request 15/1000 sent at 0.02s
+📤 Request 16/1000 sent at 0.02s
+📤 Request 17/1000 sent at 0.02s
+📤 Request 18/1000 sent at 0.02s
+📤 Request 19/1000 sent at 0.02s
+📤 Request 20/1000 sent at 0.02s
+📤 Request 21/1000 sent at 0.03s
+📤 Request 22/1000 sent at 0.03s
+📤 Request 23/1000 sent at 0.03s
+📤 Request 24/1000 sent at 0.03s
+📤 Request 25/1000 sent at 0.03s
+📤 Request 26/1000 sent at 0.03s
+📤 Request 27/1000 sent at 0.04s
+📤 Request 28/1000 sent at 0.04s
+📤 Request 29/1000 sent at 0.04s
+📤 Request 30/1000 sent at 0.04s
+📤 Request 31/1000 sent at 0.04s
+📤 Request 32/1000 sent at 0.04s
+📤 Request 33/1000 sent at 0.04s
+📤 Request 34/1000 sent at 0.04s
+📤 Request 35/1000 sent at 0.04s
+📤 Request 36/1000 sent at 0.05s
+📤 Request 37/1000 sent at 0.05s
+📤 Request 38/1000 sent at 0.05s
+📤 Request 39/1000 sent at 0.05s
+📤 Request 40/1000 sent at 0.05s
+📤 Request 41/1000 sent at 0.05s
+📤 Request 42/1000 sent at 0.05s
+📤 Request 43/1000 sent at 0.05s
+📤 Request 44/1000 sent at 0.05s
+📤 Request 45/1000 sent at 0.06s
+📤 Request 46/1000 sent at 0.06s
+📤 Request 47/1000 sent at 0.06s
+📤 Request 48/1000 sent at 0.06s
+📤 Request 49/1000 sent at 0.06s
+📤 Request 50/1000 sent at 0.06s
+📤 Request 51/1000 sent at 0.06s
+📤 Request 52/1000 sent at 0.07s
+📤 Request 53/1000 sent at 0.07s
+📤 Request 54/1000 sent at 0.07s
+📤 Request 55/1000 sent at 0.07s
+📤 Request 56/1000 sent at 0.07s
+📤 Request 57/1000 sent at 0.08s
+📤 Request 58/1000 sent at 0.08s
+📤 Request 59/1000 sent at 0.08s
+📤 Request 60/1000 sent at 0.08s
+📤 Request 61/1000 sent at 0.08s
+📤 Request 62/1000 sent at 0.08s
+📤 Request 63/1000 sent at 0.09s
+📤 Request 64/1000 sent at 0.09s
+📤 Request 65/1000 sent at 0.09s
+📤 Request 66/1000 sent at 0.09s
+📤 Request 67/1000 sent at 0.09s
+📤 Request 68/1000 sent at 0.09s
+📤 Request 69/1000 sent at 0.09s
+📤 Request 70/1000 sent at 0.09s
+📤 Request 71/1000 sent at 0.10s
+📤 Request 72/1000 sent at 0.10s
+📤 Request 73/1000 sent at 0.10s
+📤 Request 74/1000 sent at 0.10s
+📤 Request 75/1000 sent at 0.10s
+📤 Request 76/1000 sent at 0.10s
+📤 Request 77/1000 sent at 0.10s
+📤 Request 78/1000 sent at 0.10s
+📤 Request 79/1000 sent at 0.11s
+📤 Request 80/1000 sent at 0.11s
+📤 Request 81/1000 sent at 0.11s
+📤 Request 82/1000 sent at 0.11s
+📤 Request 83/1000 sent at 0.11s
+📤 Request 84/1000 sent at 0.11s
+📤 Request 85/1000 sent at 0.12s
+📤 Request 86/1000 sent at 0.12s
+📤 Request 87/1000 sent at 0.12s
+📤 Request 88/1000 sent at 0.12s
+📤 Request 89/1000 sent at 0.12s
+📤 Request 90/1000 sent at 0.12s
+📤 Request 91/1000 sent at 0.12s
+📤 Request 92/1000 sent at 0.12s
+📤 Request 93/1000 sent at 0.13s
+📤 Request 94/1000 sent at 0.13s
+📤 Request 95/1000 sent at 0.13s
+📤 Request 96/1000 sent at 0.13s
+📤 Request 97/1000 sent at 0.13s
+📤 Request 98/1000 sent at 0.13s
+📤 Request 99/1000 sent at 0.13s
+📤 Request 100/1000 sent at 0.13s
+📤 Request 101/1000 sent at 0.13s
+📤 Request 102/1000 sent at 0.13s
+📤 Request 103/1000 sent at 0.13s
+📤 Request 104/1000 sent at 0.13s
+📤 Request 105/1000 sent at 0.14s
+📤 Request 106/1000 sent at 0.14s
+📤 Request 107/1000 sent at 0.14s
+📤 Request 108/1000 sent at 0.14s
+📤 Request 109/1000 sent at 0.14s
+📤 Request 110/1000 sent at 0.14s
+📤 Request 111/1000 sent at 0.14s
+📤 Request 112/1000 sent at 0.15s
+📤 Request 113/1000 sent at 0.15s
+📤 Request 114/1000 sent at 0.15s
+📤 Request 115/1000 sent at 0.15s
+📤 Request 116/1000 sent at 0.15s
+📤 Request 117/1000 sent at 0.15s
+📤 Request 118/1000 sent at 0.15s
+📤 Request 119/1000 sent at 0.15s
+📤 Request 120/1000 sent at 0.16s
+📤 Request 121/1000 sent at 0.16s
+📤 Request 122/1000 sent at 0.16s
+📤 Request 123/1000 sent at 0.16s
+📤 Request 124/1000 sent at 0.16s
+📤 Request 125/1000 sent at 0.16s
+📤 Request 126/1000 sent at 0.16s
+📤 Request 127/1000 sent at 0.16s
+📤 Request 128/1000 sent at 0.17s
+📤 Request 129/1000 sent at 0.17s
+📤 Request 130/1000 sent at 0.17s
+📤 Request 131/1000 sent at 0.17s
+📤 Request 132/1000 sent at 0.18s
+📤 Request 133/1000 sent at 0.18s
+📤 Request 134/1000 sent at 0.18s
+📤 Request 135/1000 sent at 0.18s
+📤 Request 136/1000 sent at 0.18s
+📤 Request 137/1000 sent at 0.18s
+📤 Request 138/1000 sent at 0.19s
+📤 Request 139/1000 sent at 0.19s
+📤 Request 140/1000 sent at 0.19s
+📤 Request 141/1000 sent at 0.19s
+📤 Request 142/1000 sent at 0.19s
+📤 Request 143/1000 sent at 0.19s
+📤 Request 144/1000 sent at 0.20s
+📤 Request 145/1000 sent at 0.20s
+📤 Request 146/1000 sent at 0.20s
+📤 Request 147/1000 sent at 0.21s
+📤 Request 148/1000 sent at 0.21s
+📤 Request 149/1000 sent at 0.21s
+📤 Request 150/1000 sent at 0.21s
+📤 Request 151/1000 sent at 0.21s
+📤 Request 152/1000 sent at 0.21s
+📤 Request 153/1000 sent at 0.21s
+📤 Request 154/1000 sent at 0.22s
+📤 Request 155/1000 sent at 0.22s
+📤 Request 156/1000 sent at 0.22s
+📤 Request 157/1000 sent at 0.22s
+📤 Request 158/1000 sent at 0.22s
+📤 Request 159/1000 sent at 0.22s
+📤 Request 160/1000 sent at 0.22s
+📤 Request 161/1000 sent at 0.23s
+📤 Request 162/1000 sent at 0.23s
+📤 Request 163/1000 sent at 0.23s
+📤 Request 164/1000 sent at 0.23s
+📤 Request 165/1000 sent at 0.23s
+📤 Request 166/1000 sent at 0.23s
+📤 Request 167/1000 sent at 0.24s
+📤 Request 168/1000 sent at 0.24s
+📤 Request 169/1000 sent at 0.24s
+📤 Request 170/1000 sent at 0.24s
+📤 Request 171/1000 sent at 0.24s
+📤 Request 172/1000 sent at 0.24s
+📤 Request 173/1000 sent at 0.24s
+📤 Request 174/1000 sent at 0.24s
+📤 Request 175/1000 sent at 0.25s
+📤 Request 176/1000 sent at 0.25s
+📤 Request 177/1000 sent at 0.25s
+📤 Request 178/1000 sent at 0.25s
+📤 Request 179/1000 sent at 0.25s
+📤 Request 180/1000 sent at 0.25s
+📤 Request 181/1000 sent at 0.26s
+📤 Request 182/1000 sent at 0.26s
+📤 Request 183/1000 sent at 0.26s
+📤 Request 184/1000 sent at 0.26s
+📤 Request 185/1000 sent at 0.26s
+📤 Request 186/1000 sent at 0.26s
+📤 Request 187/1000 sent at 0.27s
+📤 Request 188/1000 sent at 0.27s
+📤 Request 189/1000 sent at 0.27s
+📤 Request 190/1000 sent at 0.27s
+📤 Request 191/1000 sent at 0.27s
+📤 Request 192/1000 sent at 0.28s
+📤 Request 193/1000 sent at 0.28s
+📤 Request 194/1000 sent at 0.28s
+📤 Request 195/1000 sent at 0.28s
+📤 Request 196/1000 sent at 0.28s
+📤 Request 197/1000 sent at 0.28s
+📤 Request 198/1000 sent at 0.28s
+📤 Request 199/1000 sent at 0.28s
+📤 Request 200/1000 sent at 0.29s
+📤 Request 201/1000 sent at 0.29s
+📤 Request 202/1000 sent at 0.29s
+📤 Request 203/1000 sent at 0.29s
+📤 Request 204/1000 sent at 0.29s
+📤 Request 205/1000 sent at 0.30s
+📤 Request 206/1000 sent at 0.30s
+📤 Request 207/1000 sent at 0.30s
+📤 Request 208/1000 sent at 0.30s
+📤 Request 209/1000 sent at 0.30s
+📤 Request 210/1000 sent at 0.30s
+📤 Request 211/1000 sent at 0.30s
+📤 Request 212/1000 sent at 0.31s
+📤 Request 213/1000 sent at 0.31s
+📤 Request 214/1000 sent at 0.31s
+📤 Request 215/1000 sent at 0.31s
+📤 Request 216/1000 sent at 0.31s
+📤 Request 217/1000 sent at 0.32s
+📤 Request 218/1000 sent at 0.32s
+📤 Request 219/1000 sent at 0.32s
+📤 Request 220/1000 sent at 0.32s
+📤 Request 221/1000 sent at 0.33s
+📤 Request 222/1000 sent at 0.33s
+📤 Request 223/1000 sent at 0.33s
+📤 Request 224/1000 sent at 0.33s
+📤 Request 225/1000 sent at 0.33s
+📤 Request 226/1000 sent at 0.33s
+📤 Request 227/1000 sent at 0.33s
+📤 Request 228/1000 sent at 0.34s
+📤 Request 229/1000 sent at 0.34s
+📤 Request 230/1000 sent at 0.34s
+📤 Request 231/1000 sent at 0.34s
+📤 Request 232/1000 sent at 0.34s
+📤 Request 233/1000 sent at 0.34s
+📤 Request 234/1000 sent at 0.35s
+📤 Request 235/1000 sent at 0.35s
+📤 Request 236/1000 sent at 0.35s
+📤 Request 237/1000 sent at 0.35s
+📤 Request 238/1000 sent at 0.35s
+📤 Request 239/1000 sent at 0.35s
+📤 Request 240/1000 sent at 0.35s
+📤 Request 241/1000 sent at 0.35s
+📤 Request 242/1000 sent at 0.35s
+📤 Request 243/1000 sent at 0.36s
+📤 Request 244/1000 sent at 0.36s
+📤 Request 245/1000 sent at 0.36s
+📤 Request 246/1000 sent at 0.36s
+📤 Request 247/1000 sent at 0.36s
+📤 Request 248/1000 sent at 0.37s
+📤 Request 249/1000 sent at 0.37s
+📤 Request 250/1000 sent at 0.37s
+📤 Request 251/1000 sent at 0.37s
+📤 Request 252/1000 sent at 0.37s
+📤 Request 253/1000 sent at 0.37s
+📤 Request 254/1000 sent at 0.37s
+📤 Request 255/1000 sent at 0.38s
+📤 Request 256/1000 sent at 0.38s
+📤 Request 257/1000 sent at 0.38s
+📤 Request 258/1000 sent at 0.38s
+📤 Request 259/1000 sent at 0.38s
+📤 Request 260/1000 sent at 0.38s
+📤 Request 261/1000 sent at 0.38s
+📤 Request 262/1000 sent at 0.38s
+📤 Request 263/1000 sent at 0.38s
+📤 Request 264/1000 sent at 0.38s
+📤 Request 265/1000 sent at 0.39s
+📤 Request 266/1000 sent at 0.39s
+📤 Request 267/1000 sent at 0.39s
+📤 Request 268/1000 sent at 0.39s
+📤 Request 269/1000 sent at 0.39s
+📤 Request 270/1000 sent at 0.39s
+📤 Request 271/1000 sent at 0.39s
+📤 Request 272/1000 sent at 0.40s
+📤 Request 273/1000 sent at 0.40s
+📤 Request 274/1000 sent at 0.40s
+📤 Request 275/1000 sent at 0.40s
+📤 Request 276/1000 sent at 0.40s
+📤 Request 277/1000 sent at 0.40s
+📤 Request 278/1000 sent at 0.40s
+📤 Request 279/1000 sent at 0.41s
+📤 Request 280/1000 sent at 0.41s
+📤 Request 281/1000 sent at 0.41s
+📤 Request 282/1000 sent at 0.41s
+📤 Request 283/1000 sent at 0.41s
+📤 Request 284/1000 sent at 0.41s
+📤 Request 285/1000 sent at 0.42s
+📤 Request 286/1000 sent at 0.42s
+📤 Request 287/1000 sent at 0.43s
+📤 Request 288/1000 sent at 0.43s
+📤 Request 289/1000 sent at 0.43s
+📤 Request 290/1000 sent at 0.43s
+📤 Request 291/1000 sent at 0.43s
+📤 Request 292/1000 sent at 0.43s
+📤 Request 293/1000 sent at 0.44s
+📤 Request 294/1000 sent at 0.44s
+📤 Request 295/1000 sent at 0.44s
+📤 Request 296/1000 sent at 0.45s
+📤 Request 297/1000 sent at 0.45s
+📤 Request 298/1000 sent at 0.45s
+📤 Request 299/1000 sent at 0.45s
+📤 Request 300/1000 sent at 0.45s
+📤 Request 301/1000 sent at 0.45s
+📤 Request 302/1000 sent at 0.45s
+📤 Request 303/1000 sent at 0.46s
+📤 Request 304/1000 sent at 0.46s
+📤 Request 305/1000 sent at 0.46s
+📤 Request 306/1000 sent at 0.46s
+📤 Request 307/1000 sent at 0.46s
+📤 Request 308/1000 sent at 0.46s
+📤 Request 309/1000 sent at 0.46s
+📤 Request 310/1000 sent at 0.46s
+📤 Request 311/1000 sent at 0.47s
+📤 Request 312/1000 sent at 0.47s
+📤 Request 313/1000 sent at 0.47s
+📤 Request 314/1000 sent at 0.47s
+📤 Request 315/1000 sent at 0.48s
+📤 Request 316/1000 sent at 0.48s
+📤 Request 317/1000 sent at 0.48s
+📤 Request 318/1000 sent at 0.48s
+📤 Request 319/1000 sent at 0.48s
+📤 Request 320/1000 sent at 0.49s
+📤 Request 321/1000 sent at 0.49s
+📤 Request 322/1000 sent at 0.49s
+📤 Request 323/1000 sent at 0.49s
+📤 Request 324/1000 sent at 0.49s
+📤 Request 325/1000 sent at 0.50s
+📤 Request 326/1000 sent at 0.50s
+📤 Request 327/1000 sent at 0.50s
+📤 Request 328/1000 sent at 0.50s
+📤 Request 329/1000 sent at 0.50s
+📤 Request 330/1000 sent at 0.50s
+📤 Request 331/1000 sent at 0.50s
+📤 Request 332/1000 sent at 0.51s
+📤 Request 333/1000 sent at 0.51s
+📤 Request 334/1000 sent at 0.51s
+📤 Request 335/1000 sent at 0.51s
+📤 Request 336/1000 sent at 0.51s
+📤 Request 337/1000 sent at 0.51s
+📤 Request 338/1000 sent at 0.52s
+📤 Request 339/1000 sent at 0.52s
+📤 Request 340/1000 sent at 0.52s
+📤 Request 341/1000 sent at 0.52s
+📤 Request 342/1000 sent at 0.52s
+📤 Request 343/1000 sent at 0.53s
+📤 Request 344/1000 sent at 0.53s
+📤 Request 345/1000 sent at 0.53s
+📤 Request 346/1000 sent at 0.53s
+📤 Request 347/1000 sent at 0.53s
+📤 Request 348/1000 sent at 0.53s
+📤 Request 349/1000 sent at 0.53s
+📤 Request 350/1000 sent at 0.54s
+📤 Request 351/1000 sent at 0.54s
+📤 Request 352/1000 sent at 0.54s
+📤 Request 353/1000 sent at 0.54s
+📤 Request 354/1000 sent at 0.54s
+📤 Request 355/1000 sent at 0.54s
+📤 Request 356/1000 sent at 0.54s
+📤 Request 357/1000 sent at 0.54s
+📤 Request 358/1000 sent at 0.54s
+📤 Request 359/1000 sent at 0.55s
+📤 Request 360/1000 sent at 0.55s
+📤 Request 361/1000 sent at 0.55s
+📤 Request 362/1000 sent at 0.55s
+📤 Request 363/1000 sent at 0.55s
+📤 Request 364/1000 sent at 0.55s
+📤 Request 365/1000 sent at 0.55s
+📤 Request 366/1000 sent at 0.56s
+📤 Request 367/1000 sent at 0.56s
+📤 Request 368/1000 sent at 0.56s
+📤 Request 369/1000 sent at 0.56s
+📤 Request 370/1000 sent at 0.56s
+📤 Request 371/1000 sent at 0.56s
+📤 Request 372/1000 sent at 0.57s
+📤 Request 373/1000 sent at 0.57s
+📤 Request 374/1000 sent at 0.57s
+📤 Request 375/1000 sent at 0.57s
+📤 Request 376/1000 sent at 0.57s
+📤 Request 377/1000 sent at 0.57s
+📤 Request 378/1000 sent at 0.57s
+📤 Request 379/1000 sent at 0.58s
+📤 Request 380/1000 sent at 0.58s
+📤 Request 381/1000 sent at 0.58s
+📤 Request 382/1000 sent at 0.58s
+📤 Request 383/1000 sent at 0.58s
+📤 Request 384/1000 sent at 0.59s
+📤 Request 385/1000 sent at 0.59s
+📤 Request 386/1000 sent at 0.59s
+📤 Request 387/1000 sent at 0.60s
+📤 Request 388/1000 sent at 0.60s
+📤 Request 389/1000 sent at 0.60s
+📤 Request 390/1000 sent at 0.60s
+📤 Request 391/1000 sent at 0.61s
+📤 Request 392/1000 sent at 0.61s
+📤 Request 393/1000 sent at 0.61s
+📤 Request 394/1000 sent at 0.61s
+📤 Request 395/1000 sent at 0.61s
+📤 Request 396/1000 sent at 0.61s
+📤 Request 397/1000 sent at 0.61s
+📤 Request 398/1000 sent at 0.61s
+📤 Request 399/1000 sent at 0.62s
+📤 Request 400/1000 sent at 0.62s
+📤 Request 401/1000 sent at 0.62s
+📤 Request 402/1000 sent at 0.62s
+📤 Request 403/1000 sent at 0.62s
+📤 Request 404/1000 sent at 0.62s
+📤 Request 405/1000 sent at 0.63s
+📤 Request 406/1000 sent at 0.63s
+📤 Request 407/1000 sent at 0.63s
+📤 Request 408/1000 sent at 0.63s
+📤 Request 409/1000 sent at 0.63s
+📤 Request 410/1000 sent at 0.63s
+📤 Request 411/1000 sent at 0.64s
+📤 Request 412/1000 sent at 0.64s
+📤 Request 413/1000 sent at 0.64s
+📤 Request 414/1000 sent at 0.64s
+📤 Request 415/1000 sent at 0.64s
+📤 Request 416/1000 sent at 0.64s
+📤 Request 417/1000 sent at 0.64s
+📤 Request 418/1000 sent at 0.65s
+📤 Request 419/1000 sent at 0.65s
+📤 Request 420/1000 sent at 0.65s
+📤 Request 421/1000 sent at 0.66s
+📤 Request 422/1000 sent at 0.66s
+📤 Request 423/1000 sent at 0.66s
+📤 Request 424/1000 sent at 0.66s
+📤 Request 425/1000 sent at 0.66s
+📤 Request 426/1000 sent at 0.66s
+📤 Request 427/1000 sent at 0.66s
+📤 Request 428/1000 sent at 0.67s
+📤 Request 429/1000 sent at 0.67s
+📤 Request 430/1000 sent at 0.67s
+📤 Request 431/1000 sent at 0.67s
+📤 Request 432/1000 sent at 0.67s
+📤 Request 433/1000 sent at 0.67s
+📤 Request 434/1000 sent at 0.67s
+📤 Request 435/1000 sent at 0.68s
+📤 Request 436/1000 sent at 0.68s
+📤 Request 437/1000 sent at 0.68s
+📤 Request 438/1000 sent at 0.68s
+📤 Request 439/1000 sent at 0.69s
+📤 Request 440/1000 sent at 0.69s
+📤 Request 441/1000 sent at 0.69s
+📤 Request 442/1000 sent at 0.69s
+📤 Request 443/1000 sent at 0.69s
+📤 Request 444/1000 sent at 0.69s
+📤 Request 445/1000 sent at 0.69s
+📤 Request 446/1000 sent at 0.70s
+📤 Request 447/1000 sent at 0.70s
+📤 Request 448/1000 sent at 0.70s
+📤 Request 449/1000 sent at 0.70s
+📤 Request 450/1000 sent at 0.70s
+📤 Request 451/1000 sent at 0.70s
+📤 Request 452/1000 sent at 0.71s
+📤 Request 453/1000 sent at 0.71s
+📤 Request 454/1000 sent at 0.71s
+📤 Request 455/1000 sent at 0.71s
+📤 Request 456/1000 sent at 0.71s
+📤 Request 457/1000 sent at 0.71s
+📤 Request 458/1000 sent at 0.71s
+📤 Request 459/1000 sent at 0.71s
+📤 Request 460/1000 sent at 0.72s
+📤 Request 461/1000 sent at 0.72s
+📤 Request 462/1000 sent at 0.72s
+📤 Request 463/1000 sent at 0.72s
+📤 Request 464/1000 sent at 0.72s
+📤 Request 465/1000 sent at 0.72s
+📤 Request 466/1000 sent at 0.72s
+📤 Request 467/1000 sent at 0.73s
+📤 Request 468/1000 sent at 0.73s
+📤 Request 469/1000 sent at 0.73s
+📤 Request 470/1000 sent at 0.73s
+📤 Request 471/1000 sent at 0.73s
+📤 Request 472/1000 sent at 0.73s
+📤 Request 473/1000 sent at 0.73s
+📤 Request 474/1000 sent at 0.73s
+📤 Request 475/1000 sent at 0.73s
+📤 Request 476/1000 sent at 0.74s
+📤 Request 477/1000 sent at 0.74s
+📤 Request 478/1000 sent at 0.74s
+📤 Request 479/1000 sent at 0.74s
+📤 Request 480/1000 sent at 0.75s
+📤 Request 481/1000 sent at 0.75s
+📤 Request 482/1000 sent at 0.75s
+📤 Request 483/1000 sent at 0.75s
+📤 Request 484/1000 sent at 0.75s
+📤 Request 485/1000 sent at 0.76s
+📤 Request 486/1000 sent at 0.76s
+📤 Request 487/1000 sent at 0.76s
+📤 Request 488/1000 sent at 0.76s
+📤 Request 489/1000 sent at 0.76s
+📤 Request 490/1000 sent at 0.76s
+📤 Request 491/1000 sent at 0.76s
+📤 Request 492/1000 sent at 0.76s
+📤 Request 493/1000 sent at 0.77s
+📤 Request 494/1000 sent at 0.77s
+📤 Request 495/1000 sent at 0.77s
+📤 Request 496/1000 sent at 0.77s
+📤 Request 497/1000 sent at 0.78s
+📤 Request 498/1000 sent at 0.78s
+📤 Request 499/1000 sent at 0.78s
+📤 Request 500/1000 sent at 0.78s
+📤 Request 501/1000 sent at 0.78s
+📤 Request 502/1000 sent at 0.79s
+📤 Request 503/1000 sent at 0.79s
+📤 Request 504/1000 sent at 0.79s
+📤 Request 505/1000 sent at 0.79s
+📤 Request 506/1000 sent at 0.79s
+📤 Request 507/1000 sent at 0.80s
+📤 Request 508/1000 sent at 0.80s
+📤 Request 509/1000 sent at 0.80s
+📤 Request 510/1000 sent at 0.80s
+📤 Request 511/1000 sent at 0.80s
+📤 Request 512/1000 sent at 0.80s
+📤 Request 513/1000 sent at 0.80s
+📤 Request 514/1000 sent at 0.81s
+📤 Request 515/1000 sent at 0.81s
+📤 Request 516/1000 sent at 0.81s
+📤 Request 517/1000 sent at 0.81s
+📤 Request 518/1000 sent at 0.81s
+📤 Request 519/1000 sent at 0.81s
+📤 Request 520/1000 sent at 0.82s
+📤 Request 521/1000 sent at 0.82s
+📤 Request 522/1000 sent at 0.82s
+📤 Request 523/1000 sent at 0.82s
+📤 Request 524/1000 sent at 0.82s
+📤 Request 525/1000 sent at 0.82s
+📤 Request 526/1000 sent at 0.82s
+📤 Request 527/1000 sent at 0.82s
+📤 Request 528/1000 sent at 0.82s
+📤 Request 529/1000 sent at 0.83s
+📤 Request 530/1000 sent at 0.83s
+📤 Request 531/1000 sent at 0.83s
+📤 Request 532/1000 sent at 0.83s
+📤 Request 533/1000 sent at 0.83s
+📤 Request 534/1000 sent at 0.83s
+📤 Request 535/1000 sent at 0.83s
+📤 Request 536/1000 sent at 0.84s
+📤 Request 537/1000 sent at 0.84s
+📤 Request 538/1000 sent at 0.84s
+📤 Request 539/1000 sent at 0.84s
+📤 Request 540/1000 sent at 0.84s
+📤 Request 541/1000 sent at 0.84s
+📤 Request 542/1000 sent at 0.85s
+📤 Request 543/1000 sent at 0.85s
+📤 Request 544/1000 sent at 0.85s
+📤 Request 545/1000 sent at 0.85s
+📤 Request 546/1000 sent at 0.85s
+📤 Request 547/1000 sent at 0.85s
+📤 Request 548/1000 sent at 0.85s
+📤 Request 549/1000 sent at 0.86s
+📤 Request 550/1000 sent at 0.86s
+📤 Request 551/1000 sent at 0.86s
+📤 Request 552/1000 sent at 0.86s
+📤 Request 553/1000 sent at 0.86s
+📤 Request 554/1000 sent at 0.86s
+📤 Request 555/1000 sent at 0.86s
+📤 Request 556/1000 sent at 0.87s
+📤 Request 557/1000 sent at 0.87s
+📤 Request 558/1000 sent at 0.87s
+📤 Request 559/1000 sent at 0.87s
+📤 Request 560/1000 sent at 0.87s
+📤 Request 561/1000 sent at 0.88s
+📤 Request 562/1000 sent at 0.88s
+📤 Request 563/1000 sent at 0.88s
+📤 Request 564/1000 sent at 0.88s
+📤 Request 565/1000 sent at 0.88s
+📤 Request 566/1000 sent at 0.88s
+📤 Request 567/1000 sent at 0.88s
+📤 Request 568/1000 sent at 0.88s
+📤 Request 569/1000 sent at 0.89s
+📤 Request 570/1000 sent at 0.89s
+📤 Request 571/1000 sent at 0.89s
+📤 Request 572/1000 sent at 0.89s
+📤 Request 573/1000 sent at 0.89s
+📤 Request 574/1000 sent at 0.89s
+📤 Request 575/1000 sent at 0.89s
+📤 Request 576/1000 sent at 0.89s
+📤 Request 577/1000 sent at 0.89s
+📤 Request 578/1000 sent at 0.90s
+📤 Request 579/1000 sent at 0.90s
+📤 Request 580/1000 sent at 0.90s
+📤 Request 581/1000 sent at 0.90s
+📤 Request 582/1000 sent at 0.90s
+📤 Request 583/1000 sent at 0.90s
+📤 Request 584/1000 sent at 0.90s
+📤 Request 585/1000 sent at 0.91s
+📤 Request 586/1000 sent at 0.91s
+📤 Request 587/1000 sent at 0.91s
+📤 Request 588/1000 sent at 0.91s
+📤 Request 589/1000 sent at 0.91s
+📤 Request 590/1000 sent at 0.91s
+📤 Request 591/1000 sent at 0.92s
+📤 Request 592/1000 sent at 0.92s
+📤 Request 593/1000 sent at 0.92s
+📤 Request 594/1000 sent at 0.92s
+📤 Request 595/1000 sent at 0.92s
+📤 Request 596/1000 sent at 0.92s
+📤 Request 597/1000 sent at 0.93s
+📤 Request 598/1000 sent at 0.93s
+📤 Request 599/1000 sent at 0.93s
+📤 Request 600/1000 sent at 0.93s
+📤 Request 601/1000 sent at 0.93s
+📤 Request 602/1000 sent at 0.93s
+📤 Request 603/1000 sent at 0.93s
+📤 Request 604/1000 sent at 0.93s
+📤 Request 605/1000 sent at 0.94s
+📤 Request 606/1000 sent at 0.94s
+📤 Request 607/1000 sent at 0.94s
+📤 Request 608/1000 sent at 0.94s
+📤 Request 609/1000 sent at 0.94s
+📤 Request 610/1000 sent at 0.94s
+📤 Request 611/1000 sent at 0.94s
+📤 Request 612/1000 sent at 0.95s
+📤 Request 613/1000 sent at 0.95s
+📤 Request 614/1000 sent at 0.95s
+📤 Request 615/1000 sent at 0.95s
+📤 Request 616/1000 sent at 0.95s
+📤 Request 617/1000 sent at 0.95s
+📤 Request 618/1000 sent at 0.96s
+📤 Request 619/1000 sent at 0.96s
+📤 Request 620/1000 sent at 0.96s
+📤 Request 621/1000 sent at 0.96s
+📤 Request 622/1000 sent at 0.96s
+📤 Request 623/1000 sent at 0.96s
+📤 Request 624/1000 sent at 0.97s
+📤 Request 625/1000 sent at 0.97s
+📤 Request 626/1000 sent at 0.97s
+📤 Request 627/1000 sent at 0.97s
+📤 Request 628/1000 sent at 0.97s
+📤 Request 629/1000 sent at 0.98s
+📤 Request 630/1000 sent at 0.98s
+📤 Request 631/1000 sent at 0.98s
+📤 Request 632/1000 sent at 0.98s
+📤 Request 633/1000 sent at 0.98s
+📤 Request 634/1000 sent at 0.98s
+📤 Request 635/1000 sent at 0.98s
+📤 Request 636/1000 sent at 0.99s
+📤 Request 637/1000 sent at 0.99s
+📤 Request 638/1000 sent at 0.99s
+📤 Request 639/1000 sent at 0.99s
+📤 Request 640/1000 sent at 0.99s
+📤 Request 641/1000 sent at 0.99s
+📤 Request 642/1000 sent at 0.99s
+📤 Request 643/1000 sent at 1.00s
+📤 Request 644/1000 sent at 1.00s
+📤 Request 645/1000 sent at 1.00s
+📤 Request 646/1000 sent at 1.00s
+📤 Request 647/1000 sent at 1.00s
+📤 Request 648/1000 sent at 1.00s
+📤 Request 649/1000 sent at 1.00s
+📤 Request 650/1000 sent at 1.00s
+📤 Request 651/1000 sent at 1.00s
+📤 Request 652/1000 sent at 1.01s
+📤 Request 653/1000 sent at 1.01s
+📤 Request 654/1000 sent at 1.01s
+📤 Request 655/1000 sent at 1.01s
+📤 Request 656/1000 sent at 1.01s
+📤 Request 657/1000 sent at 1.01s
+📤 Request 658/1000 sent at 1.01s
+📤 Request 659/1000 sent at 1.02s
+📤 Request 660/1000 sent at 1.02s
+📤 Request 661/1000 sent at 1.02s
+📤 Request 662/1000 sent at 1.02s
+📤 Request 663/1000 sent at 1.03s
+📤 Request 664/1000 sent at 1.03s
+📤 Request 665/1000 sent at 1.05s
+📤 Request 666/1000 sent at 1.05s
+📤 Request 667/1000 sent at 1.05s
+📤 Request 668/1000 sent at 1.06s
+📤 Request 669/1000 sent at 1.06s
+📤 Request 670/1000 sent at 1.06s
+📤 Request 671/1000 sent at 1.06s
+📤 Request 672/1000 sent at 1.06s
+📤 Request 673/1000 sent at 1.06s
+📤 Request 674/1000 sent at 1.06s
+📤 Request 675/1000 sent at 1.07s
+📤 Request 676/1000 sent at 1.07s
+📤 Request 677/1000 sent at 1.07s
+📤 Request 678/1000 sent at 1.07s
+📤 Request 679/1000 sent at 1.08s
+📤 Request 680/1000 sent at 1.08s
+📤 Request 681/1000 sent at 1.08s
+📤 Request 682/1000 sent at 1.08s
+📤 Request 683/1000 sent at 1.08s
+📤 Request 684/1000 sent at 1.08s
+📤 Request 685/1000 sent at 1.08s
+📤 Request 686/1000 sent at 1.09s
+📤 Request 687/1000 sent at 1.09s
+📤 Request 688/1000 sent at 1.09s
+📤 Request 689/1000 sent at 1.09s
+📤 Request 690/1000 sent at 1.09s
+📤 Request 691/1000 sent at 1.09s
+📤 Request 692/1000 sent at 1.10s
+📤 Request 693/1000 sent at 1.10s
+📤 Request 694/1000 sent at 1.10s
+📤 Request 695/1000 sent at 1.10s
+📤 Request 696/1000 sent at 1.10s
+📤 Request 697/1000 sent at 1.10s
+📤 Request 698/1000 sent at 1.10s
+📤 Request 699/1000 sent at 1.10s
+📤 Request 700/1000 sent at 1.11s
+📤 Request 701/1000 sent at 1.11s
+📤 Request 702/1000 sent at 1.11s
+📤 Request 703/1000 sent at 1.11s
+📤 Request 704/1000 sent at 1.11s
+📤 Request 705/1000 sent at 1.11s
+📤 Request 706/1000 sent at 1.12s
+📤 Request 707/1000 sent at 1.12s
+📤 Request 708/1000 sent at 1.12s
+📤 Request 709/1000 sent at 1.12s
+📤 Request 710/1000 sent at 1.13s
+📤 Request 711/1000 sent at 1.13s
+📤 Request 712/1000 sent at 1.13s
+📤 Request 713/1000 sent at 1.13s
+📤 Request 714/1000 sent at 1.13s
+📤 Request 715/1000 sent at 1.14s
+📤 Request 716/1000 sent at 1.14s
+📤 Request 717/1000 sent at 1.14s
+📤 Request 718/1000 sent at 1.14s
+📤 Request 719/1000 sent at 1.15s
+📤 Request 720/1000 sent at 1.15s
+📤 Request 721/1000 sent at 1.15s
+📤 Request 722/1000 sent at 1.15s
+📤 Request 723/1000 sent at 1.15s
+📤 Request 724/1000 sent at 1.16s
+📤 Request 725/1000 sent at 1.16s
+📤 Request 726/1000 sent at 1.16s
+📤 Request 727/1000 sent at 1.16s
+📤 Request 728/1000 sent at 1.17s
+📤 Request 729/1000 sent at 1.17s
+📤 Request 730/1000 sent at 1.17s
+📤 Request 731/1000 sent at 1.17s
+📤 Request 732/1000 sent at 1.17s
+📤 Request 733/1000 sent at 1.17s
+📤 Request 734/1000 sent at 1.18s
+📤 Request 735/1000 sent at 1.18s
+📤 Request 736/1000 sent at 1.18s
+📤 Request 737/1000 sent at 1.18s
+📤 Request 738/1000 sent at 1.18s
+📤 Request 739/1000 sent at 1.18s
+📤 Request 740/1000 sent at 1.19s
+📤 Request 741/1000 sent at 1.19s
+📤 Request 742/1000 sent at 1.19s
+📤 Request 743/1000 sent at 1.19s
+📤 Request 744/1000 sent at 1.19s
+📤 Request 745/1000 sent at 1.19s
+📤 Request 746/1000 sent at 1.20s
+📤 Request 747/1000 sent at 1.20s
+📤 Request 748/1000 sent at 1.20s
+📤 Request 749/1000 sent at 1.20s
+📤 Request 750/1000 sent at 1.20s
+📤 Request 751/1000 sent at 1.20s
+📤 Request 752/1000 sent at 1.20s
+📤 Request 753/1000 sent at 1.20s
+📤 Request 754/1000 sent at 1.21s
+📤 Request 755/1000 sent at 1.21s
+📤 Request 756/1000 sent at 1.21s
+📤 Request 757/1000 sent at 1.21s
+📤 Request 758/1000 sent at 1.22s
+📤 Request 759/1000 sent at 1.22s
+📤 Request 760/1000 sent at 1.22s
+📤 Request 761/1000 sent at 1.22s
+📤 Request 762/1000 sent at 1.22s
+📤 Request 763/1000 sent at 1.22s
+📤 Request 764/1000 sent at 1.22s
+📤 Request 765/1000 sent at 1.22s
+📤 Request 766/1000 sent at 1.23s
+📤 Request 767/1000 sent at 1.23s
+📤 Request 768/1000 sent at 1.23s
+📤 Request 769/1000 sent at 1.23s
+📤 Request 770/1000 sent at 1.23s
+📤 Request 771/1000 sent at 1.23s
+📤 Request 772/1000 sent at 1.23s
+📤 Request 773/1000 sent at 1.24s
+📤 Request 774/1000 sent at 1.24s
+📤 Request 775/1000 sent at 1.24s
+📤 Request 776/1000 sent at 1.24s
+📤 Request 777/1000 sent at 1.24s
+📤 Request 778/1000 sent at 1.24s
+📤 Request 779/1000 sent at 1.24s
+📤 Request 780/1000 sent at 1.24s
+📤 Request 781/1000 sent at 1.24s
+📤 Request 782/1000 sent at 1.25s
+📤 Request 783/1000 sent at 1.25s
+📤 Request 784/1000 sent at 1.25s
+📤 Request 785/1000 sent at 1.25s
+📤 Request 786/1000 sent at 1.25s
+📤 Request 787/1000 sent at 1.25s
+📤 Request 788/1000 sent at 1.25s
+📤 Request 789/1000 sent at 1.26s
+📤 Request 790/1000 sent at 1.26s
+📤 Request 791/1000 sent at 1.26s
+📤 Request 792/1000 sent at 1.26s
+📤 Request 793/1000 sent at 1.26s
+📤 Request 794/1000 sent at 1.27s
+📤 Request 795/1000 sent at 1.27s
+📤 Request 796/1000 sent at 1.27s
+📤 Request 797/1000 sent at 1.27s
+📤 Request 798/1000 sent at 1.28s
+📤 Request 799/1000 sent at 1.28s
+📤 Request 800/1000 sent at 1.28s
+📤 Request 801/1000 sent at 1.28s
+📤 Request 802/1000 sent at 1.29s
+📤 Request 803/1000 sent at 1.29s
+📤 Request 804/1000 sent at 1.29s
+📤 Request 805/1000 sent at 1.30s
+📤 Request 806/1000 sent at 1.30s
+📤 Request 807/1000 sent at 1.30s
+📤 Request 808/1000 sent at 1.30s
+📤 Request 809/1000 sent at 1.30s
+📤 Request 810/1000 sent at 1.31s
+📤 Request 811/1000 sent at 1.31s
+📤 Request 812/1000 sent at 1.31s
+📤 Request 813/1000 sent at 1.31s
+📤 Request 814/1000 sent at 1.31s
+📤 Request 815/1000 sent at 1.31s
+📤 Request 816/1000 sent at 1.31s
+📤 Request 817/1000 sent at 1.32s
+📤 Request 818/1000 sent at 1.32s
+📤 Request 819/1000 sent at 1.32s
+📤 Request 820/1000 sent at 1.32s
+📤 Request 821/1000 sent at 1.32s
+📤 Request 822/1000 sent at 1.33s
+📤 Request 823/1000 sent at 1.33s
+📤 Request 824/1000 sent at 1.33s
+📤 Request 825/1000 sent at 1.33s
+✅ Request 43/1000 completed
+📤 Request 826/1000 sent at 1.33s
+📤 Request 827/1000 sent at 1.33s
+📤 Request 828/1000 sent at 1.33s
+📤 Request 829/1000 sent at 1.34s
+📤 Request 830/1000 sent at 1.34s
+📤 Request 831/1000 sent at 1.34s
+📤 Request 832/1000 sent at 1.34s
+✅ Request 90/1000 completed
+✅ Request 12/1000 completed
+📤 Request 833/1000 sent at 1.34s
+📤 Request 834/1000 sent at 1.34s
+📤 Request 835/1000 sent at 1.35s
+📤 Request 836/1000 sent at 1.35s
+📤 Request 837/1000 sent at 1.35s
+📤 Request 838/1000 sent at 1.35s
+📤 Request 839/1000 sent at 1.35s
+✅ Request 61/1000 completed
+📤 Request 840/1000 sent at 1.35s
+📤 Request 841/1000 sent at 1.35s
+📤 Request 842/1000 sent at 1.35s
+📤 Request 843/1000 sent at 1.36s
+📤 Request 844/1000 sent at 1.36s
+📤 Request 845/1000 sent at 1.36s
+📤 Request 846/1000 sent at 1.36s
+📤 Request 847/1000 sent at 1.36s
+📤 Request 848/1000 sent at 1.36s
+📤 Request 849/1000 sent at 1.36s
+📤 Request 850/1000 sent at 1.37s
+📤 Request 851/1000 sent at 1.37s
+📤 Request 852/1000 sent at 1.37s
+📤 Request 853/1000 sent at 1.37s
+📤 Request 854/1000 sent at 1.37s
+📤 Request 855/1000 sent at 1.37s
+📤 Request 856/1000 sent at 1.38s
+📤 Request 857/1000 sent at 1.38s
+📤 Request 858/1000 sent at 1.38s
+📤 Request 859/1000 sent at 1.38s
+📤 Request 860/1000 sent at 1.38s
+📤 Request 861/1000 sent at 1.38s
+📤 Request 862/1000 sent at 1.39s
+📤 Request 863/1000 sent at 1.39s
+📤 Request 864/1000 sent at 1.39s
+📤 Request 865/1000 sent at 1.39s
+📤 Request 866/1000 sent at 1.39s
+📤 Request 867/1000 sent at 1.39s
+📤 Request 868/1000 sent at 1.40s
+📤 Request 869/1000 sent at 1.40s
+📤 Request 870/1000 sent at 1.40s
+📤 Request 871/1000 sent at 1.40s
+📤 Request 872/1000 sent at 1.40s
+📤 Request 873/1000 sent at 1.41s
+📤 Request 874/1000 sent at 1.41s
+📤 Request 875/1000 sent at 1.41s
+📤 Request 876/1000 sent at 1.41s
+📤 Request 877/1000 sent at 1.41s
+📤 Request 878/1000 sent at 1.41s
+📤 Request 879/1000 sent at 1.41s
+📤 Request 880/1000 sent at 1.41s
+📤 Request 881/1000 sent at 1.41s
+✅ Request 15/1000 completed
+📤 Request 882/1000 sent at 1.42s
+📤 Request 883/1000 sent at 1.42s
+📤 Request 884/1000 sent at 1.42s
+📤 Request 885/1000 sent at 1.42s
+✅ Request 77/1000 completed
+📤 Request 886/1000 sent at 1.42s
+📤 Request 887/1000 sent at 1.42s
+📤 Request 888/1000 sent at 1.42s
+📤 Request 889/1000 sent at 1.43s
+📤 Request 890/1000 sent at 1.43s
+📤 Request 891/1000 sent at 1.43s
+📤 Request 892/1000 sent at 1.43s
+📤 Request 893/1000 sent at 1.43s
+✅ Request 48/1000 completed
+📤 Request 894/1000 sent at 1.43s
+📤 Request 895/1000 sent at 1.43s
+📤 Request 896/1000 sent at 1.43s
+📤 Request 897/1000 sent at 1.43s
+📤 Request 898/1000 sent at 1.44s
+📤 Request 899/1000 sent at 1.44s
+📤 Request 900/1000 sent at 1.44s
+📤 Request 901/1000 sent at 1.44s
+📤 Request 902/1000 sent at 1.44s
+📤 Request 903/1000 sent at 1.44s
+📤 Request 904/1000 sent at 1.45s
+📤 Request 905/1000 sent at 1.45s
+📤 Request 906/1000 sent at 1.45s
+📤 Request 907/1000 sent at 1.45s
+📤 Request 908/1000 sent at 1.45s
+📤 Request 909/1000 sent at 1.45s
+📤 Request 910/1000 sent at 1.45s
+📤 Request 911/1000 sent at 1.45s
+📤 Request 912/1000 sent at 1.46s
+📤 Request 913/1000 sent at 1.46s
+📤 Request 914/1000 sent at 1.46s
+📤 Request 915/1000 sent at 1.46s
+📤 Request 916/1000 sent at 1.46s
+📤 Request 917/1000 sent at 1.46s
+📤 Request 918/1000 sent at 1.47s
+📤 Request 919/1000 sent at 1.47s
+📤 Request 920/1000 sent at 1.47s
+📤 Request 921/1000 sent at 1.47s
+📤 Request 922/1000 sent at 1.47s
+📤 Request 923/1000 sent at 1.47s
+📤 Request 924/1000 sent at 1.48s
+✅ Request 68/1000 completed
+✅ Request 30/1000 completed
+📤 Request 925/1000 sent at 1.48s
+📤 Request 926/1000 sent at 1.48s
+📤 Request 927/1000 sent at 1.48s
+📤 Request 928/1000 sent at 1.49s
+📤 Request 929/1000 sent at 1.49s
+📤 Request 930/1000 sent at 1.49s
+📤 Request 931/1000 sent at 1.49s
+📤 Request 932/1000 sent at 1.49s
+📤 Request 933/1000 sent at 1.49s
+📤 Request 934/1000 sent at 1.50s
+📤 Request 935/1000 sent at 1.50s
+📤 Request 936/1000 sent at 1.50s
+📤 Request 937/1000 sent at 1.51s
+📤 Request 938/1000 sent at 1.51s
+📤 Request 939/1000 sent at 1.51s
+📤 Request 940/1000 sent at 1.51s
+📤 Request 941/1000 sent at 1.51s
+📤 Request 942/1000 sent at 1.51s
+📤 Request 943/1000 sent at 1.51s
+📤 Request 944/1000 sent at 1.51s
+📤 Request 945/1000 sent at 1.51s
+📤 Request 946/1000 sent at 1.52s
+📤 Request 947/1000 sent at 1.52s
+📤 Request 948/1000 sent at 1.52s
+📤 Request 949/1000 sent at 1.52s
+📤 Request 950/1000 sent at 1.52s
+📤 Request 951/1000 sent at 1.52s
+📤 Request 952/1000 sent at 1.52s
+✅ Request 13/1000 completed
+📤 Request 953/1000 sent at 1.53s
+📤 Request 954/1000 sent at 1.54s
+📤 Request 955/1000 sent at 1.54s
+📤 Request 956/1000 sent at 1.54s
+📤 Request 957/1000 sent at 1.54s
+📤 Request 958/1000 sent at 1.54s
+📤 Request 959/1000 sent at 1.54s
+📤 Request 960/1000 sent at 1.55s
+✅ Request 7/1000 completed
+📤 Request 961/1000 sent at 1.55s
+📤 Request 962/1000 sent at 1.55s
+📤 Request 963/1000 sent at 1.55s
+📤 Request 964/1000 sent at 1.55s
+📤 Request 965/1000 sent at 1.55s
+📤 Request 966/1000 sent at 1.56s
+📤 Request 967/1000 sent at 1.56s
+📤 Request 968/1000 sent at 1.56s
+📤 Request 969/1000 sent at 1.56s
+📤 Request 970/1000 sent at 1.56s
+📤 Request 971/1000 sent at 1.57s
+📤 Request 972/1000 sent at 1.57s
+📤 Request 973/1000 sent at 1.57s
+📤 Request 974/1000 sent at 1.57s
+✅ Request 47/1000 completed
+📤 Request 975/1000 sent at 1.57s
+✅ Request 95/1000 completed
+📤 Request 976/1000 sent at 1.57s
+📤 Request 977/1000 sent at 1.57s
+📤 Request 978/1000 sent at 1.57s
+📤 Request 979/1000 sent at 1.57s
+📤 Request 980/1000 sent at 1.57s
+📤 Request 981/1000 sent at 1.58s
+📤 Request 982/1000 sent at 1.58s
+📤 Request 983/1000 sent at 1.58s
+📤 Request 984/1000 sent at 1.58s
+📤 Request 985/1000 sent at 1.58s
+📤 Request 986/1000 sent at 1.58s
+📤 Request 987/1000 sent at 1.58s
+📤 Request 988/1000 sent at 1.59s
+📤 Request 989/1000 sent at 1.59s
+📤 Request 990/1000 sent at 1.59s
+📤 Request 991/1000 sent at 1.59s
+📤 Request 992/1000 sent at 1.59s
+📤 Request 993/1000 sent at 1.59s
+📤 Request 994/1000 sent at 1.59s
+📤 Request 995/1000 sent at 1.60s
+📤 Request 996/1000 sent at 1.60s
+📤 Request 997/1000 sent at 1.60s
+📤 Request 998/1000 sent at 1.60s
+📤 Request 999/1000 sent at 1.60s
+📤 Request 1000/1000 sent at 1.61s
+
+Waiting for all requests to complete...
+✅ Request 66/1000 completed
+✅ Request 97/1000 completed
+✅ Request 54/1000 completed
+✅ Request 16/1000 completed
+✅ Request 18/1000 completed
+✅ Request 69/1000 completed
+✅ Request 24/1000 completed
+✅ Request 89/1000 completed
+✅ Request 37/1000 completed
+✅ Request 35/1000 completed
+✅ Request 83/1000 completed
+✅ Request 28/1000 completed
+✅ Request 38/1000 completed
+✅ Request 79/1000 completed
+✅ Request 81/1000 completed
+✅ Request 6/1000 completed
+✅ Request 22/1000 completed
+✅ Request 72/1000 completed
+✅ Request 65/1000 completed
+✅ Request 26/1000 completed
+✅ Request 42/1000 completed
+✅ Request 98/1000 completed
+✅ Request 5/1000 completed
+✅ Request 88/1000 completed
+✅ Request 62/1000 completed
+✅ Request 87/1000 completed
+✅ Request 57/1000 completed
+✅ Request 93/1000 completed
+✅ Request 64/1000 completed
+✅ Request 10/1000 completed
+✅ Request 33/1000 completed
+✅ Request 55/1000 completed
+✅ Request 21/1000 completed
+✅ Request 27/1000 completed
+✅ Request 67/1000 completed
+✅ Request 53/1000 completed
+✅ Request 59/1000 completed
+✅ Request 34/1000 completed
+✅ Request 82/1000 completed
+✅ Request 56/1000 completed
+✅ Request 25/1000 completed
+✅ Request 1/1000 completed
+✅ Request 4/1000 completed
+✅ Request 76/1000 completed
+✅ Request 99/1000 completed
+✅ Request 41/1000 completed
+✅ Request 46/1000 completed
+✅ Request 80/1000 completed
+✅ Request 114/1000 completed
+✅ Request 44/1000 completed
+✅ Request 19/1000 completed
+✅ Request 58/1000 completed
+✅ Request 85/1000 completed
+✅ Request 40/1000 completed
+✅ Request 101/1000 completed
+✅ Request 29/1000 completed
+✅ Request 70/1000 completed
+✅ Request 9/1000 completed
+✅ Request 3/1000 completed
+✅ Request 50/1000 completed
+✅ Request 118/1000 completed
+✅ Request 14/1000 completed
+✅ Request 120/1000 completed
+✅ Request 102/1000 completed
+✅ Request 2/1000 completed
+✅ Request 104/1000 completed
+✅ Request 52/1000 completed
+✅ Request 49/1000 completed
+✅ Request 39/1000 completed
+✅ Request 124/1000 completed
+✅ Request 17/1000 completed
+✅ Request 60/1000 completed
+✅ Request 92/1000 completed
+✅ Request 8/1000 completed
+✅ Request 86/1000 completed
+✅ Request 84/1000 completed
+✅ Request 51/1000 completed
+✅ Request 36/1000 completed
+✅ Request 73/1000 completed
+✅ Request 45/1000 completed
+✅ Request 107/1000 completed
+✅ Request 75/1000 completed
+✅ Request 94/1000 completed
+✅ Request 136/1000 completed
+✅ Request 96/1000 completed
+✅ Request 63/1000 completed
+✅ Request 32/1000 completed
+✅ Request 71/1000 completed
+✅ Request 100/1000 completed
+✅ Request 23/1000 completed
+✅ Request 78/1000 completed
+✅ Request 11/1000 completed
+✅ Request 150/1000 completed
+✅ Request 91/1000 completed
+✅ Request 130/1000 completed
+✅ Request 20/1000 completed
+✅ Request 31/1000 completed
+✅ Request 74/1000 completed
+✅ Request 129/1000 completed
+✅ Request 134/1000 completed
+✅ Request 123/1000 completed
+✅ Request 133/1000 completed
+✅ Request 151/1000 completed
+✅ Request 126/1000 completed
+✅ Request 155/1000 completed
+✅ Request 119/1000 completed
+✅ Request 125/1000 completed
+✅ Request 132/1000 completed
+✅ Request 141/1000 completed
+✅ Request 128/1000 completed
+✅ Request 109/1000 completed
+✅ Request 110/1000 completed
+✅ Request 159/1000 completed
+✅ Request 165/1000 completed
+✅ Request 148/1000 completed
+✅ Request 166/1000 completed
+✅ Request 135/1000 completed
+✅ Request 112/1000 completed
+✅ Request 171/1000 completed
+✅ Request 168/1000 completed
+✅ Request 103/1000 completed
+✅ Request 137/1000 completed
+✅ Request 121/1000 completed
+✅ Request 174/1000 completed
+✅ Request 182/1000 completed
+✅ Request 175/1000 completed
+✅ Request 154/1000 completed
+✅ Request 178/1000 completed
+✅ Request 108/1000 completed
+✅ Request 179/1000 completed
+✅ Request 173/1000 completed
+✅ Request 194/1000 completed
+✅ Request 169/1000 completed
+✅ Request 199/1000 completed
+✅ Request 164/1000 completed
+✅ Request 142/1000 completed
+✅ Request 111/1000 completed
+✅ Request 143/1000 completed
+✅ Request 113/1000 completed
+✅ Request 156/1000 completed
+✅ Request 127/1000 completed
+✅ Request 180/1000 completed
+✅ Request 116/1000 completed
+✅ Request 146/1000 completed
+✅ Request 138/1000 completed
+✅ Request 106/1000 completed
+✅ Request 198/1000 completed
+✅ Request 187/1000 completed
+✅ Request 122/1000 completed
+✅ Request 188/1000 completed
+✅ Request 190/1000 completed
+✅ Request 105/1000 completed
+✅ Request 181/1000 completed
+✅ Request 117/1000 completed
+✅ Request 115/1000 completed
+✅ Request 145/1000 completed
+✅ Request 153/1000 completed
+✅ Request 158/1000 completed
+✅ Request 131/1000 completed
+✅ Request 162/1000 completed
+✅ Request 139/1000 completed
+✅ Request 147/1000 completed
+✅ Request 192/1000 completed
+✅ Request 224/1000 completed
+✅ Request 212/1000 completed
+✅ Request 167/1000 completed
+✅ Request 196/1000 completed
+✅ Request 140/1000 completed
+✅ Request 230/1000 completed
+✅ Request 231/1000 completed
+✅ Request 202/1000 completed
+✅ Request 176/1000 completed
+✅ Request 177/1000 completed
+✅ Request 201/1000 completed
+✅ Request 200/1000 completed
+✅ Request 234/1000 completed
+✅ Request 229/1000 completed
+✅ Request 172/1000 completed
+✅ Request 149/1000 completed
+✅ Request 235/1000 completed
+✅ Request 152/1000 completed
+✅ Request 144/1000 completed
+✅ Request 220/1000 completed
+✅ Request 208/1000 completed
+✅ Request 238/1000 completed
+✅ Request 183/1000 completed
+✅ Request 227/1000 completed
+✅ Request 233/1000 completed
+✅ Request 160/1000 completed
+✅ Request 216/1000 completed
+✅ Request 221/1000 completed
+✅ Request 170/1000 completed
+✅ Request 210/1000 completed
+✅ Request 243/1000 completed
+✅ Request 186/1000 completed
+✅ Request 218/1000 completed
+✅ Request 228/1000 completed
+✅ Request 157/1000 completed
+✅ Request 261/1000 completed
+✅ Request 215/1000 completed
+✅ Request 223/1000 completed
+✅ Request 161/1000 completed
+✅ Request 252/1000 completed
+✅ Request 239/1000 completed
+✅ Request 241/1000 completed
+✅ Request 163/1000 completed
+✅ Request 197/1000 completed
+✅ Request 232/1000 completed
+✅ Request 184/1000 completed
+✅ Request 226/1000 completed
+✅ Request 204/1000 completed
+✅ Request 257/1000 completed
+✅ Request 209/1000 completed
+✅ Request 205/1000 completed
+✅ Request 203/1000 completed
+✅ Request 213/1000 completed
+✅ Request 195/1000 completed
+✅ Request 254/1000 completed
+✅ Request 260/1000 completed
+✅ Request 256/1000 completed
+✅ Request 258/1000 completed
+✅ Request 211/1000 completed
+✅ Request 189/1000 completed
+✅ Request 191/1000 completed
+✅ Request 301/1000 completed
+✅ Request 207/1000 completed
+✅ Request 289/1000 completed
+✅ Request 222/1000 completed
+✅ Request 259/1000 completed
+✅ Request 295/1000 completed
+✅ Request 236/1000 completed
+✅ Request 225/1000 completed
+✅ Request 294/1000 completed
+✅ Request 219/1000 completed
+✅ Request 273/1000 completed
+✅ Request 244/1000 completed
+✅ Request 193/1000 completed
+✅ Request 185/1000 completed
+✅ Request 255/1000 completed
+✅ Request 217/1000 completed
+✅ Request 292/1000 completed
+✅ Request 246/1000 completed
+✅ Request 264/1000 completed
+✅ Request 281/1000 completed
+✅ Request 293/1000 completed
+✅ Request 288/1000 completed
+✅ Request 245/1000 completed
+✅ Request 251/1000 completed
+✅ Request 237/1000 completed
+✅ Request 285/1000 completed
+✅ Request 290/1000 completed
+✅ Request 299/1000 completed
+✅ Request 291/1000 completed
+✅ Request 282/1000 completed
+✅ Request 253/1000 completed
+✅ Request 262/1000 completed
+✅ Request 330/1000 completed
+✅ Request 279/1000 completed
+✅ Request 283/1000 completed
+✅ Request 250/1000 completed
+✅ Request 310/1000 completed
+✅ Request 248/1000 completed
+✅ Request 206/1000 completed
+✅ Request 303/1000 completed
+✅ Request 214/1000 completed
+✅ Request 327/1000 completed
+✅ Request 286/1000 completed
+✅ Request 340/1000 completed
+✅ Request 269/1000 completed
+✅ Request 240/1000 completed
+✅ Request 274/1000 completed
+✅ Request 272/1000 completed
+✅ Request 322/1000 completed
+✅ Request 266/1000 completed
+✅ Request 339/1000 completed
+✅ Request 296/1000 completed
+✅ Request 318/1000 completed
+✅ Request 263/1000 completed
+✅ Request 302/1000 completed
+✅ Request 331/1000 completed
+✅ Request 242/1000 completed
+✅ Request 336/1000 completed
+✅ Request 344/1000 completed
+✅ Request 284/1000 completed
+✅ Request 268/1000 completed
+✅ Request 305/1000 completed
+✅ Request 247/1000 completed
+✅ Request 326/1000 completed
+✅ Request 308/1000 completed
+✅ Request 363/1000 completed
+✅ Request 316/1000 completed
+✅ Request 381/1000 completed
+✅ Request 277/1000 completed
+✅ Request 249/1000 completed
+✅ Request 271/1000 completed
+✅ Request 343/1000 completed
+✅ Request 341/1000 completed
+✅ Request 300/1000 completed
+✅ Request 348/1000 completed
+✅ Request 352/1000 completed
+✅ Request 323/1000 completed
+✅ Request 373/1000 completed
+✅ Request 375/1000 completed
+✅ Request 304/1000 completed
+✅ Request 368/1000 completed
+✅ Request 380/1000 completed
+✅ Request 382/1000 completed
+✅ Request 265/1000 completed
+✅ Request 386/1000 completed
+✅ Request 365/1000 completed
+✅ Request 307/1000 completed
+✅ Request 267/1000 completed
+✅ Request 355/1000 completed
+✅ Request 337/1000 completed
+✅ Request 287/1000 completed
+✅ Request 312/1000 completed
+✅ Request 297/1000 completed
+✅ Request 333/1000 completed
+✅ Request 275/1000 completed
+✅ Request 280/1000 completed
+✅ Request 351/1000 completed
+✅ Request 335/1000 completed
+✅ Request 270/1000 completed
+✅ Request 354/1000 completed
+✅ Request 345/1000 completed
+✅ Request 338/1000 completed
+✅ Request 309/1000 completed
+✅ Request 358/1000 completed
+✅ Request 276/1000 completed
+✅ Request 317/1000 completed
+✅ Request 387/1000 completed
+✅ Request 320/1000 completed
+✅ Request 346/1000 completed
+✅ Request 342/1000 completed
+✅ Request 278/1000 completed
+✅ Request 374/1000 completed
+✅ Request 366/1000 completed
+✅ Request 314/1000 completed
+✅ Request 334/1000 completed
+✅ Request 400/1000 completed
+✅ Request 328/1000 completed
+✅ Request 306/1000 completed
+✅ Request 298/1000 completed
+✅ Request 367/1000 completed
+✅ Request 319/1000 completed
+✅ Request 315/1000 completed
+✅ Request 325/1000 completed
+✅ Request 311/1000 completed
+✅ Request 403/1000 completed
+✅ Request 332/1000 completed
+✅ Request 364/1000 completed
+✅ Request 324/1000 completed
+✅ Request 398/1000 completed
+✅ Request 402/1000 completed
+✅ Request 372/1000 completed
+✅ Request 313/1000 completed
+✅ Request 401/1000 completed
+✅ Request 370/1000 completed
+✅ Request 329/1000 completed
+✅ Request 353/1000 completed
+✅ Request 359/1000 completed
+✅ Request 383/1000 completed
+✅ Request 385/1000 completed
+✅ Request 390/1000 completed
+✅ Request 321/1000 completed
+✅ Request 350/1000 completed
+✅ Request 430/1000 completed
+✅ Request 347/1000 completed
+✅ Request 362/1000 completed
+✅ Request 395/1000 completed
+✅ Request 426/1000 completed
+✅ Request 420/1000 completed
+✅ Request 424/1000 completed
+✅ Request 377/1000 completed
+✅ Request 413/1000 completed
+✅ Request 349/1000 completed
+✅ Request 421/1000 completed
+✅ Request 417/1000 completed
+✅ Request 406/1000 completed
+✅ Request 357/1000 completed
+✅ Request 405/1000 completed
+✅ Request 416/1000 completed
+✅ Request 360/1000 completed
+✅ Request 408/1000 completed
+✅ Request 376/1000 completed
+✅ Request 399/1000 completed
+✅ Request 423/1000 completed
+✅ Request 432/1000 completed
+✅ Request 388/1000 completed
+✅ Request 422/1000 completed
+✅ Request 369/1000 completed
+✅ Request 435/1000 completed
+✅ Request 451/1000 completed
+✅ Request 384/1000 completed
+✅ Request 371/1000 completed
+✅ Request 356/1000 completed
+✅ Request 437/1000 completed
+✅ Request 412/1000 completed
+✅ Request 445/1000 completed
+✅ Request 389/1000 completed
+✅ Request 449/1000 completed
+✅ Request 378/1000 completed
+✅ Request 361/1000 completed
+✅ Request 404/1000 completed
+✅ Request 394/1000 completed
+✅ Request 442/1000 completed
+✅ Request 472/1000 completed
+✅ Request 414/1000 completed
+✅ Request 468/1000 completed
+✅ Request 476/1000 completed
+✅ Request 477/1000 completed
+✅ Request 471/1000 completed
+✅ Request 397/1000 completed
+✅ Request 415/1000 completed
+✅ Request 440/1000 completed
+✅ Request 467/1000 completed
+✅ Request 439/1000 completed
+✅ Request 474/1000 completed
+✅ Request 411/1000 completed
+✅ Request 409/1000 completed
+✅ Request 436/1000 completed
+✅ Request 447/1000 completed
+✅ Request 470/1000 completed
+✅ Request 475/1000 completed
+✅ Request 478/1000 completed
+✅ Request 443/1000 completed
+✅ Request 379/1000 completed
+✅ Request 407/1000 completed
+✅ Request 392/1000 completed
+✅ Request 452/1000 completed
+✅ Request 469/1000 completed
+✅ Request 393/1000 completed
+✅ Request 481/1000 completed
+✅ Request 454/1000 completed
+✅ Request 431/1000 completed
+✅ Request 463/1000 completed
+✅ Request 396/1000 completed
+✅ Request 410/1000 completed
+✅ Request 464/1000 completed
+✅ Request 441/1000 completed
+✅ Request 391/1000 completed
+✅ Request 483/1000 completed
+✅ Request 456/1000 completed
+✅ Request 461/1000 completed
+✅ Request 446/1000 completed
+✅ Request 465/1000 completed
+✅ Request 429/1000 completed
+✅ Request 455/1000 completed
+✅ Request 480/1000 completed
+✅ Request 498/1000 completed
+✅ Request 489/1000 completed
+✅ Request 503/1000 completed
+✅ Request 458/1000 completed
+✅ Request 418/1000 completed
+✅ Request 466/1000 completed
+✅ Request 473/1000 completed
+✅ Request 510/1000 completed
+✅ Request 523/1000 completed
+✅ Request 457/1000 completed
+✅ Request 486/1000 completed
+✅ Request 425/1000 completed
+✅ Request 505/1000 completed
+✅ Request 434/1000 completed
+✅ Request 493/1000 completed
+✅ Request 419/1000 completed
+✅ Request 497/1000 completed
+✅ Request 428/1000 completed
+✅ Request 479/1000 completed
+✅ Request 495/1000 completed
+✅ Request 444/1000 completed
+✅ Request 460/1000 completed
+✅ Request 427/1000 completed
+✅ Request 459/1000 completed
+✅ Request 502/1000 completed
+✅ Request 453/1000 completed
+✅ Request 433/1000 completed
+✅ Request 490/1000 completed
+✅ Request 450/1000 completed
+✅ Request 512/1000 completed
+✅ Request 514/1000 completed
+✅ Request 494/1000 completed
+✅ Request 535/1000 completed
+✅ Request 559/1000 completed
+✅ Request 491/1000 completed
+✅ Request 438/1000 completed
+✅ Request 557/1000 completed
+✅ Request 529/1000 completed
+✅ Request 548/1000 completed
+✅ Request 484/1000 completed
+✅ Request 448/1000 completed
+✅ Request 521/1000 completed
+✅ Request 554/1000 completed
+✅ Request 530/1000 completed
+✅ Request 544/1000 completed
+✅ Request 500/1000 completed
+✅ Request 462/1000 completed
+✅ Request 509/1000 completed
+✅ Request 496/1000 completed
+✅ Request 492/1000 completed
+✅ Request 488/1000 completed
+✅ Request 528/1000 completed
+✅ Request 546/1000 completed
+✅ Request 537/1000 completed
+✅ Request 538/1000 completed
+✅ Request 515/1000 completed
+✅ Request 549/1000 completed
+✅ Request 545/1000 completed
+✅ Request 569/1000 completed
+✅ Request 542/1000 completed
+✅ Request 543/1000 completed
+✅ Request 516/1000 completed
+✅ Request 485/1000 completed
+✅ Request 572/1000 completed
+✅ Request 501/1000 completed
+✅ Request 534/1000 completed
+✅ Request 552/1000 completed
+✅ Request 499/1000 completed
+✅ Request 567/1000 completed
+✅ Request 519/1000 completed
+✅ Request 589/1000 completed
+✅ Request 541/1000 completed
+✅ Request 522/1000 completed
+✅ Request 482/1000 completed
+✅ Request 518/1000 completed
+✅ Request 556/1000 completed
+✅ Request 487/1000 completed
+✅ Request 558/1000 completed
+✅ Request 547/1000 completed
+✅ Request 508/1000 completed
+✅ Request 553/1000 completed
+✅ Request 517/1000 completed
+✅ Request 506/1000 completed
+✅ Request 504/1000 completed
+✅ Request 526/1000 completed
+✅ Request 531/1000 completed
+✅ Request 561/1000 completed
+✅ Request 599/1000 completed
+✅ Request 507/1000 completed
+✅ Request 533/1000 completed
+✅ Request 532/1000 completed
+✅ Request 571/1000 completed
+✅ Request 585/1000 completed
+✅ Request 524/1000 completed
+✅ Request 607/1000 completed
+✅ Request 525/1000 completed
+✅ Request 568/1000 completed
+✅ Request 588/1000 completed
+✅ Request 591/1000 completed
+✅ Request 611/1000 completed
+✅ Request 520/1000 completed
+✅ Request 513/1000 completed
+✅ Request 527/1000 completed
+✅ Request 550/1000 completed
+✅ Request 600/1000 completed
+✅ Request 551/1000 completed
+✅ Request 566/1000 completed
+✅ Request 540/1000 completed
+✅ Request 539/1000 completed
+✅ Request 584/1000 completed
+✅ Request 536/1000 completed
+✅ Request 555/1000 completed
+✅ Request 560/1000 completed
+✅ Request 592/1000 completed
+✅ Request 628/1000 completed
+✅ Request 511/1000 completed
+✅ Request 631/1000 completed
+✅ Request 642/1000 completed
+✅ Request 626/1000 completed
+✅ Request 613/1000 completed
+✅ Request 579/1000 completed
+✅ Request 595/1000 completed
+✅ Request 629/1000 completed
+✅ Request 622/1000 completed
+✅ Request 609/1000 completed
+✅ Request 608/1000 completed
+✅ Request 612/1000 completed
+✅ Request 603/1000 completed
+✅ Request 575/1000 completed
+✅ Request 606/1000 completed
+✅ Request 562/1000 completed
+✅ Request 627/1000 completed
+✅ Request 573/1000 completed
+✅ Request 616/1000 completed
+✅ Request 590/1000 completed
+✅ Request 581/1000 completed
+✅ Request 570/1000 completed
+✅ Request 638/1000 completed
+✅ Request 583/1000 completed
+✅ Request 563/1000 completed
+✅ Request 636/1000 completed
+✅ Request 564/1000 completed
+✅ Request 623/1000 completed
+✅ Request 586/1000 completed
+✅ Request 632/1000 completed
+✅ Request 593/1000 completed
+✅ Request 602/1000 completed
+✅ Request 617/1000 completed
+✅ Request 625/1000 completed
+✅ Request 645/1000 completed
+✅ Request 640/1000 completed
+✅ Request 639/1000 completed
+✅ Request 635/1000 completed
+✅ Request 646/1000 completed
+✅ Request 601/1000 completed
+✅ Request 594/1000 completed
+✅ Request 618/1000 completed
+✅ Request 604/1000 completed
+✅ Request 624/1000 completed
+✅ Request 574/1000 completed
+✅ Request 614/1000 completed
+✅ Request 577/1000 completed
+✅ Request 578/1000 completed
+✅ Request 582/1000 completed
+✅ Request 665/1000 completed
+✅ Request 648/1000 completed
+✅ Request 565/1000 completed
+✅ Request 668/1000 completed
+✅ Request 597/1000 completed
+✅ Request 633/1000 completed
+✅ Request 610/1000 completed
+✅ Request 605/1000 completed
+✅ Request 598/1000 completed
+✅ Request 649/1000 completed
+✅ Request 684/1000 completed
+✅ Request 619/1000 completed
+✅ Request 637/1000 completed
+✅ Request 667/1000 completed
+✅ Request 630/1000 completed
+✅ Request 669/1000 completed
+✅ Request 656/1000 completed
+✅ Request 615/1000 completed
+✅ Request 621/1000 completed
+✅ Request 587/1000 completed
+✅ Request 664/1000 completed
+✅ Request 580/1000 completed
+✅ Request 685/1000 completed
+✅ Request 576/1000 completed
+✅ Request 643/1000 completed
+✅ Request 681/1000 completed
+✅ Request 707/1000 completed
+✅ Request 634/1000 completed
+✅ Request 690/1000 completed
+✅ Request 687/1000 completed
+✅ Request 702/1000 completed
+✅ Request 693/1000 completed
+✅ Request 641/1000 completed
+✅ Request 705/1000 completed
+✅ Request 691/1000 completed
+✅ Request 661/1000 completed
+✅ Request 644/1000 completed
+✅ Request 666/1000 completed
+✅ Request 723/1000 completed
+✅ Request 721/1000 completed
+✅ Request 663/1000 completed
+✅ Request 660/1000 completed
+✅ Request 653/1000 completed
+✅ Request 596/1000 completed
+✅ Request 679/1000 completed
+✅ Request 709/1000 completed
+✅ Request 677/1000 completed
+✅ Request 689/1000 completed
+✅ Request 671/1000 completed
+✅ Request 620/1000 completed
+✅ Request 695/1000 completed
+✅ Request 712/1000 completed
+✅ Request 699/1000 completed
+✅ Request 657/1000 completed
+✅ Request 688/1000 completed
+✅ Request 655/1000 completed
+✅ Request 694/1000 completed
+✅ Request 724/1000 completed
+✅ Request 741/1000 completed
+✅ Request 682/1000 completed
+✅ Request 697/1000 completed
+✅ Request 749/1000 completed
+✅ Request 686/1000 completed
+✅ Request 735/1000 completed
+✅ Request 683/1000 completed
+✅ Request 716/1000 completed
+✅ Request 714/1000 completed
+✅ Request 652/1000 completed
+✅ Request 696/1000 completed
+✅ Request 747/1000 completed
+✅ Request 647/1000 completed
+✅ Request 650/1000 completed
+✅ Request 673/1000 completed
+✅ Request 745/1000 completed
+✅ Request 731/1000 completed
+✅ Request 732/1000 completed
+✅ Request 651/1000 completed
+✅ Request 719/1000 completed
+✅ Request 680/1000 completed
+✅ Request 762/1000 completed
+✅ Request 678/1000 completed
+✅ Request 701/1000 completed
+✅ Request 759/1000 completed
+✅ Request 725/1000 completed
+✅ Request 692/1000 completed
+✅ Request 704/1000 completed
+✅ Request 698/1000 completed
+✅ Request 700/1000 completed
+✅ Request 674/1000 completed
+✅ Request 670/1000 completed
+✅ Request 720/1000 completed
+✅ Request 654/1000 completed
+✅ Request 722/1000 completed
+✅ Request 675/1000 completed
+✅ Request 708/1000 completed
+✅ Request 757/1000 completed
+✅ Request 703/1000 completed
+✅ Request 662/1000 completed
+✅ Request 774/1000 completed
+✅ Request 775/1000 completed
+✅ Request 659/1000 completed
+✅ Request 750/1000 completed
+✅ Request 763/1000 completed
+✅ Request 658/1000 completed
+✅ Request 726/1000 completed
+✅ Request 672/1000 completed
+✅ Request 754/1000 completed
+✅ Request 706/1000 completed
+✅ Request 713/1000 completed
+✅ Request 676/1000 completed
+✅ Request 736/1000 completed
+✅ Request 758/1000 completed
+✅ Request 770/1000 completed
+✅ Request 718/1000 completed
+✅ Request 746/1000 completed
+✅ Request 764/1000 completed
+✅ Request 761/1000 completed
+✅ Request 766/1000 completed
+✅ Request 782/1000 completed
+✅ Request 730/1000 completed
+✅ Request 729/1000 completed
+✅ Request 728/1000 completed
+✅ Request 768/1000 completed
+✅ Request 753/1000 completed
+✅ Request 767/1000 completed
+✅ Request 734/1000 completed
+✅ Request 755/1000 completed
+✅ Request 715/1000 completed
+✅ Request 711/1000 completed
+✅ Request 710/1000 completed
+✅ Request 742/1000 completed
+✅ Request 765/1000 completed
+✅ Request 788/1000 completed
+✅ Request 792/1000 completed
+✅ Request 797/1000 completed
+✅ Request 717/1000 completed
+✅ Request 800/1000 completed
+✅ Request 776/1000 completed
+✅ Request 744/1000 completed
+✅ Request 743/1000 completed
+✅ Request 748/1000 completed
+✅ Request 740/1000 completed
+✅ Request 756/1000 completed
+✅ Request 739/1000 completed
+✅ Request 733/1000 completed
+✅ Request 828/1000 completed
+✅ Request 805/1000 completed
+✅ Request 820/1000 completed
+✅ Request 793/1000 completed
+✅ Request 817/1000 completed
+✅ Request 803/1000 completed
+✅ Request 779/1000 completed
+✅ Request 822/1000 completed
+✅ Request 769/1000 completed
+✅ Request 771/1000 completed
+✅ Request 760/1000 completed
+✅ Request 829/1000 completed
+✅ Request 801/1000 completed
+✅ Request 727/1000 completed
+✅ Request 807/1000 completed
+✅ Request 795/1000 completed
+✅ Request 777/1000 completed
+✅ Request 790/1000 completed
+✅ Request 773/1000 completed
+✅ Request 772/1000 completed
+✅ Request 752/1000 completed
+✅ Request 780/1000 completed
+✅ Request 809/1000 completed
+✅ Request 738/1000 completed
+✅ Request 791/1000 completed
+✅ Request 794/1000 completed
+✅ Request 737/1000 completed
+✅ Request 842/1000 completed
+✅ Request 834/1000 completed
+✅ Request 841/1000 completed
+✅ Request 781/1000 completed
+✅ Request 811/1000 completed
+✅ Request 806/1000 completed
+✅ Request 837/1000 completed
+✅ Request 751/1000 completed
+✅ Request 785/1000 completed
+✅ Request 786/1000 completed
+✅ Request 787/1000 completed
+✅ Request 830/1000 completed
+✅ Request 812/1000 completed
+✅ Request 855/1000 completed
+✅ Request 864/1000 completed
+✅ Request 821/1000 completed
+✅ Request 826/1000 completed
+✅ Request 824/1000 completed
+✅ Request 836/1000 completed
+✅ Request 783/1000 completed
+✅ Request 844/1000 completed
+✅ Request 815/1000 completed
+✅ Request 778/1000 completed
+✅ Request 789/1000 completed
+✅ Request 839/1000 completed
+✅ Request 798/1000 completed
+✅ Request 847/1000 completed
+✅ Request 799/1000 completed
+✅ Request 816/1000 completed
+✅ Request 810/1000 completed
+✅ Request 818/1000 completed
+✅ Request 784/1000 completed
+✅ Request 835/1000 completed
+✅ Request 796/1000 completed
+✅ Request 802/1000 completed
+✅ Request 813/1000 completed
+✅ Request 831/1000 completed
+✅ Request 850/1000 completed
+✅ Request 808/1000 completed
+✅ Request 832/1000 completed
+✅ Request 819/1000 completed
+✅ Request 861/1000 completed
+✅ Request 838/1000 completed
+✅ Request 873/1000 completed
+✅ Request 804/1000 completed
+✅ Request 856/1000 completed
+✅ Request 833/1000 completed
+✅ Request 840/1000 completed
+✅ Request 825/1000 completed
+✅ Request 888/1000 completed
+✅ Request 849/1000 completed
+✅ Request 892/1000 completed
+✅ Request 854/1000 completed
+✅ Request 881/1000 completed
+✅ Request 886/1000 completed
+✅ Request 827/1000 completed
+✅ Request 877/1000 completed
+✅ Request 868/1000 completed
+✅ Request 894/1000 completed
+✅ Request 858/1000 completed
+✅ Request 899/1000 completed
+✅ Request 863/1000 completed
+✅ Request 814/1000 completed
+✅ Request 867/1000 completed
+✅ Request 890/1000 completed
+✅ Request 875/1000 completed
+✅ Request 860/1000 completed
+✅ Request 846/1000 completed
+✅ Request 870/1000 completed
+✅ Request 859/1000 completed
+✅ Request 851/1000 completed
+✅ Request 903/1000 completed
+✅ Request 823/1000 completed
+✅ Request 880/1000 completed
+✅ Request 848/1000 completed
+✅ Request 924/1000 completed
+✅ Request 920/1000 completed
+✅ Request 907/1000 completed
+✅ Request 869/1000 completed
+✅ Request 862/1000 completed
+✅ Request 927/1000 completed
+✅ Request 857/1000 completed
+✅ Request 852/1000 completed
+✅ Request 884/1000 completed
+✅ Request 904/1000 completed
+✅ Request 865/1000 completed
+✅ Request 911/1000 completed
+✅ Request 913/1000 completed
+✅ Request 866/1000 completed
+✅ Request 878/1000 completed
+✅ Request 876/1000 completed
+✅ Request 900/1000 completed
+✅ Request 843/1000 completed
+✅ Request 948/1000 completed
+✅ Request 925/1000 completed
+✅ Request 932/1000 completed
+✅ Request 874/1000 completed
+✅ Request 926/1000 completed
+✅ Request 853/1000 completed
+✅ Request 845/1000 completed
+✅ Request 891/1000 completed
+✅ Request 883/1000 completed
+✅ Request 895/1000 completed
+✅ Request 889/1000 completed
+✅ Request 940/1000 completed
+✅ Request 893/1000 completed
+✅ Request 901/1000 completed
+✅ Request 882/1000 completed
+✅ Request 917/1000 completed
+✅ Request 918/1000 completed
+✅ Request 902/1000 completed
+✅ Request 909/1000 completed
+✅ Request 898/1000 completed
+✅ Request 914/1000 completed
+✅ Request 896/1000 completed
+✅ Request 934/1000 completed
+✅ Request 908/1000 completed
+✅ Request 906/1000 completed
+✅ Request 897/1000 completed
+✅ Request 905/1000 completed
+✅ Request 947/1000 completed
+✅ Request 879/1000 completed
+✅ Request 949/1000 completed
+✅ Request 887/1000 completed
+✅ Request 942/1000 completed
+✅ Request 946/1000 completed
+✅ Request 871/1000 completed
+✅ Request 923/1000 completed
+✅ Request 941/1000 completed
+✅ Request 980/1000 completed
+✅ Request 966/1000 completed
+✅ Request 872/1000 completed
+✅ Request 885/1000 completed
+✅ Request 976/1000 completed
+✅ Request 956/1000 completed
+✅ Request 959/1000 completed
+✅ Request 912/1000 completed
+✅ Request 978/1000 completed
+✅ Request 964/1000 completed
+✅ Request 936/1000 completed
+✅ Request 951/1000 completed
+✅ Request 922/1000 completed
+✅ Request 950/1000 completed
+✅ Request 919/1000 completed
+✅ Request 931/1000 completed
+✅ Request 952/1000 completed
+✅ Request 953/1000 completed
+✅ Request 935/1000 completed
+✅ Request 937/1000 completed
+✅ Request 921/1000 completed
+✅ Request 974/1000 completed
+✅ Request 991/1000 completed
+✅ Request 975/1000 completed
+✅ Request 968/1000 completed
+✅ Request 971/1000 completed
+✅ Request 945/1000 completed
+✅ Request 961/1000 completed
+✅ Request 973/1000 completed
+✅ Request 943/1000 completed
+✅ Request 985/1000 completed
+✅ Request 982/1000 completed
+✅ Request 933/1000 completed
+✅ Request 928/1000 completed
+✅ Request 965/1000 completed
+✅ Request 939/1000 completed
+✅ Request 992/1000 completed
+✅ Request 977/1000 completed
+✅ Request 910/1000 completed
+✅ Request 915/1000 completed
+✅ Request 987/1000 completed
+✅ Request 960/1000 completed
+✅ Request 972/1000 completed
+✅ Request 997/1000 completed
+✅ Request 938/1000 completed
+✅ Request 944/1000 completed
+✅ Request 929/1000 completed
+✅ Request 979/1000 completed
+✅ Request 954/1000 completed
+✅ Request 995/1000 completed
+✅ Request 916/1000 completed
+✅ Request 984/1000 completed
+✅ Request 930/1000 completed
+✅ Request 957/1000 completed
+✅ Request 986/1000 completed
+✅ Request 970/1000 completed
+✅ Request 967/1000 completed
+✅ Request 962/1000 completed
+✅ Request 958/1000 completed
+✅ Request 963/1000 completed
+✅ Request 996/1000 completed
+✅ Request 989/1000 completed
+✅ Request 988/1000 completed
+✅ Request 981/1000 completed
+✅ Request 983/1000 completed
+✅ Request 998/1000 completed
+✅ Request 990/1000 completed
+✅ Request 955/1000 completed
+✅ Request 993/1000 completed
+✅ Request 1000/1000 completed
+✅ Request 969/1000 completed
+✅ Request 994/1000 completed
+✅ Request 999/1000 completed
+
+✅ All requests sent in 15.38s
+
+Querying request tracking information...
+✅ Found tracking info for 1000 requests
+
+✅ Results exported to: router_test_20250731_021518.csv
+
+📊 Summary Statistics:
+Total requests: 1000
+Successful requests: 1000
+Failed requests: 0
+
+Latency Statistics (successful requests):
+  Server latency: mean=7.887s, p50=7.947s, p99=13.553s
+  Total latency: mean=7.887s, p50=7.947s, p99=13.553s
+  Queue time in router: mean=0.000s, p50=0.000s, p99=0.000s
+  Server queue time (total): mean=0.630s, p50=0.578s, p99=1.189s
+  Pure queue time: mean=0.006s, p50=0.000s, p99=0.196s
+
+Host Distribution:
+  http://localhost:30003: 475 requests (47.5%)
+  http://localhost:30001: 342 requests (34.2%)
+  http://localhost:30002: 183 requests (18.3%)
+
+==========================================
+测试完成！
+结果已保存到: router_test_*.csv
+==========================================

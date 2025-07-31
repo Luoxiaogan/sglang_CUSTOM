@@ -1,0 +1,24 @@
+==========================================
+SGLang Router 启动配置
+==========================================
+路由策略: marginal_utility
+Worker节点: http://localhost:30001 http://localhost:30002 http://localhost:30003
+路由器地址: 0.0.0.0:29001
+请求追踪: true
+日志级别: INFO
+==========================================
+
+执行命令:
+python /nas/ganluo/sglang/start_router.py --policy marginal_utility --host 0.0.0.0 --port 29001 --log-level INFO --workers http://localhost:30001 http://localhost:30002 http://localhost:30003 --enable-tracking --max-trace-entries 100000 --trace-ttl 3600
+
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::server[0m[2m:[0m [2msrc/server.rs[0m[2m:[0m[2m331:[0m 🚧 Initializing Prometheus metrics on 127.0.0.1:29000
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::server[0m[2m:[0m [2msrc/server.rs[0m[2m:[0m[2m340:[0m 🚧 Initializing router on 0.0.0.0:29001
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::server[0m[2m:[0m [2msrc/server.rs[0m[2m:[0m[2m341:[0m 🚧 Router mode: Regular { worker_urls: ["http://localhost:30001", "http://localhost:30002", "http://localhost:30003"] }
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::server[0m[2m:[0m [2msrc/server.rs[0m[2m:[0m[2m342:[0m 🚧 Policy: MarginalUtility { window_size: 20, min_history_for_trend: 10, throughput_weight: 0.6, latency_weight: 0.4 }
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::server[0m[2m:[0m [2msrc/server.rs[0m[2m:[0m[2m343:[0m 🚧 Max payload size: 256 MB
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::server[0m[2m:[0m [2msrc/server.rs[0m[2m:[0m[2m353:[0m 🚧 Service discovery disabled
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::policies::marginal_utility[0m[2m:[0m [2msrc/policies/marginal_utility.rs[0m[2m:[0m[2m70:[0m Creating MarginalUtilityPolicy with config: MarginalUtilityConfig { window_size: 20, min_history_for_trend: 10, throughput_weight: 0.6, latency_weight: 0.4 }
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::routers::router[0m[2m:[0m [2msrc/routers/router.rs[0m[2m:[0m[2m185:[0m All workers are healthy
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::request_tracker[0m[2m:[0m [2msrc/request_tracker.rs[0m[2m:[0m[2m65:[0m Initializing request tracker with max_entries=100000, ttl=3600s
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::server[0m[2m:[0m [2msrc/server.rs[0m[2m:[0m[2m390:[0m ✅ Serving router on 0.0.0.0:29001
+[2m2025-07-31 09:10:02[0m [32m INFO[0m [2msglang_router_rs::server[0m[2m:[0m [2msrc/server.rs[0m[2m:[0m[2m391:[0m ✅ Serving workers on ["http://localhost:30001", "http://localhost:30002", "http://localhost:30003"]

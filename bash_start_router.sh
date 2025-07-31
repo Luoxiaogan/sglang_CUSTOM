@@ -8,19 +8,19 @@
 # =============================================================================
 
 # 路由策略选择
-# 可选值: cache_aware, round_robin, random, power_of_two
-POLICY="round_robin"
+# 可选值: cache_aware, round_robin, random, power_of_two, marginal_utility
+POLICY="marginal_utility"
 
 # Worker节点配置
 # 修改为你的实际worker地址和端口
 WORKERS=(
-    "http://localhost:60005"    # GPU 2
-    "http://localhost:60006"    # GPU 3
-    # "http://localhost:40007"  # 如需更多worker，取消注释并添加
+    "http://localhost:30001"    # GPU 2
+    "http://localhost:30002"    # GPU 3
+    "http://localhost:30003"    # GPU 3
 )
 
 # 路由器配置
-ROUTER_PORT=60009              # 路由器监听端口
+ROUTER_PORT=29001              # 路由器监听端口
 ROUTER_HOST="0.0.0.0"          # 路由器监听地址
 
 # 请求追踪配置
