@@ -27,7 +27,7 @@ def main():
         "--policy",
         type=str,
         default="cache_aware",
-        choices=["cache_aware", "round_robin", "random", "power_of_two"],
+        choices=["cache_aware", "round_robin", "random", "power_of_two", "marginal_utility"],
         help="Routing policy type (default: cache_aware)"
     )
     

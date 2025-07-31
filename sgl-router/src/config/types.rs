@@ -300,6 +300,7 @@ mod tests {
             metrics: Some(MetricsConfig::default()),
             log_dir: Some("/var/log".to_string()),
             log_level: Some("debug".to_string()),
+            request_tracking: None,
         };
 
         let json = serde_json::to_string(&config).unwrap();
@@ -712,6 +713,7 @@ mod tests {
             }),
             log_dir: Some("/var/log/sglang".to_string()),
             log_level: Some("info".to_string()),
+            request_tracking: None,
         };
 
         assert!(config.mode.is_pd_mode());
@@ -758,6 +760,7 @@ mod tests {
             metrics: Some(MetricsConfig::default()),
             log_dir: None,
             log_level: Some("debug".to_string()),
+            request_tracking: None,
         };
 
         assert!(!config.mode.is_pd_mode());
@@ -800,6 +803,7 @@ mod tests {
             }),
             log_dir: Some("/opt/logs/sglang".to_string()),
             log_level: Some("trace".to_string()),
+            request_tracking: None,
         };
 
         assert!(config.has_service_discovery());

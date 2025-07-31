@@ -1039,6 +1039,7 @@ mod tests {
             _worker_loads: Arc::new(rx),
             _load_monitor_handle: None,
             _health_checker: None,
+            request_tracker: None,
         }
     }
 

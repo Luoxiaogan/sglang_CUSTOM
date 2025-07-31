@@ -292,7 +292,7 @@ impl MarginalUtilityPolicy {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::core::BasicWorker;
+    use crate::core::{BasicWorker, WorkerType};
 
     fn create_test_metrics(
         worker_url: &str,
@@ -323,8 +323,8 @@ mod tests {
         let policy = MarginalUtilityPolicy::new(config);
         
         let workers: Vec<Box<dyn Worker>> = vec![
-            Box::new(BasicWorker::new("http://w1:8000".to_string())),
-            Box::new(BasicWorker::new("http://w2:8000".to_string())),
+            Box::new(BasicWorker::new("http://w1:8000".to_string(), WorkerType::Regular)),
+            Box::new(BasicWorker::new("http://w2:8000".to_string(), WorkerType::Regular)),
         ];
         
         // Should select from available workers
@@ -351,7 +351,7 @@ mod tests {
             let tokens = 100 + i * 10; // Increasing throughput
             
             let metrics = create_test_metrics(worker_url, time, latency, tokens);
-            policy.on_request_complete_v2(&metrics);
+            policy.handle_request_metrics(&metrics);
         }
         
         // Check that history is maintained
@@ -377,14 +377,14 @@ mod tests {
         let policy = MarginalUtilityPolicy::new(config);
         
         let workers: Vec<Box<dyn Worker>> = vec![
-            Box::new(BasicWorker::new("http://w1:8000".to_string())),
-            Box::new(BasicWorker::new("http://w2:8000".to_string())),
+            Box::new(BasicWorker::new("http://w1:8000".to_string(), WorkerType::Regular)),
+            Box::new(BasicWorker::new("http://w2:8000".to_string(), WorkerType::Regular)),
         ];
         
         // Add some history to w1 but not enough for gradient
         for i in 0..5 {
             let metrics = create_test_metrics("http://w1:8000", 1000.0 + i as f64, 1.0, 100);
-            policy.on_request_complete_v2(&metrics);
+            policy.handle_request_metrics(&metrics);
         }
         
         // Select multiple times - should use load balancing
@@ -405,13 +405,13 @@ mod tests {
         let policy = MarginalUtilityPolicy::new(config);
         
         let prefill_workers: Vec<Box<dyn Worker>> = vec![
-            Box::new(BasicWorker::new("http://p1:8000".to_string())),
-            Box::new(BasicWorker::new("http://p2:8000".to_string())),
+            Box::new(BasicWorker::new("http://p1:8000".to_string(), WorkerType::Prefill { bootstrap_port: None })),
+            Box::new(BasicWorker::new("http://p2:8000".to_string(), WorkerType::Prefill { bootstrap_port: None })),
         ];
         
         let decode_workers: Vec<Box<dyn Worker>> = vec![
-            Box::new(BasicWorker::new("http://d1:8000".to_string())),
-            Box::new(BasicWorker::new("http://d2:8000".to_string())),
+            Box::new(BasicWorker::new("http://d1:8000".to_string(), WorkerType::Decode)),
+            Box::new(BasicWorker::new("http://d2:8000".to_string(), WorkerType::Decode)),
         ];
         
         let selected = policy.select_worker_pair(&prefill_workers, &decode_workers, None);
