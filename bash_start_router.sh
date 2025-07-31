@@ -9,12 +9,12 @@
 
 # 路由策略选择
 # 可选值: cache_aware, round_robin, random, power_of_two, marginal_utility, marginal_utility_recorder
-POLICY="marginal_utility_recorder"
+POLICY="round_robin"
 
 # Worker节点配置
 # 修改为你的实际worker地址和端口
 WORKERS=(
-    # "http://localhost:30001"    # GPU 2
+    "http://localhost:30001"    # GPU 2
     "http://localhost:30002"    # GPU 3
     "http://localhost:30003"    # GPU 3
 )
@@ -42,7 +42,7 @@ LOG_LEVEL="INFO"
 # - 路由决策记录：记录每次选择 worker 时的梯度、评分等信息（selection_reason="gradient_based"）
 # - 请求完成记录：记录请求完成后的实际性能指标（selection_reason="completion_record"）
 # 两种记录都保存在同一个 CSV 文件中，通过 selection_reason 字段区分
-MARGINAL_UTILITY_OUTPUT_DIR="/nas/ganluo/sglang"
+MARGINAL_UTILITY_OUTPUT_DIR="/nas/ganluo/sglang/test_results_hetero"
 
 # GPU映射配置（可选）
 # 格式: '{"端口号": "GPU设备"}'

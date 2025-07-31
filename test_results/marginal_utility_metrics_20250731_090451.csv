@@ -1,0 +1,1 @@
+timestamp,worker_url,request_id,throughput_gradient,latency_gradient,score,outstanding_requests,avg_throughput,avg_latency,window_size,selection_reason,actual_output_tokens,server_latency,queue_time,ttft,decision_time_ms

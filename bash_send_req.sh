@@ -8,13 +8,13 @@
 # =============================================================================
 
 # 基础配置
-NUM_REQUESTS=100               # 发送的请求数量
-REQUEST_RATE=5.0              # 请求速率（req/s），inf表示最大速率
+NUM_REQUESTS=200               # 发送的请求数量
+REQUEST_RATE=30.0              # 请求速率（req/s），inf表示最大速率
 DATASET="random"               # 数据集类型: random, sharegpt, custom
 
 # Random数据集参数
 INPUT_LEN=512                  # 平均输入长度（tokens）
-OUTPUT_LEN=512                 # 平均输出长度（tokens）
+OUTPUT_LEN=256                 # 平均输出长度（tokens）
 RANGE_RATIO=0.25                # 长度变化范围（±50%）
 
 # 路由器配置
@@ -26,7 +26,7 @@ ROUTER_URL="http://localhost:29001"    # 路由器地址
 # 选项2: 只指定文件名（保存在当前目录）
 # OUTPUT_FILE="router_test_$(date +%Y%m%d_%H%M%S).csv"
 # 选项3: 留空则自动生成带时间戳的文件名（保存在当前目录）
-OUTPUT_FILE=""                 # 留空则自动生成带时间戳的文件名
+OUTPUT_FILE="/nas/ganluo/sglang/test_results_hetero/router_test_$(date +%Y%m%d_%H%M%S).csv"                 # 留空则自动生成带时间戳的文件名
 
 # 自定义数据集路径（仅当DATASET="custom"时使用）
 DATASET_PATH=""

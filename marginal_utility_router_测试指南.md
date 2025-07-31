@@ -48,11 +48,13 @@ cargo test marginal_utility
 #### 3.2.1 启动 SGLang 服务器
 
 在多个 GPU 上启动 SGLang 服务器：
-
+/nas/models/Qwen2.5-7B-Instruct
+/nas/models/Meta-Llama-3-8B-Instruct
+/nas/models/DeepSeek-R1-Distill-Qwen-1.5B
 ```bash
 # GPU 0
 python -m sglang.launch_server \
-  --model-path /nas/models/Qwen2.5-7B-Instruct \
+  --model-path /nas/models/DeepSeek-R1-Distill-Qwen-1.5B \
   --host 0.0.0.0 \
   --port 30001 \
   --base-gpu-id 0 \
@@ -68,7 +70,7 @@ python -m sglang.launch_server \
 
 # GPU 2
 python -m sglang.launch_server \
-  --model-path /nas/models/DeepSeek-R1-Distill-Qwen-1.5B \
+  --model-path /nas/models/Meta-Llama-3-8B-Instruct \
   --host 0.0.0.0 \
   --port 30003 \
   --base-gpu-id 2 \
