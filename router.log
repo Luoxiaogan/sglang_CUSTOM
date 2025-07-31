@@ -1,0 +1,9 @@
+usage: start_router.py [-h]
+                       [--policy {cache_aware,round_robin,random,power_of_two}]
+                       [--workers WORKERS [WORKERS ...]] [--port PORT]
+                       [--host HOST] [--enable-tracking]
+                       [--max-trace-entries MAX_TRACE_ENTRIES]
+                       [--trace-ttl TRACE_TTL] [--pd-mode]
+                       [--log-level {DEBUG,INFO,WARN,ERROR}]
+                       [--port-gpu-mapping PORT_GPU_MAPPING]
+start_router.py: error: argument --policy: invalid choice: 'marginal_utility' (choose from 'cache_aware', 'round_robin', 'random', 'power_of_two')

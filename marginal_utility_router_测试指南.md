@@ -52,7 +52,7 @@ cargo test marginal_utility
 ```bash
 # GPU 0
 python -m sglang.launch_server \
-  --model-path /path/to/model \
+  --model-path /nas/models/Meta-Llama-3-8B-Instruct \
   --host 0.0.0.0 \
   --port 30001 \
   --base-gpu-id 0 \
@@ -60,7 +60,7 @@ python -m sglang.launch_server \
 
 # GPU 1
 python -m sglang.launch_server \
-  --model-path /path/to/model \
+  --model-path /nas/models/Meta-Llama-3-8B-Instruct \
   --host 0.0.0.0 \
   --port 30002 \
   --base-gpu-id 1 \
@@ -68,7 +68,7 @@ python -m sglang.launch_server \
 
 # GPU 2
 python -m sglang.launch_server \
-  --model-path /path/to/model \
+  --model-path /nas/models/Meta-Llama-3-8B-Instruct \
   --host 0.0.0.0 \
   --port 30003 \
   --base-gpu-id 2 \
