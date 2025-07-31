@@ -12,6 +12,7 @@ use std::thread;
 use std::time::{Duration, Instant};
 use tracing::{debug, error, info, warn};
 
+#[path = "response_parser.rs"]
 mod response_parser;
 use response_parser::ResponseParser;
 
@@ -527,8 +528,14 @@ impl Router {
                             worker_url,
                             start,  // Use the existing start variable
                         ) {
-                            // Call the V2 interface which will delegate to legacy if needed
-                            self.policy.on_request_complete_v2(&metrics);
+                            // Check if this is a MarginalUtilityPolicy and handle metrics directly
+                            if let Some(marginal_policy) = self.policy.as_any()
+                                .downcast_ref::<crate::policies::MarginalUtilityPolicy>() {
+                                marginal_policy.handle_request_metrics(&metrics);
+                            } else {
+                                // For other policies, use the V2 interface
+                                self.policy.on_request_complete_v2(&metrics);
+                            }
                         }
                     }
                     

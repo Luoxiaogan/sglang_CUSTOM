@@ -257,8 +257,9 @@ impl LoadBalancingPolicy for MarginalUtilityPolicy {
     }
 }
 
-impl LoadBalancingPolicyV2 for MarginalUtilityPolicy {
-    fn on_request_complete_v2(&self, metrics: &RequestMetrics) {
+impl MarginalUtilityPolicy {
+    /// Handle request completion with detailed metrics
+    pub fn handle_request_metrics(&self, metrics: &RequestMetrics) {
         let mut states = self.workers_state.write().unwrap();
         
         let state = states.entry(metrics.worker_url.clone()).or_insert_with(|| {
