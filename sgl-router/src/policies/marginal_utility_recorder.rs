@@ -4,7 +4,7 @@
 //! and performance metrics to CSV files for analysis.
 
 use super::{
-    get_healthy_worker_indices, LoadBalancingPolicy, MarginalUtilityConfig, MarginalUtilityPolicy,
+    LoadBalancingPolicy, MarginalUtilityConfig, MarginalUtilityPolicy,
     RequestMetrics,
 };
 use crate::core::Worker;

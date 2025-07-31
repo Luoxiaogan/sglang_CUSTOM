@@ -59,7 +59,7 @@
     during the next eviction cycle.
 */
 
-use super::{get_healthy_worker_indices, CacheAwareConfig, LoadBalancingPolicy};
+use super::{get_healthy_worker_indices, LoadBalancingPolicy};
 use crate::core::Worker;
 use crate::metrics::RouterMetrics;
 use crate::tree::Tree;
@@ -67,6 +67,28 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 use tracing::{debug, info};
+
+/// Configuration for cache-aware policy
+#[derive(Debug, Clone)]
+pub struct CacheAwareConfig {
+    pub cache_threshold: f32,
+    pub balance_abs_threshold: usize,
+    pub balance_rel_threshold: f32,
+    pub eviction_interval_secs: u64,
+    pub max_tree_size: usize,
+}
+
+impl Default for CacheAwareConfig {
+    fn default() -> Self {
+        Self {
+            cache_threshold: 0.5,
+            balance_abs_threshold: 32,
+            balance_rel_threshold: 1.1,
+            eviction_interval_secs: 30,
+            max_tree_size: 10000,
+        }
+    }
+}
 
 /// Cache-aware routing policy
 ///

@@ -185,6 +185,81 @@ impl ConfigValidator {
                     });
                 }
             }
+            PolicyConfig::MarginalUtilityRecorder {
+                window_size,
+                min_history_for_trend,
+                throughput_weight,
+                latency_weight,
+                output_dir,
+                buffer_size,
+                flush_interval_secs,
+            } => {
+                // 复用 MarginalUtility 的验证逻辑
+                if *window_size == 0 {
+                    return Err(ConfigError::InvalidValue {
+                        field: "window_size".to_string(),
+                        value: window_size.to_string(),
+                        reason: "Must be > 0".to_string(),
+                    });
+                }
+                
+                if *min_history_for_trend == 0 {
+                    return Err(ConfigError::InvalidValue {
+                        field: "min_history_for_trend".to_string(),
+                        value: min_history_for_trend.to_string(),
+                        reason: "Must be > 0".to_string(),
+                    });
+                }
+                
+                if *min_history_for_trend > *window_size {
+                    return Err(ConfigError::InvalidValue {
+                        field: "min_history_for_trend".to_string(),
+                        value: min_history_for_trend.to_string(),
+                        reason: "Must be <= window_size".to_string(),
+                    });
+                }
+                
+                if !(0.0..=1.0).contains(throughput_weight) {
+                    return Err(ConfigError::InvalidValue {
+                        field: "throughput_weight".to_string(),
+                        value: throughput_weight.to_string(),
+                        reason: "Must be between 0.0 and 1.0".to_string(),
+                    });
+                }
+                
+                if !(0.0..=1.0).contains(latency_weight) {
+                    return Err(ConfigError::InvalidValue {
+                        field: "latency_weight".to_string(),
+                        value: latency_weight.to_string(),
+                        reason: "Must be between 0.0 and 1.0".to_string(),
+                    });
+                }
+                
+                // MarginalUtilityRecorder 特有的验证
+                if output_dir.is_empty() {
+                    return Err(ConfigError::InvalidValue {
+                        field: "output_dir".to_string(),
+                        value: output_dir.to_string(),
+                        reason: "Output directory cannot be empty".to_string(),
+                    });
+                }
+                
+                if *buffer_size == 0 {
+                    return Err(ConfigError::InvalidValue {
+                        field: "buffer_size".to_string(),
+                        value: buffer_size.to_string(),
+                        reason: "Must be > 0".to_string(),
+                    });
+                }
+                
+                if *flush_interval_secs == 0 {
+                    return Err(ConfigError::InvalidValue {
+                        field: "flush_interval_secs".to_string(),
+                        value: flush_interval_secs.to_string(),
+                        reason: "Must be > 0".to_string(),
+                    });
+                }
+            }
         }
         Ok(())
     }

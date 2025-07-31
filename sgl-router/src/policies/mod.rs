@@ -15,9 +15,7 @@ mod power_of_two;
 mod random;
 mod round_robin;
 
-// pub use cache_aware::{CacheAwareConfig, CacheAwarePolicy};
-pub use crate::policies::CacheAwareConfig;   // 结构体定义就在本文件
-pub use cache_aware::CacheAwarePolicy;
+pub use cache_aware::{CacheAwareConfig, CacheAwarePolicy};
 pub use factory::PolicyFactory;
 pub use marginal_utility::{MarginalUtilityConfig, MarginalUtilityPolicy};
 pub use marginal_utility_recorder::{MarginalUtilityRecorderConfig, MarginalUtilityRecorderPolicy};
@@ -102,27 +100,6 @@ pub trait LoadBalancingPolicyV2: LoadBalancingPolicy {
 // Automatically implement LoadBalancingPolicyV2 for all LoadBalancingPolicy types
 impl<T: LoadBalancingPolicy + ?Sized> LoadBalancingPolicyV2 for T {}
 
-/// Configuration for cache-aware policy
-#[derive(Debug, Clone)]
-pub struct CacheAwareConfig {
-    pub cache_threshold: f32,
-    pub balance_abs_threshold: usize,
-    pub balance_rel_threshold: f32,
-    pub eviction_interval_secs: u64,
-    pub max_tree_size: usize,
-}
-
-impl Default for CacheAwareConfig {
-    fn default() -> Self {
-        Self {
-            cache_threshold: 0.5,
-            balance_abs_threshold: 32,
-            balance_rel_threshold: 1.1,
-            eviction_interval_secs: 30,
-            max_tree_size: 10000,
-        }
-    }
-}
 
 /// Helper function to filter healthy workers and return their indices
 pub(crate) fn get_healthy_worker_indices(workers: &[Box<dyn Worker>]) -> Vec<usize> {
