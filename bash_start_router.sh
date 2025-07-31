@@ -42,7 +42,7 @@ LOG_LEVEL="INFO"
 # - 路由决策记录：记录每次选择 worker 时的梯度、评分等信息（selection_reason="gradient_based"）
 # - 请求完成记录：记录请求完成后的实际性能指标（selection_reason="completion_record"）
 # 两种记录都保存在同一个 CSV 文件中，通过 selection_reason 字段区分
-MARGINAL_UTILITY_OUTPUT_DIR="/tmp/marginal_utility_metrics"
+MARGINAL_UTILITY_OUTPUT_DIR="/nas/ganluo/sglang"
 
 # GPU映射配置（可选）
 # 格式: '{"端口号": "GPU设备"}'
