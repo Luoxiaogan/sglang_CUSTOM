@@ -572,3 +572,51 @@ actual_output_tokens,server_latency,queue_time,ttft,decision_time_ms
 4. **易于分析**：CSV 格式便于使用各种工具进行后续分析
 
 这样既满足了高性能生产环境的需求，又提供了详细的调试和优化能力。
+
+1. 更新内容
+- ✅ start_router.py: 添加了 --marginal-utility-output-dir 命令行参数
+- ✅ bash_start_router.sh: 添加了 MARGINAL_UTILITY_OUTPUT_DIR 配置变量
+- ✅ lib.rs: 添加了 marginal_utility_output_dir 字段并传递给策略
+
+2. 使用方法
+  # 方法 1：修改 bash 脚本中的变量
+  MARGINAL_UTILITY_OUTPUT_DIR="/path/to/your/metrics"
+  ./bash_start_router.sh
+
+  # 方法 2：直接使用 Python 脚本
+  python start_router.py --policy marginal_utility_recorder --marginal-utility-output-dir /path/to/metrics
+
+  # 方法 3：环境变量方式（修改 bash 脚本后）
+  export MARGINAL_UTILITY_OUTPUT_DIR="/path/to/metrics"
+  ./bash_start_router.sh
+
+我已经完成了所有更新，现在系统支持两个独立的 CSV 记录系统：
+
+  1. 两个 CSV 系统的区别
+
+  | 特性   | send_req.py CSV | marginal_utility_recorder CSV      |
+  |------|-----------------|------------------------------------|
+  | 视角   | 客户端/请求视角        | 路由器内部视角                            |
+  | 记录内容 | 请求执行情况          | 路由决策过程                             |
+  | 主要字段 | 延迟、吞吐量、时间戳      | 梯度、评分、选择原因                         |
+  | 文件位置 | 由 --output 指定   | 由 --marginal-utility-output-dir 指定 |
+  | 默认位置 | 当前目录            | /tmp/marginal_utility_metrics/     |
+
+
+# 新的修改要求
+
+目前的测试结果，例如`marginal_utility_metrics_20250731_053801.csv`里面。
+例如line 42~50:
+```
+timestamp,worker_url,request_id,throughput_gradient,latency_gradient,score,outstanding_requests,avg_throughput,avg_latency,window_size,selection_reason,actual_output_tokens,server_latency,queue_time,ttft,decision_time_ms
+2025-07-31 05:38:08.623,http://localhost:30002,pending,,,,0,,,20,gradient_based,,,,,0.005867
+2025-07-31 05:38:08.801,http://localhost:30003,unknown,,,,0,330.99,1.4593,20,completion_record,483,1.4593,0.0002,0.1558,0
+2025-07-31 05:38:08.856,http://localhost:30003,unknown,,,,0,332.66,1.7285,20,completion_record,575,1.7285,0.0001,0.1534,0
+2025-07-31 05:38:08.865,http://localhost:30002,unknown,,,,0,139.74,4.4153,20,completion_record,617,4.4153,0.0001,0.3651,0
+2025-07-31 05:38:09.003,http://localhost:30003,unknown,,,,0,334.16,1.4993,20,completion_record,501,1.4993,0.0001,0.1627,0
+2025-07-31 05:38:09.025,http://localhost:30003,unknown,,,,0,335.61,1.4213,20,completion_record,477,1.4213,0.0001,0.1530,0
+2025-07-31 05:38:09.114,http://localhost:30002,unknown,,,,0,139.53,4.1785,20,completion_record,583,4.1785,0.0001,0.3512,0
+2025-07-31 05:38:09.173,http://localhost:30003,pending,,,,0,,,20,gradient_based,,,,,0.00932
+2025-07-31 05:38:09.241,http://localhost:30003,pending,,,,0,,,20,gradient_based,,,,,0.007852999999999999
+```
+我觉得有一些metric没有成功记录，而有一些metric被记录错误了，并且一些metric的记录逻辑也需要修改
