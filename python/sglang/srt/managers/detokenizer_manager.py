@@ -236,6 +236,7 @@ class DetokenizerManager:
             output_hidden_states=recv_obj.output_hidden_states,
             queue_time_start=recv_obj.queue_time_start,
             queue_time_end=recv_obj.queue_time_end,
+            queue_lengths=recv_obj.queue_lengths,  # Add queue_lengths for routing decisions
         )
 
     def handle_multimodal_decode_req(self, recv_obj: BatchMultimodalDecodeReq):

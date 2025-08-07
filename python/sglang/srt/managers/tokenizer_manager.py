@@ -1430,6 +1430,14 @@ class TokenizerManager:
                     else:
                         logger.debug(f"[QueueTime] queue_time_end attribute NOT FOUND in recv_obj")
                 
+                # Debug logging for queue_lengths
+                if hasattr(recv_obj, 'queue_lengths') and recv_obj.queue_lengths:
+                    logger.info(f"[QueueLength] Found queue_lengths in recv_obj: {recv_obj.queue_lengths[:min(3, len(recv_obj.queue_lengths))]}...")
+                    if i < len(recv_obj.queue_lengths):
+                        logger.info(f"[QueueLength] Queue length for request {i}: {recv_obj.queue_lengths[i]}")
+                else:
+                    logger.warning("[QueueLength] No queue_lengths in recv_obj")
+                
                 meta_info.update(
                     {
                         "completion_tokens": recv_obj.completion_tokens[i],
