@@ -1,7 +1,7 @@
 //! Shortest Queue First routing policy
 //! Routes requests to the worker with the shortest queue
 
-use super::{LoadBalancingPolicy, LoadBalancingPolicyV2, RequestMetrics};
+use super::LoadBalancingPolicy;
 use crate::core::Worker;
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicUsize, Ordering};
