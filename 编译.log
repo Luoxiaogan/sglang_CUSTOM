@@ -1,0 +1,40 @@
+Compiling sglang_router_rs v0.0.0 (/nas/ganluo/sglang/sgl-router)
+error[E0119]: conflicting implementations of trait `LoadBalancingPolicyV2` for type `ShortestQueuePolicy`
+   --> src/policies/mod.rs:103:1
+    |
+103 | impl<T: LoadBalancingPolicy + ?Sized> LoadBalancingPolicyV2 for T {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ conflicting implementation for `ShortestQueuePolicy`
+    |
+   ::: src/policies/shortest_queue.rs:161:1
+    |
+161 | impl LoadBalancingPolicyV2 for ShortestQueuePolicy {
+    | -------------------------------------------------- first implementation here
+
+error[E0004]: non-exhaustive patterns: `&config::types::PolicyConfig::ShortestQueue { .. }` not covered
+   --> src/config/validation.rs:88:15
+    |
+88  |         match policy {
+    |               ^^^^^^ pattern `&config::types::PolicyConfig::ShortestQueue { .. }` not covered
+    |
+note: `config::types::PolicyConfig` defined here
+   --> src/config/types.rs:74:10
+    |
+74  | pub enum PolicyConfig {
+    |          ^^^^^^^^^^^^
+...
+132 |     ShortestQueue {
+    |     ------------- not covered
+    = note: the matched value is of type `&config::types::PolicyConfig`
+help: ensure that all possible cases are being handled by adding a match arm with a wildcard pattern or an explicit pattern as shown
+    |
+262 ~             },
+263 +             &config::types::PolicyConfig::ShortestQueue { .. } => todo!()
+    |
+
+Some errors have detailed explanations: E0004, E0119.
+For more information about an error, try `rustc --explain E0004`.
+error: could not compile `sglang_router_rs` (lib) due to 2 previous errors
+💥 maturin failed
+  Caused by: Failed to build a native library through cargo
+  Caused by: Cargo build finished with "exit status: 101": `env -u CARGO PYO3_ENVIRONMENT_SIGNATURE="cpython-3.10-64bit" PYO3_PYTHON="/usr/local/conda/envs/lg/bin/python3" PYTHON_SYS_EXECUTABLE="/usr/local/conda/envs/lg/bin/python3" "cargo" "rustc" "--message-format" "json-render-diagnostics" "--manifest-path" "/nas/ganluo/sglang/sgl-router/Cargo.toml" "--release" "--lib" "--crate-type" "cdylib"`
+(lg) root:/nas/ganluo/sglang/sgl-router# 
