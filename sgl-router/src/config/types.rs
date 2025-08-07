@@ -127,6 +127,12 @@ pub enum PolicyConfig {
         /// Flush interval in seconds
         flush_interval_secs: u64,
     },
+
+    #[serde(rename = "shortest_queue")]
+    ShortestQueue {
+        /// Whether to use fallback round-robin when no queue data is available
+        enable_fallback: bool,
+    },
 }
 
 impl PolicyConfig {
@@ -138,6 +144,7 @@ impl PolicyConfig {
             PolicyConfig::PowerOfTwo { .. } => "power_of_two",
             PolicyConfig::MarginalUtility { .. } => "marginal_utility",
             PolicyConfig::MarginalUtilityRecorder { .. } => "marginal_utility_recorder",
+            PolicyConfig::ShortestQueue { .. } => "shortest_queue",
         }
     }
 }

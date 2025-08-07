@@ -16,6 +16,9 @@ class Router:
             - PolicyType.RoundRobin: Distribute requests in round-robin fashion
             - PolicyType.CacheAware: Distribute requests based on cache state and load balance
             - PolicyType.PowerOfTwo: Select best of two random workers based on load (PD mode only)
+            - PolicyType.ShortestQueue: Route to worker with shortest queue
+            - PolicyType.MarginalUtility: Route based on gradient-based performance prediction
+            - PolicyType.MarginalUtilityRecorder: MarginalUtility with metrics recording to CSV
         host: Host address to bind the router server. Default: '127.0.0.1'
         port: Port number to bind the router server. Default: 3001
         worker_startup_timeout_secs: Timeout in seconds for worker startup. Default: 300

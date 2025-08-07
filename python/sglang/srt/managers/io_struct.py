@@ -695,6 +695,9 @@ class BatchTokenIDOut:
     # Timing information for accurate queue time measurement
     queue_time_start: Optional[List[float]] = None
     queue_time_end: Optional[List[float]] = None
+    
+    # Queue length information for routing decisions
+    queue_lengths: Optional[List[int]] = None
 
 
 @dataclass
@@ -745,6 +748,9 @@ class BatchStrOut:
     # Timing information for accurate queue time measurement
     queue_time_start: Optional[List[float]] = None
     queue_time_end: Optional[List[float]] = None
+    
+    # Queue length information for routing decisions
+    queue_lengths: Optional[List[int]] = None
 
 
 @dataclass

@@ -14,6 +14,7 @@ mod metrics;
 mod power_of_two;
 mod random;
 mod round_robin;
+mod shortest_queue;
 
 pub use cache_aware::{CacheAwareConfig, CacheAwarePolicy};
 pub use factory::PolicyFactory;
@@ -23,6 +24,7 @@ pub use metrics::RequestMetrics;
 pub use power_of_two::PowerOfTwoPolicy;
 pub use random::RandomPolicy;
 pub use round_robin::RoundRobinPolicy;
+pub use shortest_queue::{ShortestQueueConfig, ShortestQueuePolicy};
 
 /// Core trait for load balancing policies
 ///

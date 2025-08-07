@@ -498,6 +498,10 @@ class SchedulerOutputProcessorMixin:
         # Queue time tracking
         queue_time_start = []
         queue_time_end = []
+        
+        # Queue length tracking for routing decisions
+        queue_lengths = []
+        current_queue_length = len(self.waiting_queue)
 
         if return_logprob:
             input_token_logprobs_val = []
@@ -597,6 +601,9 @@ class SchedulerOutputProcessorMixin:
                 
                 queue_time_start.append(q_start)
                 queue_time_end.append(q_end)
+                
+                # Collect current queue length for routing decisions
+                queue_lengths.append(current_queue_length)
 
                 if not self.spec_algorithm.is_none():
                     spec_verify_ct.append(req.spec_verify_ct)
@@ -724,6 +731,7 @@ class SchedulerOutputProcessorMixin:
                     output_hidden_states,
                     queue_time_start,
                     queue_time_end,
+                    queue_lengths,
                 )
             )
 

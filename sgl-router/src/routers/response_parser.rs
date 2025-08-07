@@ -46,6 +46,12 @@ impl ResponseParser {
             .get("cached_tokens")
             .and_then(|v| v.as_u64())
             .map(|v| v as usize);
+        
+        // Extract queue length for routing decisions
+        let queue_length = meta_info
+            .get("queue_length")
+            .and_then(|v| v.as_u64())
+            .map(|v| v as usize);
 
         // prompt_tokens might be in meta_info
         let prompt_tokens = meta_info
@@ -112,6 +118,7 @@ impl ResponseParser {
             actual_output_tokens,
             actual_total_tokens,
             cached_tokens,
+            queue_length,
         })
     }
 }

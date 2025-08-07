@@ -31,6 +31,9 @@ pub struct RequestMetrics {
     
     /// Cached tokens (for cache-aware routing)
     pub cached_tokens: Option<usize>,
+    
+    /// Queue length information for routing decisions
+    pub queue_length: Option<usize>,
 }
 
 impl RequestMetrics {
@@ -77,6 +80,7 @@ mod tests {
             actual_output_tokens: Some(50),
             actual_total_tokens: Some(150),
             cached_tokens: Some(20),
+            queue_length: None,
         };
         
         let (url, success) = metrics.to_legacy_params();
@@ -100,6 +104,7 @@ mod tests {
             actual_output_tokens: Some(100),
             actual_total_tokens: Some(200),
             cached_tokens: None,
+            queue_length: None,
         };
         
         assert_eq!(metrics.decode_throughput(), Some(50.0));
@@ -121,6 +126,7 @@ mod tests {
             actual_output_tokens: None,
             actual_total_tokens: None,
             cached_tokens: None,
+            queue_length: None,
         };
         
         assert!((metrics.queue_time().unwrap() - 0.2).abs() < 0.0001);

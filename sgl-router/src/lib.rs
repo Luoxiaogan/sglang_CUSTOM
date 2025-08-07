@@ -22,6 +22,7 @@ pub enum PolicyType {
     PowerOfTwo, // Moved from PD-specific, now shared
     MarginalUtility,
     MarginalUtilityRecorder,
+    ShortestQueue,
 }
 
 #[pyclass]
@@ -113,6 +114,9 @@ impl Router {
                     .unwrap_or_else(|| "/tmp/marginal_utility_metrics".to_string()),
                 buffer_size: 1000,
                 flush_interval_secs: 10,
+            },
+            PolicyType::ShortestQueue => ConfigPolicyConfig::ShortestQueue {
+                enable_fallback: true, // Default to enabling fallback
             },
         };
 

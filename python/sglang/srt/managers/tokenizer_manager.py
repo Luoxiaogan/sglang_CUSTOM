@@ -1440,6 +1440,8 @@ class TokenizerManager:
                         # Add queue time tracking from scheduler
                         "queue_time_start": recv_obj.queue_time_start[i] if hasattr(recv_obj, 'queue_time_start') and recv_obj.queue_time_start and i < len(recv_obj.queue_time_start) else None,
                         "queue_time_end": recv_obj.queue_time_end[i] if hasattr(recv_obj, 'queue_time_end') and recv_obj.queue_time_end and i < len(recv_obj.queue_time_end) else None,
+                        # Add queue length for routing decisions
+                        "queue_length": recv_obj.queue_lengths[i] if hasattr(recv_obj, 'queue_lengths') and recv_obj.queue_lengths and i < len(recv_obj.queue_lengths) else None,
                     }
                 )
 

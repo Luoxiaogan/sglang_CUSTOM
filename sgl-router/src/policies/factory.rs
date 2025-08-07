@@ -3,7 +3,7 @@
 use super::{
     CacheAwareConfig, CacheAwarePolicy, LoadBalancingPolicy, MarginalUtilityConfig,
     MarginalUtilityPolicy, MarginalUtilityRecorderConfig, MarginalUtilityRecorderPolicy,
-    PowerOfTwoPolicy, RandomPolicy, RoundRobinPolicy,
+    PowerOfTwoPolicy, RandomPolicy, RoundRobinPolicy, ShortestQueueConfig, ShortestQueuePolicy,
 };
 use crate::config::PolicyConfig;
 use std::sync::Arc;
@@ -71,6 +71,12 @@ impl PolicyFactory {
                 };
                 Arc::new(MarginalUtilityRecorderPolicy::new(config))
             }
+            PolicyConfig::ShortestQueue { enable_fallback } => {
+                let config = ShortestQueueConfig {
+                    enable_fallback: *enable_fallback,
+                };
+                Arc::new(ShortestQueuePolicy::with_config(config))
+            }
         }
     }
 
@@ -94,6 +100,7 @@ impl PolicyFactory {
                 };
                 Some(Arc::new(MarginalUtilityRecorderPolicy::new(config)))
             }
+            "shortest_queue" | "shortestqueue" => Some(Arc::new(ShortestQueuePolicy::new())),
             _ => None,
         }
     }
