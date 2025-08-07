@@ -11,6 +11,7 @@ Policy types:
     - round_robin: Distributes requests in circular order
     - random: Randomly selects workers
     - power_of_two: Selects best of two random workers (PD mode only, requires --pd-mode)
+    - shortest_queue: Routes to worker with shortest queue
 """
 
 import argparse
@@ -27,7 +28,7 @@ def main():
         "--policy",
         type=str,
         default="cache_aware",
-        choices=["cache_aware", "round_robin", "random", "power_of_two", "marginal_utility", "marginal_utility_recorder"],
+        choices=["cache_aware", "round_robin", "random", "power_of_two", "marginal_utility", "marginal_utility_recorder", "shortest_queue"],
         help="Routing policy type (default: cache_aware)"
     )
     
@@ -122,6 +123,7 @@ def main():
         "power_of_two": PolicyType.PowerOfTwo,
         "marginal_utility": PolicyType.MarginalUtility,
         "marginal_utility_recorder": PolicyType.MarginalUtilityRecorder,
+        "shortest_queue": PolicyType.ShortestQueue,
     }
     
     # Handle port-GPU mapping
