@@ -260,6 +260,9 @@ impl ConfigValidator {
                     });
                 }
             }
+            PolicyConfig::ShortestQueue { enable_fallback: _ } => {
+                // No specific validation needed for boolean field
+            }
         }
         Ok(())
     }

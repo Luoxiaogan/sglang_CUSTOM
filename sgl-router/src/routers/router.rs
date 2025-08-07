@@ -535,6 +535,14 @@ impl Router {
                             } else if let Some(recorder_policy) = self.policy.as_any()
                                 .downcast_ref::<crate::policies::MarginalUtilityRecorderPolicy>() {
                                 recorder_policy.handle_request_metrics(&metrics);
+                            } else if let Some(shortest_queue_policy) = self.policy.as_any()
+                                .downcast_ref::<crate::policies::ShortestQueuePolicy>() {
+                                // Special handling for ShortestQueuePolicy
+                                if let Some(queue_length) = metrics.queue_length {
+                                    shortest_queue_policy.update_queue_length(&metrics.worker_url, queue_length);
+                                }
+                                // Also call the standard on_request_complete for consistency
+                                self.policy.on_request_complete_v2(&metrics);
                             } else {
                                 // For other policies, use the V2 interface
                                 self.policy.on_request_complete_v2(&metrics);
