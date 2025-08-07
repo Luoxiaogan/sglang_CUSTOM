@@ -501,7 +501,6 @@ class SchedulerOutputProcessorMixin:
         
         # Queue length tracking for routing decisions
         queue_lengths = []
-        current_queue_length = len(self.waiting_queue)
 
         if return_logprob:
             input_token_logprobs_val = []
@@ -603,6 +602,8 @@ class SchedulerOutputProcessorMixin:
                 queue_time_end.append(q_end)
                 
                 # Collect current queue length for routing decisions
+                # Get the latest queue length for each request
+                current_queue_length = len(self.waiting_queue)
                 queue_lengths.append(current_queue_length)
 
                 if not self.spec_algorithm.is_none():

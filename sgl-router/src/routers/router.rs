@@ -528,6 +528,9 @@ impl Router {
                             worker_url,
                             start,  // Use the existing start variable
                         ) {
+                            // Log extracted metrics for debugging
+                            info!("Router: Extracted metrics from {}: queue_length={:?}", 
+                                worker_url, metrics.queue_length);
                             // Check if this is a MarginalUtilityPolicy and handle metrics directly
                             if let Some(marginal_policy) = self.policy.as_any()
                                 .downcast_ref::<crate::policies::MarginalUtilityPolicy>() {
@@ -539,7 +542,11 @@ impl Router {
                                 .downcast_ref::<crate::policies::ShortestQueuePolicy>() {
                                 // Special handling for ShortestQueuePolicy
                                 if let Some(queue_length) = metrics.queue_length {
+                                    info!("Router: Updating queue length for {} to {}", 
+                                        metrics.worker_url, queue_length);
                                     shortest_queue_policy.update_queue_length(&metrics.worker_url, queue_length);
+                                } else {
+                                    info!("Router: No queue_length in metrics for {}", metrics.worker_url);
                                 }
                                 // Also call the standard on_request_complete for consistency
                                 self.policy.on_request_complete_v2(&metrics);

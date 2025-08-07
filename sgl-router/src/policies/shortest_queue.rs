@@ -6,7 +6,7 @@ use crate::core::Worker;
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, RwLock};
-use tracing::{debug, info};
+use tracing::info;
 
 /// Configuration for the Shortest Queue policy
 #[derive(Debug, Clone)]
@@ -53,10 +53,11 @@ impl ShortestQueuePolicy {
     /// Update queue length for a worker
     pub fn update_queue_length(&self, worker_url: &str, queue_length: usize) {
         let mut queue_lengths = self.worker_queue_lengths.write().unwrap();
+        let previous = queue_lengths.get(worker_url).copied();
         queue_lengths.insert(worker_url.to_string(), queue_length);
-        debug!(
-            "Updated queue length for {}: {}",
-            worker_url, queue_length
+        info!(
+            "ShortestQueuePolicy: Updated queue length for {} from {:?} to {}",
+            worker_url, previous, queue_length
         );
     }
 }
@@ -76,11 +77,23 @@ impl LoadBalancingPolicy for ShortestQueuePolicy {
             .collect();
 
         if healthy_indices.is_empty() {
-            debug!("No healthy workers available");
+            info!("ShortestQueuePolicy: No healthy workers available");
             return None;
         }
 
+        info!("ShortestQueuePolicy: Selecting worker from {} healthy workers", healthy_indices.len());
+        
         let queue_lengths = self.worker_queue_lengths.read().unwrap();
+
+        // Log all worker queue states
+        for &idx in &healthy_indices {
+            let worker_url = workers[idx].url();
+            if let Some(&queue_len) = queue_lengths.get(worker_url) {
+                info!("  Worker {}: queue_length = {}", worker_url, queue_len);
+            } else {
+                info!("  Worker {}: no queue data", worker_url);
+            }
+        }
 
         // Find worker with shortest queue
         let mut best_idx = healthy_indices[0];
@@ -92,14 +105,11 @@ impl LoadBalancingPolicy for ShortestQueuePolicy {
             
             if let Some(&queue_len) = queue_lengths.get(worker_url) {
                 has_queue_data = true;
-                debug!("Worker {} has queue length: {}", worker_url, queue_len);
                 
                 if queue_len < min_queue_length {
                     min_queue_length = queue_len;
                     best_idx = idx;
                 }
-            } else {
-                debug!("No queue data for worker {}", worker_url);
             }
         }
 
@@ -107,16 +117,20 @@ impl LoadBalancingPolicy for ShortestQueuePolicy {
         if !has_queue_data && self.config.enable_fallback {
             let counter = self.fallback_counter.fetch_add(1, Ordering::Relaxed);
             best_idx = healthy_indices[counter % healthy_indices.len()];
-            debug!(
-                "Using fallback round-robin, selected worker at index {}",
+            info!(
+                "ShortestQueuePolicy: Using fallback round-robin (no queue data), selected worker {} at index {}",
+                workers[best_idx].url(),
                 best_idx
             );
         } else if has_queue_data {
-            debug!(
-                "Selected worker {} with queue length {}",
+            info!(
+                "ShortestQueuePolicy: Selected worker {} (index {}) with queue length {}",
                 workers[best_idx].url(),
+                best_idx,
                 min_queue_length
             );
+        } else {
+            info!("ShortestQueuePolicy: No queue data and fallback disabled, using first healthy worker");
         }
 
         Some(best_idx)
