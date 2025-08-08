@@ -1,9 +1,10 @@
 //! Factory for creating load balancing policies
 
 use super::{
-    CacheAwareConfig, CacheAwarePolicy, LoadBalancingPolicy, MarginalUtilityConfig,
-    MarginalUtilityPolicy, MarginalUtilityRecorderConfig, MarginalUtilityRecorderPolicy,
-    PowerOfTwoPolicy, RandomPolicy, RoundRobinPolicy, ShortestQueueConfig, ShortestQueuePolicy,
+    CacheAwareConfig, CacheAwarePolicy, FixedProbabilityConfig, FixedProbabilityPolicy,
+    LoadBalancingPolicy, MarginalUtilityConfig, MarginalUtilityPolicy,
+    MarginalUtilityRecorderConfig, MarginalUtilityRecorderPolicy, PowerOfTwoPolicy,
+    RandomPolicy, RoundRobinPolicy, ShortestQueueConfig, ShortestQueuePolicy,
 };
 use crate::config::PolicyConfig;
 use std::sync::Arc;
@@ -76,6 +77,12 @@ impl PolicyFactory {
                     enable_fallback: *enable_fallback,
                 };
                 Arc::new(ShortestQueuePolicy::with_config(config))
+            }
+            PolicyConfig::FixedProbability { probabilities } => {
+                let config = FixedProbabilityConfig {
+                    probabilities: probabilities.clone(),
+                };
+                Arc::new(FixedProbabilityPolicy::with_config(config))
             }
         }
     }

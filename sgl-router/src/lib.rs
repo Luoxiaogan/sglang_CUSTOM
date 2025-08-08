@@ -23,6 +23,7 @@ pub enum PolicyType {
     MarginalUtility,
     MarginalUtilityRecorder,
     ShortestQueue,
+    FixedProbability,
 }
 
 #[pyclass]
@@ -64,6 +65,8 @@ struct Router {
     trace_ttl_seconds: i64,
     // Marginal Utility Recorder configuration
     marginal_utility_output_dir: Option<String>,
+    // Fixed Probability configuration
+    fixed_probabilities: Option<Vec<f64>>,
 }
 
 impl Router {
@@ -117,6 +120,9 @@ impl Router {
             },
             PolicyType::ShortestQueue => ConfigPolicyConfig::ShortestQueue {
                 enable_fallback: true, // Default to enabling fallback
+            },
+            PolicyType::FixedProbability => ConfigPolicyConfig::FixedProbability {
+                probabilities: self.fixed_probabilities.clone().unwrap_or_else(Vec::new),
             },
         };
 
@@ -209,7 +215,8 @@ impl Router {
         enable_request_tracking = false,
         max_trace_entries = 100000,
         trace_ttl_seconds = 3600,
-        marginal_utility_output_dir = None
+        marginal_utility_output_dir = None,
+        fixed_probabilities = None
     ))]
     fn new(
         worker_urls: Vec<String>,
@@ -243,6 +250,7 @@ impl Router {
         max_trace_entries: usize,
         trace_ttl_seconds: i64,
         marginal_utility_output_dir: Option<String>,
+        fixed_probabilities: Option<Vec<f64>>,
     ) -> PyResult<Self> {
         Ok(Router {
             host,
@@ -276,6 +284,7 @@ impl Router {
             max_trace_entries,
             trace_ttl_seconds,
             marginal_utility_output_dir,
+            fixed_probabilities,
         })
     }
 

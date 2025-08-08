@@ -107,7 +107,7 @@ class RouterArgs:
             f"--{prefix}policy",
             type=str,
             default=RouterArgs.policy,
-            choices=["random", "round_robin", "cache_aware", "power_of_two", "shortest_queue", "marginal_utility", "marginal_utility_recorder"],
+            choices=["random", "round_robin", "cache_aware", "power_of_two", "shortest_queue", "marginal_utility", "marginal_utility_recorder", "fixed_probability"],
             help="Load balancing policy to use. Note: power_of_two is only available in PD disaggregated mode",
         )
 
@@ -360,6 +360,7 @@ def policy_from_str(policy_str: str) -> PolicyType:
         "shortest_queue": PolicyType.ShortestQueue,
         "marginal_utility": PolicyType.MarginalUtility,
         "marginal_utility_recorder": PolicyType.MarginalUtilityRecorder,
+        "fixed_probability": PolicyType.FixedProbability,
     }
     return policy_map[policy_str]
 

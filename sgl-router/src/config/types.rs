@@ -133,6 +133,12 @@ pub enum PolicyConfig {
         /// Whether to use fallback round-robin when no queue data is available
         enable_fallback: bool,
     },
+
+    #[serde(rename = "fixed_probability")]
+    FixedProbability {
+        /// Probability distribution for each worker (must sum to 1.0)
+        probabilities: Vec<f64>,
+    },
 }
 
 impl PolicyConfig {

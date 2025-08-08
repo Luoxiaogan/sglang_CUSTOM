@@ -19,6 +19,7 @@ class Router:
             - PolicyType.ShortestQueue: Route to worker with shortest queue
             - PolicyType.MarginalUtility: Route based on gradient-based performance prediction
             - PolicyType.MarginalUtilityRecorder: MarginalUtility with metrics recording to CSV
+            - PolicyType.FixedProbability: Route based on pre-configured probability distribution
         host: Host address to bind the router server. Default: '127.0.0.1'
         port: Port number to bind the router server. Default: 3001
         worker_startup_timeout_secs: Timeout in seconds for worker startup. Default: 300

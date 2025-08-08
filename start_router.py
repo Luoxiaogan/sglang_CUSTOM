@@ -12,6 +12,7 @@ Policy types:
     - random: Randomly selects workers
     - power_of_two: Selects best of two random workers (PD mode only, requires --pd-mode)
     - shortest_queue: Routes to worker with shortest queue
+    - fixed_probability: Routes based on pre-configured probability distribution
 """
 
 import argparse
@@ -28,7 +29,7 @@ def main():
         "--policy",
         type=str,
         default="cache_aware",
-        choices=["cache_aware", "round_robin", "random", "power_of_two", "marginal_utility", "marginal_utility_recorder", "shortest_queue"],
+        choices=["cache_aware", "round_robin", "random", "power_of_two", "marginal_utility", "marginal_utility_recorder", "shortest_queue", "fixed_probability"],
         help="Routing policy type (default: cache_aware)"
     )
     
@@ -108,12 +109,37 @@ def main():
         help="Directory to save CSV metrics for marginal_utility_recorder policy (default: /tmp/marginal_utility_metrics)"
     )
     
+    # Fixed Probability configuration
+    parser.add_argument(
+        "--fixed-probabilities",
+        type=float,
+        nargs="+",
+        help="Probability distribution for fixed_probability policy (must sum to 1.0, e.g., 0.5 0.3 0.2)"
+    )
+    
     args = parser.parse_args()
     
     # Validate power_of_two requires PD mode
     if args.policy == "power_of_two" and not args.pd_mode:
         print("Error: power_of_two policy requires --pd-mode flag")
         sys.exit(1)
+    
+    # Validate fixed_probability policy
+    if args.policy == "fixed_probability":
+        if not args.fixed_probabilities:
+            print("Error: fixed_probability policy requires --fixed-probabilities")
+            sys.exit(1)
+        
+        # Check probabilities sum to 1.0
+        prob_sum = sum(args.fixed_probabilities)
+        if abs(prob_sum - 1.0) > 0.001:
+            print(f"Error: fixed_probabilities must sum to 1.0, got {prob_sum}")
+            sys.exit(1)
+        
+        # Check probabilities match worker count
+        if len(args.fixed_probabilities) != len(args.workers):
+            print(f"Error: fixed_probabilities count ({len(args.fixed_probabilities)}) must match worker count ({len(args.workers)})")
+            sys.exit(1)
     
     # Map policy name to PolicyType
     policy_map = {
@@ -124,6 +150,7 @@ def main():
         "marginal_utility": PolicyType.MarginalUtility,
         "marginal_utility_recorder": PolicyType.MarginalUtilityRecorder,
         "shortest_queue": PolicyType.ShortestQueue,
+        "fixed_probability": PolicyType.FixedProbability,
     }
     
     # Handle port-GPU mapping
@@ -181,6 +208,10 @@ def main():
     # Add marginal utility recorder configuration if needed
     if args.policy == "marginal_utility_recorder":
         router_config["marginal_utility_output_dir"] = args.marginal_utility_output_dir
+    
+    # Add fixed probability configuration if needed
+    if args.policy == "fixed_probability":
+        router_config["fixed_probabilities"] = args.fixed_probabilities
     
     # Create and start router
     print(f"Starting router with configuration:")

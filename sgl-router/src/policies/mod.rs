@@ -8,6 +8,7 @@ use std::fmt::Debug;
 
 mod cache_aware;
 mod factory;
+mod fixed_probability;
 mod marginal_utility;
 mod marginal_utility_recorder;
 mod metrics;
@@ -18,6 +19,7 @@ mod shortest_queue;
 
 pub use cache_aware::{CacheAwareConfig, CacheAwarePolicy};
 pub use factory::PolicyFactory;
+pub use fixed_probability::{FixedProbabilityConfig, FixedProbabilityPolicy};
 pub use marginal_utility::{MarginalUtilityConfig, MarginalUtilityPolicy};
 pub use marginal_utility_recorder::{MarginalUtilityRecorderConfig, MarginalUtilityRecorderPolicy};
 pub use metrics::RequestMetrics;

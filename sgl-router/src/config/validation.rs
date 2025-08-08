@@ -263,6 +263,34 @@ impl ConfigValidator {
             PolicyConfig::ShortestQueue { enable_fallback: _ } => {
                 // No specific validation needed for boolean field
             }
+            PolicyConfig::FixedProbability { probabilities } => {
+                if probabilities.is_empty() {
+                    return Err(ConfigError::InvalidValue {
+                        field: "probabilities".to_string(),
+                        value: "empty".to_string(),
+                        reason: "Probabilities list cannot be empty".to_string(),
+                    });
+                }
+                
+                let sum: f64 = probabilities.iter().sum();
+                if (sum - 1.0).abs() > 0.001 {  // Allow small floating point error
+                    return Err(ConfigError::InvalidValue {
+                        field: "probabilities".to_string(),
+                        value: format!("sum={}", sum),
+                        reason: "Probabilities must sum to 1.0".to_string(),
+                    });
+                }
+                
+                for (i, &prob) in probabilities.iter().enumerate() {
+                    if prob < 0.0 || prob > 1.0 {
+                        return Err(ConfigError::InvalidValue {
+                            field: format!("probabilities[{}]", i),
+                            value: prob.to_string(),
+                            reason: "Each probability must be between 0.0 and 1.0".to_string(),
+                        });
+                    }
+                }
+            }
         }
         Ok(())
     }
