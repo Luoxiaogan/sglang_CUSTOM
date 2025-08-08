@@ -8,7 +8,8 @@
 # =============================================================================
 
 # 路由策略选择
-# 可选值: cache_aware, round_robin, random, power_of_two, marginal_utility, marginal_utility_recorder
+# 可选值: cache_aware, round_robin, random, power_of_two, marginal_utility, 
+#        marginal_utility_recorder, shortest_queue, fixed_probability
 POLICY="marginal_utility"
 
 # Worker节点配置
@@ -43,6 +44,11 @@ LOG_LEVEL="INFO"
 # - 请求完成记录：记录请求完成后的实际性能指标（selection_reason="completion_record"）
 # 两种记录都保存在同一个 CSV 文件中，通过 selection_reason 字段区分
 MARGINAL_UTILITY_OUTPUT_DIR="/nas/ganluo/sglang/test_new_test"
+
+# Fixed Probability 配置（仅在使用 fixed_probability 策略时生效）
+# 概率分布必须与 WORKERS 数量一致，且总和为 1.0
+# 例如：3个worker的概率分布 "0.5 0.3 0.2" 表示50%、30%、20%的请求分配
+FIXED_PROBABILITIES=""  # 例如: "0.5 0.3 0.2" 或 "0.33 0.33 0.34"
 
 # GPU映射配置（可选）
 # 格式: '{"端口号": "GPU设备"}'
@@ -82,6 +88,17 @@ MARGINAL_UTILITY_OUTPUT_DIR="/nas/ganluo/sglang/test_new_test"
 # WORKERS=("http://localhost:40005" "http://localhost:40006")
 # ROUTER_PORT=40009
 # # 记录文件将保存在 /tmp/marginal_utility_metrics/ 目录下
+
+# # 配置7: Shortest Queue 策略（最短队列优先）
+# POLICY="shortest_queue"
+# WORKERS=("http://localhost:40005" "http://localhost:40006")
+# ROUTER_PORT=40009
+
+# # 配置8: Fixed Probability 策略（固定概率分配）
+# POLICY="fixed_probability"
+# WORKERS=("http://localhost:40005" "http://localhost:40006" "http://localhost:40007")
+# FIXED_PROBABILITIES="0.5 0.3 0.2"  # 50%, 30%, 20% 的请求分配
+# ROUTER_PORT=40009
 
 # =============================================================================
 # 执行脚本 - 通常不需要修改以下内容
@@ -127,6 +144,11 @@ fi
 # 添加 Marginal Utility 输出目录（如果是相应策略且设置了目录）
 if [ "$POLICY" = "marginal_utility_recorder" ] && [ ! -z "$MARGINAL_UTILITY_OUTPUT_DIR" ]; then
     CMD="$CMD --marginal-utility-output-dir $MARGINAL_UTILITY_OUTPUT_DIR"
+fi
+
+# 添加 Fixed Probability 概率分布（如果是相应策略且设置了概率）
+if [ "$POLICY" = "fixed_probability" ] && [ ! -z "$FIXED_PROBABILITIES" ]; then
+    CMD="$CMD --fixed-probabilities $FIXED_PROBABILITIES"
 fi
 
 # 显示完整命令
