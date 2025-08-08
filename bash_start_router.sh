@@ -10,14 +10,14 @@
 # 路由策略选择
 # 可选值: cache_aware, round_robin, random, power_of_two, marginal_utility, 
 #        marginal_utility_recorder, shortest_queue, fixed_probability
-POLICY="marginal_utility"
+POLICY="fixed_probability"
 
 # Worker节点配置
 # 修改为你的实际worker地址和端口
 WORKERS=(
     "http://localhost:30001"    # GPU 2
     "http://localhost:30002"    # GPU 3
-    "http://localhost:30003"    # GPU 3
+    # "http://localhost:30003"    # GPU 3
 )
 
 # 路由器配置
@@ -48,7 +48,7 @@ MARGINAL_UTILITY_OUTPUT_DIR="/nas/ganluo/sglang/test_new_test"
 # Fixed Probability 配置（仅在使用 fixed_probability 策略时生效）
 # 概率分布必须与 WORKERS 数量一致，且总和为 1.0
 # 例如：3个worker的概率分布 "0.5 0.3 0.2" 表示50%、30%、20%的请求分配
-FIXED_PROBABILITIES=""  # 例如: "0.5 0.3 0.2" 或 "0.33 0.33 0.34"
+FIXED_PROBABILITIES="0.4 0.6"  # 例如: "0.5 0.3 0.2" 或 "0.33 0.33 0.34"
 
 # GPU映射配置（可选）
 # 格式: '{"端口号": "GPU设备"}'
