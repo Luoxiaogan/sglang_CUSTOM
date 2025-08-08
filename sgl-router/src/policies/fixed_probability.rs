@@ -4,7 +4,6 @@
 use super::{get_healthy_worker_indices, LoadBalancingPolicy};
 use crate::core::Worker;
 use rand::Rng;
-use std::sync::Arc;
 use tracing::{info, warn};
 
 /// Configuration for fixed probability policy
@@ -18,6 +17,7 @@ pub struct FixedProbabilityConfig {
 ///
 /// Routes requests to workers based on a pre-configured probability distribution.
 /// Each request is routed independently (IID) according to the specified probabilities.
+#[derive(Debug)]
 pub struct FixedProbabilityPolicy {
     config: FixedProbabilityConfig,
     /// Cumulative probability distribution for efficient sampling

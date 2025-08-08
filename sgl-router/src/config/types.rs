@@ -151,6 +151,7 @@ impl PolicyConfig {
             PolicyConfig::MarginalUtility { .. } => "marginal_utility",
             PolicyConfig::MarginalUtilityRecorder { .. } => "marginal_utility_recorder",
             PolicyConfig::ShortestQueue { .. } => "shortest_queue",
+            PolicyConfig::FixedProbability { .. } => "fixed_probability",
         }
     }
 }
