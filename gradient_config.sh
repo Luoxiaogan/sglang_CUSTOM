@@ -14,7 +14,7 @@
 WORKERS=(
     "http://localhost:30001"    # Worker 1 (e.g., GPU 0)
     "http://localhost:30002"    # Worker 2 (e.g., GPU 1)
-    "http://localhost:30003"    # Worker 3 (e.g., GPU 2)
+    # "http://localhost:30003"    # Worker 3 (e.g., GPU 2)
 )
 
 # Router configuration
@@ -147,7 +147,8 @@ ROUTER_SCRIPT="/nas/ganluo/sglang/start_router.py"
 BENCHMARK_SCRIPT="/nas/ganluo/sglang/send_req.py"
 
 # Path to the gradient optimizer script
-OPTIMIZER_SCRIPT="/Users/luogan/Code/sglang/gradient_optimizer.py"
+OPTIMIZER_SCRIPT="/nas/ganluo/sglang/gradient_optimizer.py"
+
 
 # -------------------------------------------------------------------------
 # VALIDATION - Don't modify below this line

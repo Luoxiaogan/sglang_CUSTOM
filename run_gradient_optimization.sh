@@ -7,7 +7,7 @@
 # =============================================================================
 
 # Source configuration file
-CONFIG_FILE="/Users/luogan/Code/sglang/gradient_config.sh"
+CONFIG_FILE="/nas/ganluo/sglang/gradient_config.sh"
 
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "Error: Configuration file not found: $CONFIG_FILE"
